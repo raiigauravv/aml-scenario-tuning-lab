@@ -11,6 +11,8 @@ venv/
 # Generated artifacts (reproducible from `make all`, not checked in)
 artifacts/data/
 artifacts/features/
+artifacts/segments/
+artifacts/figures/
 artifacts/**/*.parquet
 *.parquet
 

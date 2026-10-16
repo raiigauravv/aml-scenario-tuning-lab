@@ -10,6 +10,8 @@ dependencies = [
     "pyyaml>=6.0",
     "duckdb>=0.10",
     "networkx>=3.2",
+    "scikit-learn>=1.4",
+    "matplotlib>=3.8",
 ]
 
 [project.optional-dependencies]

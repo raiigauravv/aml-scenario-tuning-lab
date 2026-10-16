@@ -1,0 +1,33 @@
+# Segmentation settings (Phase 3).
+#
+# The clustering model is fit ONLY on tuning-period (months 1-8) customer
+# behaviour, never on validation/test, for the same reason thresholds are
+# chosen on validation and reported on test: a segment assignment that
+# "saw" validation/test behaviour would leak information forward. The
+# resulting segment label is then held fixed for the customer for the
+# whole study (a real system would periodically re-segment; see the
+# data card / white paper for that limitation).
+
+seed: 42
+fit_period: tuning
+
+# k is chosen by inspecting silhouette scores over this candidate range
+# (printed by `python -m aml_lab.segment`); the spec asks for 3-5 segments.
+k_candidates: [3, 4, 5]
+k: 4
+
+# Behaviour features used for clustering, each a per-customer summary over
+# the fit period. Skewed volume/count features are log1p-transformed
+# before standardizing so a handful of very active customers don't
+# dominate the distance metric.
+features:
+  - name: avg_monthly_volume
+    log: true
+  - name: avg_cash_deposit_sum_30d
+    log: true
+  - name: avg_distinct_counterparties_out_30d
+    log: false
+  - name: avg_cross_border_share_30d
+    log: false
+  - name: has_investment_account
+    log: false
