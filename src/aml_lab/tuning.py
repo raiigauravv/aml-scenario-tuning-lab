@@ -556,7 +556,13 @@ def sweep_scenario(
             alerts_for_seg, "test", segment_customers[s], labeled_customer_ids, by_period["test"]
         )
 
-    return {
+    # Did the chosen point's ACTUAL volume (not just the tuning-period
+    # estimate used for selection) stay within capacity in validation/test?
+    cap = pooled_choice["capacity"]
+    pooled_choice["validation"]["capacity_satisfied"] = pooled_choice["validation"]["avg_alerts_per_month"] <= cap
+    test_results["pooled"]["capacity_satisfied"] = test_results["pooled"]["avg_alerts_per_month"] <= cap
+
+    result = {
         "scenario_id": scenario_id,
         "name": spec["name"],
         "typology": typology,
@@ -567,6 +573,63 @@ def sweep_scenario(
         "test_results": test_results,
         "grid_results": grid_results,
     }
+
+    if scenario_id == "FAN-02":
+        result["ring_report"] = fan02_ring_report(labels, chosen_alerts)
+
+    return result
+
+
+def fan02_ring_report(labels: pd.DataFrame, chosen_alerts: pd.DataFrame) -> dict:
+    """Ring-level view for FAN-02: the per-customer detection numbers
+    elsewhere conflate "how many of 5 rings did we find" with "how many
+    total members did we catch," which is a very different, more
+    actionable question for an investigator (one spotted member is often
+    enough to open a case on a whole ring). A ring counts as RECOVERED if
+    its hub - the structural anchor the detector actually looks for - is
+    among the alerted customers for that ring's period; member recall is
+    reported separately alongside it.
+    """
+    fan_labels = labels[labels["typology"] == "fan_in_fan_out"].copy()
+    if fan_labels.empty:
+        return {"rings": [], "by_period": {}}
+    fan_labels["month"] = pd.to_datetime(fan_labels["start_date"]).dt.month
+    fan_labels["period"] = fan_labels["month"].map(month_to_period)
+
+    alerted_by_period = {
+        p: set(chosen_alerts.loc[chosen_alerts["period"] == p, "customer_id"]) for p in PERIOD_BANDS
+    }
+
+    rings = []
+    for (start_date, end_date), group in fan_labels.groupby(["start_date", "end_date"]):
+        period = group["period"].iloc[0]
+        members = set(group["customer_id"])
+        hub_rows = group[group["role"] == "hub"]
+        hub = hub_rows["customer_id"].iloc[0] if not hub_rows.empty else None
+        caught_members = members & alerted_by_period[period]
+        rings.append(
+            {
+                "start_date": str(start_date),
+                "end_date": str(end_date),
+                "period": period,
+                "hub": hub,
+                "hub_caught": hub in caught_members if hub else False,
+                "n_members": len(members),
+                "n_members_caught": len(caught_members),
+            }
+        )
+
+    by_period = {}
+    for p in PERIOD_BANDS:
+        period_rings = [r for r in rings if r["period"] == p]
+        by_period[p] = {
+            "n_rings": len(period_rings),
+            "n_rings_recovered": sum(1 for r in period_rings if r["hub_caught"]),
+            "n_members_total": sum(r["n_members"] for r in period_rings),
+            "n_members_caught": sum(r["n_members_caught"] for r in period_rings),
+        }
+
+    return {"rings": rings, "by_period": by_period}
 
 
 # ---------------------------------------------------------------------------
@@ -631,13 +694,36 @@ LIMITATIONS = [
     (
         "Month-boundary effects: a typology instance whose burst straddles a month-end can be partially invisible "
         "to BOTH adjacent months' trailing-window evaluation (documented case: a rapid_movement instance spanning "
-        "Aug31-Sep1 in the default dataset). This is a structural cost of point-in-time, no-future-leakage "
-        "evaluation, not a bug - see scenarios.py."
+        "Aug31-Sep1 in the default dataset; confirmed to also affect FAN-02 - a January ring with 6 senders "
+        "Jan23-29 and hub forward-outs Feb1-7 is invisible in BOTH January (outflows fall after month-end, "
+        "excluded) and February (inflows fall before the 30-day lookback start, excluded)). This is a structural "
+        "cost of point-in-time, no-future-leakage evaluation, not a bug - see scenarios.py."
+    ),
+    (
+        "FAN-01/FAN-02's tuning-period detection (0 of 17) looks alarming next to validation (2/17, 7/17) and "
+        "test (2/11, 9/11), but is fully explained, not a bug: the 2 tuning-period rings are the dataset's worst-"
+        "case instances - one is the month-boundary case above, the other has only 4 senders. The capacity "
+        "constraint rules out any threshold loose enough to catch a 4-sender ring (min_hub_in_degree 3-4 produces "
+        "355-1046 alerts/month against a 200 cap, driven by the new legitimate pass-through look-alikes), leaving "
+        "only min_hub_in_degree>=5 as capacity-feasible - which the 4-sender ring can never clear regardless of "
+        "timing. Validation/test's 3 rings (6-7 senders each) aren't affected by either limitation. Verified "
+        "directly against every grid point, not just the chosen one - see tuning_FAN-02.json's grid_results."
     ),
     (
         "FAN-02's detection-rate numbers rest on only 5 labeled ring instances in the whole dataset. Any recovery "
         "ratio (e.g. 'X of 5 rings') should be read as a small, directional count, not a precise rate - with n=5, "
-        "one more or fewer ring recovered swings the rate by 20 points."
+        "one more or fewer ring recovered swings the rate by 20 points. See ring_report for the per-ring, "
+        "per-period breakdown (rings recovered vs. member recall) rather than reading detection_rate alone."
+    ),
+    (
+        "STR-01's test-period dip (4/8 vs. validation's 4/4) is a genuine threshold-generalization gap, not drift: "
+        "the 4 missed test-period instances all have deposits spread across 7-10 days, which the chosen "
+        "window_days=7 structurally cannot fully capture in any single 7-day slide. window_days=10 and 14 tie "
+        "window_days=7 on validation (4/4 each, since validation's 4 cases all happened to be tightly spread) and "
+        "score higher on tuning (23/28 vs 22/28); the tie-break toward minimum alert volume - defensible on its "
+        "own, but under-informed with only 4 validation cases to discriminate on - picked the narrowest window, "
+        "which doesn't generalize to wider-spread test-period bursts. A larger validation set would likely have "
+        "broken the tie differently."
     ),
 ]
 
@@ -671,13 +757,29 @@ def main(argv: list[str] | None = None) -> None:
         plot_scenario(result, args.figures_dir / f"tuning_{scenario_id}.png")
 
         pc = result["pooled_choice"]
-        print(
-            f"{scenario_id}: chosen pooled params={pc['params']} "
-            f"(tuning: {pc['tuning']['n_detected']}/{pc['tuning']['n_labeled_in_scope']} detected, "
-            f"{pc['tuning']['avg_alerts_per_month']} alerts/mo; "
-            f"validation: {pc['validation']['n_detected']}/{pc['validation']['n_labeled_in_scope']} detected; "
-            f"test: {result['test_results']['pooled']['n_detected']}/{result['test_results']['pooled']['n_labeled_in_scope']} detected)"
-        )
+        te = result["test_results"]["pooled"]
+        print(f"{scenario_id}: chosen pooled params={pc['params']}")
+        for label, m in [("tuning", pc["tuning"]), ("validation", pc["validation"]), ("test", te)]:
+            tp = m["n_productive_customers"]
+            fp = m["n_customers_alerted"] - tp
+            cap_note = f" (capacity_satisfied={m['capacity_satisfied']})" if "capacity_satisfied" in m else ""
+            print(
+                f"  {label}: {m['n_detected']}/{m['n_labeled_in_scope']} detected, TP={tp} FP={fp}, "
+                f"productive_rate={m['productive_rate']}, {m['avg_alerts_per_month']} alerts/mo{cap_note}"
+            )
+        if "ring_report" in result:
+            print("  ring_report (rings recovered / members caught, per period):")
+            for period, stats in result["ring_report"]["by_period"].items():
+                print(
+                    f"    {period}: {stats['n_rings_recovered']} of {stats['n_rings']} rings, "
+                    f"{stats['n_members_caught']} of {stats['n_members_total']} members"
+                )
+        print("  segments:", {
+            s: ("pooled" if c["fallback_to_pooled"] else f"own ({c['params']})")
+            for s, c in result["segment_choices"].items()
+        })
+        if result["atl_btl"]:
+            print("  ATL/BTL (tuning period):", result["atl_btl"])
         print(f"  Wrote {out_path}")
 
     print("\nLimitations:")

@@ -19,6 +19,7 @@ from aml_lab.generate import load_config
 from aml_lab.scenarios import build_context_from_frames, load_scenarios_config
 from aml_lab.tuning import (
     compute_metrics,
+    fan02_ring_report,
     labeled_ids_by_period,
     load_capacity_config,
     month_to_period,
@@ -94,6 +95,41 @@ def test_compute_metrics_segment_scoping():
     assert metrics["n_productive_customers"] == 1  # only A is both alerted and labeled
     assert metrics["n_labeled_in_scope"] == 1  # only A of {A,B,D} is in the segment
     assert metrics["n_detected"] == 1
+
+
+def test_fan02_ring_report_counts_rings_and_members_separately():
+    """A ring with its hub caught counts as RECOVERED even if only some
+    members were caught; member recall is reported alongside, not
+    conflated with it.
+    """
+    labels = pd.DataFrame(
+        [
+            # Ring 1 (tuning, month 2): hub caught, only 2 of 4 members alerted.
+            {"customer_id": "HUB1", "typology": "fan_in_fan_out", "role": "hub", "start_date": "2024-02-01", "end_date": "2024-02-05"},
+            {"customer_id": "S1A", "typology": "fan_in_fan_out", "role": "sender", "start_date": "2024-02-01", "end_date": "2024-02-05"},
+            {"customer_id": "S1B", "typology": "fan_in_fan_out", "role": "sender", "start_date": "2024-02-01", "end_date": "2024-02-05"},
+            {"customer_id": "D1A", "typology": "fan_in_fan_out", "role": "downstream", "start_date": "2024-02-01", "end_date": "2024-02-05"},
+            # Ring 2 (tuning, month 4): nothing caught at all.
+            {"customer_id": "HUB2", "typology": "fan_in_fan_out", "role": "hub", "start_date": "2024-04-01", "end_date": "2024-04-05"},
+            {"customer_id": "S2A", "typology": "fan_in_fan_out", "role": "sender", "start_date": "2024-04-01", "end_date": "2024-04-05"},
+            {"customer_id": "S2B", "typology": "fan_in_fan_out", "role": "sender", "start_date": "2024-04-01", "end_date": "2024-04-05"},
+        ]
+    )
+    alerts = pd.DataFrame(
+        {"customer_id": ["HUB1", "S1A"], "month": [2, 2], "period": ["tuning", "tuning"]}
+    )
+    report = fan02_ring_report(labels, alerts)
+    assert report["by_period"]["tuning"]["n_rings"] == 2
+    assert report["by_period"]["tuning"]["n_rings_recovered"] == 1  # only ring 1's hub was caught
+    assert report["by_period"]["tuning"]["n_members_total"] == 7
+    assert report["by_period"]["tuning"]["n_members_caught"] == 2  # HUB1, S1A
+    assert report["by_period"]["validation"]["n_rings"] == 0
+    ring1 = next(r for r in report["rings"] if r["hub"] == "HUB1")
+    assert ring1["hub_caught"] is True
+    assert ring1["n_members_caught"] == 2
+    ring2 = next(r for r in report["rings"] if r["hub"] == "HUB2")
+    assert ring2["hub_caught"] is False
+    assert ring2["n_members_caught"] == 0
 
 
 # ---------------------------------------------------------------------------
