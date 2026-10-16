@@ -261,27 +261,86 @@ def test_rapid_movement_separates_on_ratio(real_features):
     assert (unlabeled_hit / len(unlabeled_vals)) * 5 < (labeled_hit / len(labeled_vals))
 
 
-def test_fan_in_fan_out_separates_on_graph_degree(real_features):
+def test_median_unlabeled_customer_has_nonzero_graph_degree_some_month(real_features):
+    """Guards against the fan-in/fan-out signal being unrealistically
+    clean: with ordinary peer-to-peer activity (family/friends/
+    roommates/small-business purchases - see generate.py), a typical
+    unlabeled customer should show nonzero same-bank graph degree in at
+    least some month, not a flat 0 all year.
+    """
     features, labels = real_features
-    labeled_ids = set(labels.loc[labels["typology"] == "fan_in_fan_out", "customer_id"])
-    assert len(labeled_ids) > 0
-    features = features.copy()
-    features["total_degree"] = features["graph_in_degree_30d"] + features["graph_out_degree_30d"]
-    per_cust = _per_customer_max(features, "total_degree")
-    labeled_vals = per_cust[per_cust.index.isin(labeled_ids)]
-    unlabeled_vals = per_cust[~per_cust.index.isin(labeled_ids)]
-    _report_gap("fan_in_fan_out / graph total degree", labeled_vals, unlabeled_vals)
-    assert labeled_vals.mean() > unlabeled_vals.mean() * 3
-    assert labeled_vals.mean() > 1
+    labeled_ids = set(labels["customer_id"])
+    unl = features[~features["customer_id"].isin(labeled_ids)].copy()
+    unl["total_degree"] = unl["graph_in_degree_30d"] + unl["graph_out_degree_30d"]
+    per_cust_any_nonzero = unl.groupby("customer_id")["total_degree"].max() > 0
+    share = per_cust_any_nonzero.mean()
+    print(
+        f"\nshare of unlabeled customers with >= 1 month of nonzero same-bank graph degree: "
+        f"{share:.1%} (n={len(per_cust_any_nonzero)})"
+    )
+    assert share > 0.5
+
+
+def test_fan_in_fan_out_separates_on_degree_at_burst_month_by_role(real_features):
+    """Raw same-bank degree maxed over a whole year is no longer a clean
+    separator once ordinary peer-to-peer noise exists (every customer
+    eventually gets a nonzero-degree month by chance). The fair
+    comparison is each labeled customer's degree AT THEIR ACTUAL BURST
+    MONTH (not their best month out of 12 tries) against the unlabeled
+    population pooled across all customer-months, restricted to the
+    same segments the fan-in/fan-out typology actually drew from - this
+    mirrors how a scenario evaluates month by month in production, and
+    is reported by role since the signal genuinely differs: only the
+    hub shows a large in-degree spike; senders/downstream look close to
+    ambient by degree alone (see the caveat in features.py).
+    """
+    features, labels = real_features
+    fan_labels = labels[labels["typology"] == "fan_in_fan_out"].copy()
+    assert len(fan_labels) > 0
+    fan_labels["month"] = pd.to_datetime(fan_labels["start_date"]).dt.month
+
+    burst = fan_labels.merge(features, on=["customer_id", "month"])
+    burst["total_degree"] = burst["graph_in_degree_30d"] + burst["graph_out_degree_30d"]
+
+    fan_segments = set(burst["segment_true"].unique())
+    unl = features[
+        (~features["customer_id"].isin(set(fan_labels["customer_id"])))
+        & (features["segment_true"].isin(fan_segments))
+    ].copy()
+    unl["total_degree"] = unl["graph_in_degree_30d"] + unl["graph_out_degree_30d"]
+
+    print(f"\nfan_in_fan_out segments involved: {sorted(fan_segments)}")
+    for role in ["hub", "sender", "downstream"]:
+        role_vals = burst.loc[burst["role"] == role, "total_degree"]
+        if len(role_vals) == 0:
+            continue
+        print(
+            f"  {role}: labeled mean degree at burst month = {role_vals.mean():.2f} (n={len(role_vals)}) vs "
+            f"unlabeled pooled mean = {unl['total_degree'].mean():.2f} (n={len(unl)}, same segments)"
+        )
+
+    hub_vals = burst.loc[burst["role"] == "hub", "total_degree"]
+    assert len(hub_vals) > 0
+    assert hub_vals.mean() > unl["total_degree"].mean() * 3
+
+    sender_downstream_vals = burst.loc[burst["role"].isin(["sender", "downstream"]), "total_degree"]
+    assert sender_downstream_vals.mean() > unl["total_degree"].mean()
 
 
 def test_wealth_layering_separates_on_journal_transfer_volume(real_features):
+    # Restricted to HNW customers only (including the legit journal-transfer
+    # look-alikes), since wealth_layering can only ever be injected into
+    # HNW customers - comparing against the full population (mostly
+    # retail/small_business, who never do investment journal transfers at
+    # all) would overstate the gap.
     features, labels = real_features
     labeled_ids = set(labels.loc[labels["typology"] == "wealth_layering", "customer_id"])
     assert len(labeled_ids) > 0
+    hnw_ids = set(features.loc[features["segment_true"] == "hnw_investment", "customer_id"])
+
     per_cust = _per_customer_max(features, "journal_transfer_volume_30d_related")
     labeled_vals = per_cust[per_cust.index.isin(labeled_ids)]
-    unlabeled_vals = per_cust[~per_cust.index.isin(labeled_ids)]
-    _report_gap("wealth_layering / journal_transfer_volume_30d_related", labeled_vals, unlabeled_vals)
+    unlabeled_vals = per_cust[per_cust.index.isin(hnw_ids - labeled_ids)]
+    _report_gap("wealth_layering / journal_transfer_volume_30d_related (HNW only)", labeled_vals, unlabeled_vals)
     assert labeled_vals.mean() > unlabeled_vals.mean() * 2
     assert labeled_vals.mean() > 10000

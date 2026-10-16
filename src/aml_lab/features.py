@@ -88,8 +88,19 @@ def run_features_sql(con: duckdb.DuckDBPyConnection) -> None:
 # ---------------------------------------------------------------------------
 # Graph features (networkx) - same-bank customer-to-customer edges only,
 # trailing 30 days ending at each month_end. This is the piece SQL can't
-# express: in/out degree, connected-component size, and community size,
-# which is how fan-in/fan-out mule rings surface in the feature table.
+# express: in/out degree, connected-component size, and community size.
+#
+# Caveat for Phase 4 (the planned ring-level scenario): once ordinary
+# peer-to-peer activity exists (family/friends/roommates - see generate.py),
+# the same-bank graph is small-world enough that connected_components and
+# louvain_communities mostly return one giant component/community covering
+# most of the customer base, which swamps any individual mule ring. Degree
+# is a much cleaner signal, and even then mainly for the fan-in/fan-out
+# HUB specifically, evaluated in its actual burst month rather than
+# "best month in a year" - see the labeled-vs-unlabeled comparison in
+# tests/test_features.py. A real ring detector will need a filtered or
+# edge-weighted subgraph (e.g. only edges above some amount/recency), not
+# components/communities over the full raw graph.
 # ---------------------------------------------------------------------------
 
 def compute_graph_features(con: duckdb.DuckDBPyConnection, config: dict) -> pd.DataFrame:

@@ -230,6 +230,14 @@ ACH_ROSTER_SIZE = 3
 CARD_NEW_COUNTERPARTY_PROB = 0.08
 ACH_NEW_COUNTERPARTY_PROB = 0.05
 
+# Peer-to-peer roster: family/friends e-transfers, roommates splitting
+# bills, customers paying a local small business. Without this, same-bank
+# customer-to-customer degree is only ever nonzero for the fan-in/fan-out
+# typology, which makes that signal unrealistically clean.
+PEER_ROSTER_SIZE = 3
+PEER_TRANSFER_LAM = 1.0
+PEER_SMALL_BUSINESS_BIAS = 0.3
+
 
 def external_accounts(
     rng: np.random.Generator, config: dict, n: int, domestic_share_override: float | None = None
@@ -438,6 +446,51 @@ def _gen_big_oneoff(rng, cm, config, start, months) -> pd.DataFrame:
     )
 
 
+def _sample_excluding_self(rng: np.random.Generator, own_idx: np.ndarray, candidate_idx: np.ndarray) -> np.ndarray:
+    """For each i, pick a random element of candidate_idx that isn't own_idx[i]."""
+    m = len(candidate_idx)
+    pick = rng.integers(0, m, size=len(own_idx))
+    chosen = candidate_idx[pick]
+    collision = chosen == own_idx
+    if collision.any():
+        alt_pick = (pick[collision] + 1) % m
+        chosen[collision] = candidate_idx[alt_pick]
+    return chosen
+
+
+def _gen_peer_transfers(rng, cm, peer_roster, start, months) -> pd.DataFrame:
+    """Legitimate same-bank customer-to-customer transfers: family/friends
+    e-transfers, roommates splitting bills, a customer paying a local
+    small business. Without this, same-bank graph degree is only ever
+    nonzero for the fan-in/fan-out typology, which makes that signal
+    unrealistically clean.
+    """
+    counts = rng.poisson(lam=PEER_TRANSFER_LAM, size=len(cm))
+    rows = _expand(cm, counts)
+    if len(rows) == 0:
+        return _empty_tx_frame()
+    timestamps = random_datetimes_for_months(rng, start, rows["month"].values, months)
+    amount = rng.lognormal(mean=np.log(75.0), sigma=0.7, size=len(rows))
+
+    cust_idx = rows["cust_idx"].values
+    slot = rng.integers(0, peer_roster.shape[1], size=len(rows))
+    peer_account = peer_roster[cust_idx, slot]
+
+    return pd.DataFrame(
+        {
+            "customer_id": rows["customer_id"].values,
+            "timestamp": timestamps,
+            "from_account": rows["chequing_account"].values,
+            "to_account": peer_account,
+            "amount": np.round(amount, 2),
+            "currency": "USD",
+            "channel": "e_transfer",
+            "cross_border": False,
+            "instrument_type": None,
+        }
+    )
+
+
 def _gen_hnw_rebalancing(rng, cm, invest_map, config, start, months) -> pd.DataFrame:
     """Legitimate look-alike: HNW customers moving funds between their own
     investment accounts with no following outbound cross-border wire. Not
@@ -580,6 +633,19 @@ def generate_normal_transactions(
     ach_roster = ach_ids_flat.reshape(n, ACH_ROSTER_SIZE)
     ach_roster_cb = ach_cb_flat.reshape(n, ACH_ROSTER_SIZE)
 
+    # Persistent peer roster (family/friends/roommates/local small
+    # business) for legitimate same-bank customer-to-customer transfers.
+    chequing_by_idx = np.array([chequing_map[c] for c in cust_ids])
+    own_idx = np.arange(n)
+    small_business_idx_pool = own_idx[segments == "small_business"]
+    peer_roster_idx = np.empty((n, PEER_ROSTER_SIZE), dtype=int)
+    for slot in range(PEER_ROSTER_SIZE):
+        use_business = rng.random(n) < PEER_SMALL_BUSINESS_BIAS
+        any_pick = _sample_excluding_self(rng, own_idx, own_idx)
+        biz_pick = _sample_excluding_self(rng, own_idx, small_business_idx_pool)
+        peer_roster_idx[:, slot] = np.where(use_business, biz_pick, any_pick)
+    peer_roster = chequing_by_idx[peer_roster_idx]
+
     is_retail_hnw = cm["segment_true"].isin(["retail", "hnw_investment"]).values
     income_counts = np.where(is_retail_hnw, 1, (rng.random(len(cm)) < 0.6).astype(int))
 
@@ -589,6 +655,7 @@ def generate_normal_transactions(
         _gen_card_spend(rng, cm, config, start, months, merchant_roster, merchant_roster_cb),
         _gen_ach_bills(rng, cm, config, start, months, ach_roster, ach_roster_cb),
         _gen_big_oneoff(rng, cm, config, start, months),
+        _gen_peer_transfers(rng, cm, peer_roster, start, months),
         _gen_hnw_rebalancing(rng, cm, invest_map, config, start, months),
         _gen_investment_trades(rng, accounts, config, start, months),
     ]
@@ -1109,6 +1176,12 @@ def write_data_card(data: dict[str, pd.DataFrame], config: dict, out_path: Path,
             f"({1 - CARD_NEW_COUNTERPARTY_PROB:.0%} / {1 - ACH_NEW_COUNTERPARTY_PROB:.0%} of the time "
             "respectively), with an occasional new counterparty, so distinct-counterparty-per-period features "
             "are meaningful rather than inflated by a fresh id on every transaction."
+        ),
+        (
+            f"- Each customer also has a persistent roster of {PEER_ROSTER_SIZE} peers (family/friends/"
+            "roommates, with a bias toward small-business peers representing local purchases) for ordinary "
+            "customer-to-customer e-transfers, so same-bank graph degree is nonzero for typical unlabeled "
+            "customers too, not just the fan-in/fan-out typology."
         ),
         "- Account balances are not modeled; only transaction flows.",
         (
