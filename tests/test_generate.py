@@ -189,11 +189,44 @@ def test_hnw_lookalike_journal_transfers_exist(small_dataset):
     lookalike_customers_found = set(journal_customers) & unlabeled_hnw
     assert len(lookalike_customers_found) > 0
 
-    # and none of these have an outbound cross-border wire from the same account tagged to them
-    # (that pattern belongs to the actual wealth_layering typology only)
-    wires_out = tx[(tx["channel"] == "wire") & (tx["cross_border"])]
-    wire_from_cust = set(wires_out["from_account"].map(acct_to_cust).dropna()) & lookalike_customers_found
-    assert wire_from_cust == set()
+
+def test_hnw_wire_lookalikes_exist_and_overlap_with_rebalancing(small_dataset):
+    """Some unlabeled HNW customers legitimately send outbound cross-border
+    wires too (property abroad, foreign investments, family support), and
+    some of those overlap in month with a rebalancing journal transfer -
+    this is what makes WLT-01 need a real threshold instead of just
+    "journal transfers + any cross-border wire" (see generate.py).
+    """
+    customers = small_dataset["customers"]
+    labels = small_dataset["labels"]
+    tx = small_dataset["transactions"].merge(small_dataset["transaction_labels"], on="transaction_id")
+    accounts = small_dataset["accounts"]
+
+    labeled = set(labels["customer_id"])
+    unlabeled_hnw = set(
+        customers[(customers["segment_true"] == "hnw_investment") & (~customers["customer_id"].isin(labeled))][
+            "customer_id"
+        ]
+    )
+    invest_accounts = accounts[accounts["account_type"] == "investment"]
+    chequing_accounts = accounts[accounts["account_type"] == "chequing"]
+    acct_to_cust = dict(zip(invest_accounts["account_id"], invest_accounts["customer_id"]))
+    acct_to_cust.update(zip(chequing_accounts["account_id"], chequing_accounts["customer_id"]))
+
+    wires_out = tx[(tx["channel"] == "wire") & (tx["cross_border"]) & (~tx["is_injected"])]
+    wire_customers = set(wires_out["from_account"].map(acct_to_cust).dropna()) & unlabeled_hnw
+    assert len(wire_customers) > 0
+
+    journal = tx[(tx["channel"] == "internal_journal") & (~tx["is_injected"])]
+    journal_customers = set(journal["from_account"].map(acct_to_cust).dropna()) & unlabeled_hnw
+    assert len(wire_customers & journal_customers) > 0
+
+    wires_out = wires_out.assign(month=wires_out["timestamp"].dt.to_period("M"))
+    journal = journal.assign(month=journal["timestamp"].dt.to_period("M"))
+    wire_months = wires_out.assign(cust=wires_out["from_account"].map(acct_to_cust)).dropna(subset=["cust"])
+    journal_months = journal.assign(cust=journal["from_account"].map(acct_to_cust)).dropna(subset=["cust"])
+    same_month_pairs = wire_months.merge(journal_months, on=["cust", "month"], suffixes=("_wire", "_journal"))
+    assert len(same_month_pairs) > 0
 
 
 # ---------------------------------------------------------------------------

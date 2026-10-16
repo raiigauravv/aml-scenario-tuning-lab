@@ -84,6 +84,10 @@ typologies:
 legit_lookalikes:
   structuring_lookalike_rate: 0.03   # share of small_business customers with legit near-threshold deposits
   wealth_lookalike_rate: 0.10        # share of hnw_investment customers with legit inter-account rebalancing
+  wire_lookalike_rate: 0.12          # share of hnw_investment customers with legit outbound cross-border wires
+  # rent-collector / supplier-payer (legit FAN-02 pass-through look-alikes) rates are
+  # PASS_THROUGH_RENT_COLLECTOR_RATE / PASS_THROUGH_SUPPLIER_PAYER_RATE in generate.py,
+  # alongside the other roster-size constants, not here.
 
 investment_activity:
   trades_per_month_mean: 1.5   # normal (non-injected) buy/sell activity per investment account per month

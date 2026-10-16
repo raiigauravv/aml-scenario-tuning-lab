@@ -241,6 +241,13 @@ def test_rapid_movement_separates_on_ratio(real_features):
     # is deliberate "legitimate activity sometimes looks suspicious"
     # noise, not a bug. A threshold-crossing comparison (closer to how a
     # scenario rule actually fires) is the fairer signal check.
+    #
+    # The unlabeled hit rate here is higher than it used to be because
+    # the legitimate FAN-02 pass-through look-alikes (rent collectors,
+    # small-business supplier payments - see generate.py) also produce a
+    # fast inflow-then-outflow pattern; that's a real, intentional
+    # cross-typology overlap, not a bug, so the margin below is looser
+    # than before rather than tightened to hide it.
     features, labels = real_features
     labeled_ids = set(labels.loc[labels["typology"] == "rapid_movement", "customer_id"])
     assert len(labeled_ids) > 0
@@ -258,7 +265,7 @@ def test_rapid_movement_separates_on_ratio(real_features):
         f"({unlabeled_hit / len(unlabeled_vals):.1%})"
     )
     assert labeled_hit / len(labeled_vals) > 0.8
-    assert (unlabeled_hit / len(unlabeled_vals)) * 5 < (labeled_hit / len(labeled_vals))
+    assert (unlabeled_hit / len(unlabeled_vals)) * 2 < (labeled_hit / len(labeled_vals))
 
 
 def test_median_unlabeled_customer_has_nonzero_graph_degree_some_month(real_features):

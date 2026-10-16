@@ -491,36 +491,169 @@ def _gen_peer_transfers(rng, cm, peer_roster, start, months) -> pd.DataFrame:
     )
 
 
-def _gen_hnw_rebalancing(rng, cm, invest_map, config, start, months) -> pd.DataFrame:
-    """Legitimate look-alike: HNW customers moving funds between their own
-    investment accounts with no following outbound cross-border wire. Not
-    labeled anywhere - this is deliberately indistinguishable noise.
+def _gen_hnw_legit_patterns(rng, cm, invest_map, chequing_map, config, start, months) -> pd.DataFrame:
+    """Legitimate HNW look-alikes for WLT-01. Two patterns, deliberately
+    not labeled anywhere:
+
+    1. Inter-account rebalancing: journal transfers between a customer's
+       own investment accounts, same as before.
+    2. Occasional legitimate outbound cross-border wires (property
+       abroad, foreign investments, family support) for a separate,
+       sometimes-overlapping cohort - biased to land in the same month as
+       a rebalancing transfer for customers who do both, so WLT-01 can't
+       just key on "journal transfers + any cross-border wire in the
+       window" without a real false-positive cost.
     """
-    mask = cm["is_wealth_lookalike"].values
-    counts = np.where(mask, rng.poisson(lam=1.0, size=len(cm)), 0)
-    rows = _expand(cm, counts)
-    if len(rows) == 0:
-        return _empty_tx_frame()
-    timestamps = random_datetimes_for_months(rng, start, rows["month"].values, months)
-    from_acc, to_acc = [], []
-    for cust in rows["customer_id"].values:
-        a, b = rng.choice(np.array(invest_map[cust]), size=2, replace=False)
-        from_acc.append(a)
-        to_acc.append(b)
-    amount = rng.uniform(5000.0, 80000.0, size=len(rows))
-    return pd.DataFrame(
-        {
-            "customer_id": rows["customer_id"].values,
-            "timestamp": timestamps,
-            "from_account": from_acc,
-            "to_account": to_acc,
-            "amount": np.round(amount, 2),
-            "currency": "USD",
-            "channel": "internal_journal",
-            "cross_border": False,
-            "instrument_type": None,
-        }
+    rebal_mask = cm["is_wealth_lookalike"].values
+    rebal_counts = np.where(rebal_mask, rng.poisson(lam=1.0, size=len(cm)), 0)
+    rebal_rows = _expand(cm, rebal_counts)
+    rebal_frame = _empty_tx_frame()
+    if len(rebal_rows) > 0:
+        timestamps = random_datetimes_for_months(rng, start, rebal_rows["month"].values, months)
+        from_acc, to_acc = [], []
+        for cust in rebal_rows["customer_id"].values:
+            a, b = rng.choice(np.array(invest_map[cust]), size=2, replace=False)
+            from_acc.append(a)
+            to_acc.append(b)
+        amount = rng.uniform(5000.0, 80000.0, size=len(rebal_rows))
+        rebal_frame = pd.DataFrame(
+            {
+                "customer_id": rebal_rows["customer_id"].values,
+                "timestamp": timestamps,
+                "from_account": from_acc,
+                "to_account": to_acc,
+                "amount": np.round(amount, 2),
+                "currency": "USD",
+                "channel": "internal_journal",
+                "cross_border": False,
+                "instrument_type": None,
+            }
+        )
+
+    wire_mask = cm["is_wire_lookalike"].values
+    has_rebalancing_this_month = rebal_counts > 0
+    wire_prob = np.where(wire_mask & has_rebalancing_this_month, 0.35, np.where(wire_mask, 0.07, 0.0))
+    wire_flags = (rng.random(len(cm)) < wire_prob).astype(int)
+    wire_rows = _expand(cm, wire_flags)
+    wire_frame = _empty_tx_frame()
+    if len(wire_rows) > 0:
+        timestamps = random_datetimes_for_months(rng, start, wire_rows["month"].values, months)
+        amount = rng.lognormal(mean=np.log(40000.0), sigma=0.8, size=len(wire_rows))
+        from_acc = []
+        for cust in wire_rows["customer_id"].values:
+            accts = invest_map.get(cust, [])
+            if accts and rng.random() < 0.5:
+                from_acc.append(str(rng.choice(accts)))
+            else:
+                from_acc.append(chequing_map[cust])
+        # Lower high_risk_bias than the actual typology's cash-out wire:
+        # legitimate international activity skews toward low/medium-risk
+        # fictional countries, not the high-risk tier, though it isn't
+        # impossible.
+        ext_ids = foreign_accounts(rng, config, len(wire_rows), high_risk_bias=0.15)
+        wire_frame = pd.DataFrame(
+            {
+                "customer_id": wire_rows["customer_id"].values,
+                "timestamp": timestamps,
+                "from_account": from_acc,
+                "to_account": ext_ids,
+                "amount": np.round(amount, 2),
+                "currency": "USD",
+                "channel": "wire",
+                "cross_border": True,
+                "instrument_type": None,
+            }
+        )
+
+    return pd.concat([rebal_frame, wire_frame], ignore_index=True)
+
+
+PASS_THROUGH_RENT_COLLECTOR_RATE = 0.02  # share of retail/HNW customers who periodically collect & forward a shared bill
+PASS_THROUGH_SUPPLIER_PAYER_RATE = 0.20  # share of small-business customers who pay a supplier shortly after customer receipts
+PASS_THROUGH_EVENT_PROB = 0.40  # per flagged customer, per month
+PASS_THROUGH_CONTRIBUTORS = (2, 4)
+PASS_THROUGH_FOLLOWUP_DELAY_DAYS = (1, 4)
+
+
+def _gen_pass_through_lookalikes(rng, customers, chequing_map, config, start, months) -> pd.DataFrame:
+    """Legitimate same-bank "pass-through" look-alikes for FAN-02: a
+    roommate/housemate collecting rent or bill shares from 2-4 peers and
+    paying the landlord/biller within days, or a small business paying a
+    supplier shortly after a batch of customer payments. Not labeled
+    anywhere. Without this, only the fan-in/fan-out typology ever moves
+    money through this fast, which made the ring scenario trivially
+    precise.
+    """
+    n = len(customers)
+    segments = customers["segment_true"].values
+    cust_ids = customers["customer_id"].values
+    own_idx = np.arange(n)
+
+    is_rent_collector = np.isin(segments, ["retail", "hnw_investment"]) & (
+        rng.random(n) < PASS_THROUGH_RENT_COLLECTOR_RATE
     )
+    is_supplier_payer = (segments == "small_business") & (rng.random(n) < PASS_THROUGH_SUPPLIER_PAYER_RATE)
+    flagged_idx = own_idx[is_rent_collector | is_supplier_payer]
+    if len(flagged_idx) == 0:
+        return _empty_tx_frame()
+
+    rows = []
+    for idx in flagged_idx:
+        cust = cust_ids[idx]
+        is_business = bool(is_supplier_payer[idx])
+        contrib_amount_range = (800.0, 5000.0) if is_business else (150.0, 600.0)
+        for m in range(1, months + 1):
+            if rng.random() >= PASS_THROUGH_EVENT_PROB:
+                continue
+            month_start, month_end = month_bounds(start, m)
+            n_contrib = int(rng.integers(PASS_THROUGH_CONTRIBUTORS[0], PASS_THROUGH_CONTRIBUTORS[1] + 1))
+            contributor_idx = _sample_excluding_self(rng, np.full(n_contrib, idx), own_idx)
+            span_days = int(rng.integers(1, 6))
+            latest_start = max((month_end - month_start).days - span_days - 5, 1)
+            base_day = int(rng.integers(0, latest_start))
+
+            total = 0.0
+            last_ts = None
+            for c_idx in contributor_idx:
+                day_offset = base_day + int(rng.integers(0, span_days + 1))
+                ts = dt.datetime.combine(month_start + dt.timedelta(days=day_offset), dt.time()) + dt.timedelta(
+                    seconds=int(rng.integers(0, 86400))
+                )
+                amt = float(rng.uniform(*contrib_amount_range))
+                rows.append(
+                    {
+                        "customer_id": cust_ids[c_idx],
+                        "timestamp": ts,
+                        "from_account": chequing_map[cust_ids[c_idx]],
+                        "to_account": chequing_map[cust],
+                        "amount": round(amt, 2),
+                        "currency": "USD",
+                        "channel": str(rng.choice(["e_transfer", "ach"])),
+                        "cross_border": False,
+                        "instrument_type": None,
+                    }
+                )
+                total += amt
+                last_ts = ts if last_ts is None else max(last_ts, ts)
+
+            delay_days = float(rng.uniform(*PASS_THROUGH_FOLLOWUP_DELAY_DAYS))
+            payout_ts = last_ts + dt.timedelta(days=delay_days)
+            payout_amt = total * float(rng.uniform(0.70, 0.95))
+            ext_id, cross_border = external_accounts(rng, config, 1, domestic_share_override=0.98)
+            rows.append(
+                {
+                    "customer_id": cust,
+                    "timestamp": payout_ts,
+                    "from_account": chequing_map[cust],
+                    "to_account": ext_id[0],
+                    "amount": round(payout_amt, 2),
+                    "currency": "USD",
+                    "channel": "ach" if is_business else str(rng.choice(["ach", "e_transfer"])),
+                    "cross_border": bool(cross_border[0]),
+                    "instrument_type": None,
+                }
+            )
+    return pd.DataFrame(rows) if rows else _empty_tx_frame()
 
 
 def _gen_investment_trades(rng, accounts, config, start, months) -> pd.DataFrame:
@@ -605,6 +738,7 @@ def generate_normal_transactions(
     is_wealth_lookalike = (
         (segments == "hnw_investment") & (rng.random(n) < ll_cfg["wealth_lookalike_rate"]) & has_2plus_invest
     )
+    is_wire_lookalike = (segments == "hnw_investment") & (rng.random(n) < ll_cfg["wire_lookalike_rate"])
 
     cm = pd.DataFrame(
         {
@@ -615,6 +749,7 @@ def generate_normal_transactions(
             "employer_account": np.repeat(employer_ids, months),
             "is_structuring_lookalike": np.repeat(is_structuring_lookalike, months),
             "is_wealth_lookalike": np.repeat(is_wealth_lookalike, months),
+            "is_wire_lookalike": np.repeat(is_wire_lookalike, months),
             "month": np.tile(np.arange(1, months + 1), n),
         }
     )
@@ -656,7 +791,8 @@ def generate_normal_transactions(
         _gen_ach_bills(rng, cm, config, start, months, ach_roster, ach_roster_cb),
         _gen_big_oneoff(rng, cm, config, start, months),
         _gen_peer_transfers(rng, cm, peer_roster, start, months),
-        _gen_hnw_rebalancing(rng, cm, invest_map, config, start, months),
+        _gen_pass_through_lookalikes(rng, customers, chequing_map, config, start, months),
+        _gen_hnw_legit_patterns(rng, cm, invest_map, chequing_map, config, start, months),
         _gen_investment_trades(rng, accounts, config, start, months),
     ]
     tx = pd.concat(fragments, ignore_index=True)
@@ -1161,8 +1297,20 @@ def write_data_card(data: dict[str, pd.DataFrame], config: dict, out_path: Path,
         ),
         (
             f"- ~{config['legit_lookalikes']['wealth_lookalike_rate']:.0%} of HNW customers with 2+ investment "
-            "accounts make legitimate internal journal transfers between their own accounts (no outbound "
-            "cross-border wire, no label)."
+            "accounts make legitimate internal journal transfers between their own accounts (no label)."
+        ),
+        (
+            f"- ~{config['legit_lookalikes']['wire_lookalike_rate']:.0%} of HNW customers make occasional "
+            "legitimate outbound cross-border wires (property abroad, foreign investments, family support), "
+            "some landing in the same month as a rebalancing transfer above - this is what makes WLT-01 need a "
+            "real threshold, not just 'journal transfers + any cross-border wire' (no label)."
+        ),
+        (
+            f"- ~{PASS_THROUGH_RENT_COLLECTOR_RATE:.0%} of retail/HNW customers periodically collect a shared "
+            "bill from 2-4 peers (e-transfer/ACH) and pay a landlord/biller within a few days, and "
+            f"~{PASS_THROUGH_SUPPLIER_PAYER_RATE:.0%} of small-business customers pay a supplier shortly after a "
+            "batch of customer payments - legitimate same-bank pass-through activity that FAN-02 (ring "
+            "detection) has to tell apart from an actual mule (no label)."
         ),
         "",
         "## Known simplifications",

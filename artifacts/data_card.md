@@ -3,7 +3,7 @@
 **All data on this page is synthetic.** No real customers, accounts, or transactions were used.
 
 - Customers: 20,000
-- Transactions: 2,496,790
+- Transactions: 2,518,896
 - Simulation window: 2024-01-01 + 12 months
 - Seed: 42
 - Reporting threshold: $10,000
@@ -12,18 +12,20 @@
 
 | Typology | Customers labeled |
 |---|---|
-| fan_in_fan_out | 54 |
+| fan_in_fan_out | 45 |
 | rapid_movement | 40 |
 | structuring | 40 |
 | wealth_layering | 30 |
 
-- Total labeled customers: 164 (0.82% of all customers)
-- Injected transactions: 893 (0.036% of all transactions)
+- Total labeled customers: 155 (0.78% of all customers)
+- Injected transactions: 870 (0.035% of all transactions)
 
 ## Legitimate look-alikes (deliberately NOT labeled)
 
 - ~3% of small-business customers make some cash deposits clustered near the reporting threshold as part of normal revenue activity (no tight day-window burst, no label).
-- ~10% of HNW customers with 2+ investment accounts make legitimate internal journal transfers between their own accounts (no outbound cross-border wire, no label).
+- ~10% of HNW customers with 2+ investment accounts make legitimate internal journal transfers between their own accounts (no label).
+- ~12% of HNW customers make occasional legitimate outbound cross-border wires (property abroad, foreign investments, family support), some landing in the same month as a rebalancing transfer above - this is what makes WLT-01 need a real threshold, not just 'journal transfers + any cross-border wire' (no label).
+- ~2% of retail/HNW customers periodically collect a shared bill from 2-4 peers (e-transfer/ACH) and pay a landlord/biller within a few days, and ~20% of small-business customers pay a supplier shortly after a batch of customer payments - legitimate same-bank pass-through activity that FAN-02 (ring detection) has to tell apart from an actual mule (no label).
 
 ## Known simplifications
 
