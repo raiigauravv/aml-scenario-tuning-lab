@@ -1,4 +1,4 @@
-.PHONY: data data-small features segment scenarios test lint all clean
+.PHONY: data data-small features segment scenarios tuning test lint all clean
 
 data:
 	python -m aml_lab.generate
@@ -15,13 +15,16 @@ segment: features
 scenarios: data
 	python -m aml_lab.scenarios
 
+tuning: segment scenarios
+	python -m aml_lab.tuning
+
 test:
 	pytest
 
 lint:
 	ruff check src/ tests/
 
-all: segment scenarios test
+all: tuning test
 
 clean:
-	rm -rf artifacts/data artifacts/features artifacts/segments artifacts/figures artifacts/scenarios artifacts/data_card.md
+	rm -rf artifacts/data artifacts/features artifacts/segments artifacts/figures artifacts/scenarios artifacts/metrics artifacts/data_card.md

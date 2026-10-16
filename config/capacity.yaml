@@ -1,0 +1,20 @@
+# Analyst review capacity assumptions (Phase 5).
+#
+# Capacity is expressed as a RATE of segment population, not a fixed
+# per-segment count: KMeans segment ids (0,1,2,3...) are not stable
+# across reruns of segment.py (different k, different data can reorder
+# or relabel which id means "retail" vs "HNW"), so a config keyed by raw
+# segment_assigned id would silently point at the wrong population if
+# segmentation changes. A rate scales automatically with whatever
+# population ends up under each id.
+
+max_alert_rate_per_month: 0.01   # up to 1% of a segment's customers can be reviewed per month
+min_alerts_per_month: 5           # floor, so a small segment isn't rounded down to 0 capacity
+max_alerts_per_month: 300         # ceiling, in case a segment is very large
+
+# Below this many labeled tuning-period cases for a given scenario x
+# segment combination, fall back to a POOLED (whole-population) operating
+# point for that scenario instead of a segment-specific one - a
+# segment-specific threshold chosen from 0-4 cases isn't a real decision,
+# it's noise.
+min_tuning_cases_for_segment_specific_threshold: 5
