@@ -274,6 +274,35 @@ def test_relationships_link_hnw_multi_investment_accounts(small_dataset):
     assert (same_owner["customer_id_a"] == same_owner["customer_id_b"]).all()
 
 
+def test_distinct_counterparties_per_customer_per_month_is_realistic(small_dataset):
+    """Counterparties must come from a persistent per-customer roster
+    (occasional new ones aside), or every transaction looks "new" and any
+    distinct-counterparty feature built on this data in Phase 2 would be
+    meaningless.
+    """
+    tx = small_dataset["transactions"]
+    accounts = small_dataset["accounts"]
+    chequing = accounts[accounts["account_type"] == "chequing"][["account_id", "customer_id"]]
+
+    from_is_ext = tx["from_account"].astype(str).str.startswith("EXT-")
+    to_is_ext = tx["to_account"].astype(str).str.startswith("EXT-")
+    ext_tx = tx[from_is_ext | to_is_ext].copy()
+    ext_tx["counterparty"] = np.where(from_is_ext[ext_tx.index], ext_tx["from_account"], ext_tx["to_account"])
+    ext_tx["account_id"] = np.where(from_is_ext[ext_tx.index], ext_tx["to_account"], ext_tx["from_account"])
+    ext_tx = ext_tx.merge(chequing, on="account_id")
+    ext_tx["period"] = pd.to_datetime(ext_tx["timestamp"]).dt.to_period("M")
+
+    distinct_counts = ext_tx.groupby(["customer_id", "period"])["counterparty"].nunique()
+    assert len(distinct_counts) > 0
+
+    median = distinct_counts.median()
+    assert median < 20, f"median distinct counterparties/customer/month = {median}, expected a roster-driven value"
+
+    # Most of the mass should be using the persistent roster, not a flood of
+    # one-off counterparties.
+    assert distinct_counts.quantile(0.95) < 40
+
+
 def test_month_bounds_and_sim_window(config):
     start, end, months = sim_window(config)
     assert months == 12

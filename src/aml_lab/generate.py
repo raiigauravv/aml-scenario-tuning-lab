@@ -219,6 +219,17 @@ def generate_relationships(rng: np.random.Generator, customers: pd.DataFrame, ac
 CASH = "CASH"
 MARKET = "MARKET"
 
+# Recurring-counterparty roster sizes. Real customers overwhelmingly repeat
+# transactions with the same small set of merchants/billers each month; a
+# fresh random counterparty id per transaction would make any
+# distinct-counterparty feature meaningless (every transaction would look
+# "new"). A small persistent roster per customer, with an occasional new
+# counterparty, keeps that feature realistic.
+MERCHANT_ROSTER_SIZE = 8
+ACH_ROSTER_SIZE = 3
+CARD_NEW_COUNTERPARTY_PROB = 0.08
+ACH_NEW_COUNTERPARTY_PROB = 0.05
+
 
 def external_accounts(
     rng: np.random.Generator, config: dict, n: int, domestic_share_override: float | None = None
@@ -334,14 +345,27 @@ def _gen_cash_deposits(rng, cm, config, start, months) -> pd.DataFrame:
     )
 
 
-def _gen_card_spend(rng, cm, config, start, months) -> pd.DataFrame:
+def _roster_lookup(rng, cust_idx: np.ndarray, roster: np.ndarray, roster_cb: np.ndarray) -> tuple[np.ndarray, np.ndarray]:
+    """Pick one persistent roster entry per row for the given customer index."""
+    slot = rng.integers(0, roster.shape[1], size=len(cust_idx))
+    return roster[cust_idx, slot], roster_cb[cust_idx, slot]
+
+
+def _gen_card_spend(rng, cm, config, start, months, merchant_roster, merchant_roster_cb) -> pd.DataFrame:
     counts = rng.poisson(lam=4.0, size=len(cm))
     rows = _expand(cm, counts)
     if len(rows) == 0:
         return _empty_tx_frame()
     timestamps = random_datetimes_for_months(rng, start, rows["month"].values, months)
     amount = rng.lognormal(mean=np.log(45.0), sigma=0.6, size=len(rows))
-    merchant_ids, cross_border = external_accounts(rng, config, len(rows), domestic_share_override=0.95)
+
+    cust_idx = rows["cust_idx"].values
+    roster_ids, roster_cb = _roster_lookup(rng, cust_idx, merchant_roster, merchant_roster_cb)
+    new_ids, new_cb = external_accounts(rng, config, len(rows), domestic_share_override=0.95)
+    use_new = rng.random(len(rows)) < CARD_NEW_COUNTERPARTY_PROB
+    merchant_ids = np.where(use_new, new_ids, roster_ids)
+    cross_border = np.where(use_new, new_cb, roster_cb)
+
     return pd.DataFrame(
         {
             "customer_id": rows["customer_id"].values,
@@ -357,14 +381,21 @@ def _gen_card_spend(rng, cm, config, start, months) -> pd.DataFrame:
     )
 
 
-def _gen_ach_bills(rng, cm, config, start, months) -> pd.DataFrame:
+def _gen_ach_bills(rng, cm, config, start, months, ach_roster, ach_roster_cb) -> pd.DataFrame:
     counts = rng.poisson(lam=2.0, size=len(cm))
     rows = _expand(cm, counts)
     if len(rows) == 0:
         return _empty_tx_frame()
     timestamps = random_datetimes_for_months(rng, start, rows["month"].values, months)
     amount = rng.lognormal(mean=np.log(150.0), sigma=0.5, size=len(rows))
-    payee_ids, cross_border = external_accounts(rng, config, len(rows), domestic_share_override=0.98)
+
+    cust_idx = rows["cust_idx"].values
+    roster_ids, roster_cb = _roster_lookup(rng, cust_idx, ach_roster, ach_roster_cb)
+    new_ids, new_cb = external_accounts(rng, config, len(rows), domestic_share_override=0.98)
+    use_new = rng.random(len(rows)) < ACH_NEW_COUNTERPARTY_PROB
+    payee_ids = np.where(use_new, new_ids, roster_ids)
+    cross_border = np.where(use_new, new_cb, roster_cb)
+
     return pd.DataFrame(
         {
             "customer_id": rows["customer_id"].values,
@@ -525,6 +556,7 @@ def generate_normal_transactions(
     cm = pd.DataFrame(
         {
             "customer_id": np.repeat(cust_ids, months),
+            "cust_idx": np.repeat(np.arange(n), months),
             "segment_true": np.repeat(segments, months),
             "activity": np.repeat(activity, months),
             "employer_account": np.repeat(employer_ids, months),
@@ -535,14 +567,27 @@ def generate_normal_transactions(
     )
     cm["chequing_account"] = cm["customer_id"].map(chequing_map)
 
+    # Persistent per-customer rosters of recurring counterparties (merchants,
+    # billers) so distinct-counterparty features reflect normal repeat
+    # behaviour instead of a fresh id on every transaction.
+    merchant_ids_flat, merchant_cb_flat = external_accounts(
+        rng, config, n * MERCHANT_ROSTER_SIZE, domestic_share_override=0.95
+    )
+    merchant_roster = merchant_ids_flat.reshape(n, MERCHANT_ROSTER_SIZE)
+    merchant_roster_cb = merchant_cb_flat.reshape(n, MERCHANT_ROSTER_SIZE)
+
+    ach_ids_flat, ach_cb_flat = external_accounts(rng, config, n * ACH_ROSTER_SIZE, domestic_share_override=0.98)
+    ach_roster = ach_ids_flat.reshape(n, ACH_ROSTER_SIZE)
+    ach_roster_cb = ach_cb_flat.reshape(n, ACH_ROSTER_SIZE)
+
     is_retail_hnw = cm["segment_true"].isin(["retail", "hnw_investment"]).values
     income_counts = np.where(is_retail_hnw, 1, (rng.random(len(cm)) < 0.6).astype(int))
 
     fragments = [
         _gen_income(rng, cm, income_counts, start, months),
         _gen_cash_deposits(rng, cm, config, start, months),
-        _gen_card_spend(rng, cm, config, start, months),
-        _gen_ach_bills(rng, cm, config, start, months),
+        _gen_card_spend(rng, cm, config, start, months, merchant_roster, merchant_roster_cb),
+        _gen_ach_bills(rng, cm, config, start, months, ach_roster, ach_roster_cb),
         _gen_big_oneoff(rng, cm, config, start, months),
         _gen_hnw_rebalancing(rng, cm, invest_map, config, start, months),
         _gen_investment_trades(rng, accounts, config, start, months),
@@ -1059,8 +1104,11 @@ def write_data_card(data: dict[str, pd.DataFrame], config: dict, out_path: Path,
         "- Country codes are fictional (e.g. HOME/ALD/DRK); any resemblance to real countries is unintended.",
         "- No branch-level modeling for structuring: all deposits are attributed to the account, not a branch.",
         (
-            "- Recurring merchants/payees are not persisted as a fixed roster; a new synthetic counterparty id "
-            "is drawn per transaction (loses some realism in 'distinct counterparty' features)."
+            f"- Each customer has a persistent roster of {MERCHANT_ROSTER_SIZE} recurring merchants and "
+            f"{ACH_ROSTER_SIZE} recurring billers; card/ACH transactions draw from that roster "
+            f"({1 - CARD_NEW_COUNTERPARTY_PROB:.0%} / {1 - ACH_NEW_COUNTERPARTY_PROB:.0%} of the time "
+            "respectively), with an occasional new counterparty, so distinct-counterparty-per-period features "
+            "are meaningful rather than inflated by a fresh id on every transaction."
         ),
         "- Account balances are not modeled; only transaction flows.",
         (
