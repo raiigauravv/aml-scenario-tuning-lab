@@ -1,0 +1,89 @@
+# Synthetic data generator configuration.
+# All thresholds and injection rates live here, not in code, so they can be
+# tuned without touching generate.py.
+
+seed: 42
+
+sim_start: "2024-01-01"   # fixed epoch so runs are reproducible regardless of wall-clock date
+months: 12
+
+n_customers_default: 20000
+n_customers_small: 2000
+
+reporting_threshold: 10000   # USD cash-deposit reporting threshold used by STR-01 and lookalikes
+
+segments:
+  retail: 0.70
+  small_business: 0.20
+  hnw_investment: 0.10
+
+# Customer KYC domicile risk tier (independent of transaction counterparty
+# country, which is assigned per-transaction below).
+customer_country_risk:
+  low: 0.80
+  medium: 0.15
+  high: 0.05
+
+# Transaction counterparty country model. Fictional country codes are used
+# deliberately (this is synthetic data; no real country is "high risk" here).
+country_risk:
+  domestic_code: HOME
+  domestic_share: 0.75
+  foreign_countries:
+    - code: ALD
+      risk_tier: low
+    - code: BRV
+      risk_tier: low
+    - code: CYN
+      risk_tier: medium
+    - code: DRK
+      risk_tier: high
+    - code: EXE
+      risk_tier: high
+
+household_rate: 0.04   # fraction of customers paired into a household relationship
+
+typologies:
+  structuring:
+    rate: 0.0020
+    deposits_min: 5
+    deposits_max: 10
+    window_days_min: 5
+    window_days_max: 14
+    pct_of_threshold_min: 0.85
+    pct_of_threshold_max: 0.98
+  rapid_movement:
+    rate: 0.0020
+    inflow_min: 15000
+    inflow_max: 80000
+    outflow_pct_min: 0.80
+    outflow_pct_max: 0.98
+    window_hours_min: 6
+    window_hours_max: 48
+  fan_in_fan_out:
+    rate: 0.0030          # fraction of customers ending up IN a mule network (senders + hub + downstream)
+    senders_min: 4
+    senders_max: 12
+    downstream_min: 1
+    downstream_max: 3
+    window_days_min: 3
+    window_days_max: 10
+    forwarded_share_min: 0.70
+    forwarded_share_max: 0.95
+  wealth_layering:
+    rate: 0.0015
+    journal_transfers_min: 3
+    journal_transfers_max: 8
+    trade_round_trips_min: 2
+    trade_round_trips_max: 5
+    window_days_min: 5
+    window_days_max: 20
+    outbound_wire_min: 50000
+    outbound_wire_max: 500000
+
+legit_lookalikes:
+  structuring_lookalike_rate: 0.03   # share of small_business customers with legit near-threshold deposits
+  wealth_lookalike_rate: 0.10        # share of hnw_investment customers with legit inter-account rebalancing
+
+investment_activity:
+  trades_per_month_mean: 1.5   # normal (non-injected) buy/sell activity per investment account per month

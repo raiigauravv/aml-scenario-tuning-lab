@@ -1,0 +1,16 @@
+.serena/
+
+__pycache__/
+*.pyc
+.pytest_cache/
+.ruff_cache/
+*.egg-info/
+.venv/
+venv/
+
+# Generated artifacts (reproducible from `make data`, not checked in)
+artifacts/data/
+artifacts/*.parquet
+
+# Keep generated docs that are meant to be committed (data_card, RESULTS.md)
+!artifacts/data_card.md
