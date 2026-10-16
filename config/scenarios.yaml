@@ -1,0 +1,108 @@
+# Scenario definitions + parameter grids (Phase 4/5).
+#
+# `params` is the single operating point scenarios.py runs by default
+# (Phase 4's deliverable: one alert set per scenario). `grid` is the full
+# sweep tuning.py will search in Phase 5 - listed here now so the grid
+# lives next to the scenario it belongs to, not invented later.
+#
+# Every scenario alerts at the customer-month level (FAN-02 alerts every
+# member of a flagged ring for the month the ring was detected in), with
+# the triggering evidence (transaction ids, amounts, counts) attached.
+
+STR-01:
+  name: Structuring
+  typology: structuring
+  description: >
+    N or more cash deposits within a D-day window, each between
+    (1 - pct_below_threshold) * reporting_threshold and reporting_threshold.
+  params:
+    min_deposits: 5
+    window_days: 10
+    pct_below_threshold: 0.15
+  grid:
+    min_deposits: [4, 5, 6, 7]
+    window_days: [7, 10, 14]
+    pct_below_threshold: [0.10, 0.15, 0.20]
+
+RMV-01:
+  name: Rapid Movement
+  typology: rapid_movement
+  description: >
+    An inflow of at least min_inflow where at least min_outflow_pct of it
+    moves back out within window_hours.
+  params:
+    min_inflow: 15000
+    min_outflow_pct: 0.70
+    window_hours: 48
+  grid:
+    min_inflow: [10000, 15000, 20000]
+    min_outflow_pct: [0.6, 0.7, 0.8, 0.9]
+    window_hours: [24, 48, 72]
+
+FAN-01:
+  name: Fan-in/Fan-out (simple degree rule)
+  typology: fan_in_fan_out
+  description: >
+    A per-customer rule, no network structure: distinct same-bank senders
+    >= min_distinct_senders within window_days, with total outflow over
+    the same window >= min_forwarded_share of total same-bank inflow.
+    Kept as the naive baseline FAN-02 (the ring-level scenario) is
+    compared against.
+  params:
+    min_distinct_senders: 4
+    min_forwarded_share: 0.70
+    window_days: 10
+  grid:
+    min_distinct_senders: [3, 4, 5, 6]
+    min_forwarded_share: [0.6, 0.7, 0.8]
+    window_days: [7, 10, 14]
+
+FAN-02:
+  name: Fan-in/Fan-out ring detection (pass-through subgraph)
+  typology: fan_in_fan_out
+  description: >
+    Network-level: build a directed same-bank transfer graph over the
+    trailing window_days, keep only edges whose RECIPIENT passes at least
+    pass_through_ratio of what they receive back out within
+    pass_through_window_hours (a "pass-through" node, not just anyone who
+    happens to receive money), then flag connected components of size >=
+    min_component_size that contain a node with same-bank in-degree >=
+    min_hub_in_degree within that filtered subgraph. Every member of a
+    flagged component is alerted.
+  params:
+    window_days: 30
+    min_edge_amount: 500
+    pass_through_ratio: 0.70
+    pass_through_window_hours: 48
+    min_component_size: 3
+    min_hub_in_degree: 4
+  grid:
+    pass_through_ratio: [0.6, 0.7, 0.8]
+    min_hub_in_degree: [3, 4, 5]
+    min_component_size: [3, 4]
+    # Added after Phase 4 diagnostics: the generator's fan-in/fan-out hub
+    # accumulates from senders over several days before forwarding onward
+    # (window_days 3-10 in generator.yaml), so a strict 48h pass-through
+    # window misses rings where the hub's forward-out happens later - see
+    # scenarios.py docstring. Widen the grid so Phase 5 can find the
+    # window that actually recovers labeled rings instead of guessing.
+    pass_through_window_hours: [48, 120, 240]
+
+WLT-01:
+  name: Investment / Wealth Layering
+  typology: wealth_layering
+  description: >
+    At least min_journal_transfers journal transfers (total volume >=
+    min_journal_volume) between relationships.parquet-declared related
+    investment accounts, followed by an outbound cross-border wire of at
+    least min_outbound_wire, all within a window_days window.
+  params:
+    min_journal_transfers: 3
+    min_journal_volume: 50000
+    min_outbound_wire: 50000
+    window_days: 20
+  grid:
+    min_journal_transfers: [2, 3, 4]
+    min_journal_volume: [30000, 50000, 75000]
+    min_outbound_wire: [25000, 50000, 75000]
+    window_days: [15, 20, 25]

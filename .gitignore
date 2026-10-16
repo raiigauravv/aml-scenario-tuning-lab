@@ -13,7 +13,9 @@ artifacts/data/
 artifacts/features/
 artifacts/segments/
 artifacts/figures/
+artifacts/scenarios/
 artifacts/**/*.parquet
+artifacts/**/*.csv
 *.parquet
 
 # Keep generated docs that are meant to be committed (data_card, RESULTS.md)

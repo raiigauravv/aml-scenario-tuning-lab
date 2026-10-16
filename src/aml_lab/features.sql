@@ -54,14 +54,14 @@ LEFT JOIN accounts ta ON ta.account_id = t.to_account;
 -- ---------------------------------------------------------------------
 CREATE OR REPLACE VIEW tx_flows AS
 SELECT
-    from_customer AS customer_id, timestamp, amount, channel, cross_border,
+    transaction_id, from_customer AS customer_id, timestamp, amount, channel, cross_border,
     'out' AS direction,
     to_customer AS counterparty_customer, to_account AS counterparty_account, to_country AS counterparty_country
 FROM tx_resolved
 WHERE from_customer IS NOT NULL AND (to_customer IS NULL OR to_customer != from_customer)
 UNION ALL
 SELECT
-    to_customer AS customer_id, timestamp, amount, channel, cross_border,
+    transaction_id, to_customer AS customer_id, timestamp, amount, channel, cross_border,
     'in' AS direction,
     from_customer AS counterparty_customer, from_account AS counterparty_account, from_country AS counterparty_country
 FROM tx_resolved
