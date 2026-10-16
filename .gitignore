@@ -8,9 +8,11 @@ __pycache__/
 .venv/
 venv/
 
-# Generated artifacts (reproducible from `make data`, not checked in)
+# Generated artifacts (reproducible from `make all`, not checked in)
 artifacts/data/
-artifacts/*.parquet
+artifacts/features/
+artifacts/**/*.parquet
+*.parquet
 
 # Keep generated docs that are meant to be committed (data_card, RESULTS.md)
 !artifacts/data_card.md

@@ -1,4 +1,4 @@
-.PHONY: data test lint all clean
+.PHONY: data data-small features test lint all clean
 
 data:
 	python -m aml_lab.generate
@@ -6,13 +6,16 @@ data:
 data-small:
 	python -m aml_lab.generate --small
 
+features: data
+	python -m aml_lab.features
+
 test:
 	pytest
 
 lint:
 	ruff check src/ tests/
 
-all: data test
+all: features test
 
 clean:
-	rm -rf artifacts/data artifacts/data_card.md
+	rm -rf artifacts/data artifacts/features artifacts/data_card.md

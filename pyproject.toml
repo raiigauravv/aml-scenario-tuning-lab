@@ -8,6 +8,8 @@ dependencies = [
     "numpy>=1.26",
     "pyarrow>=14.0",
     "pyyaml>=6.0",
+    "duckdb>=0.10",
+    "networkx>=3.2",
 ]
 
 [project.optional-dependencies]
