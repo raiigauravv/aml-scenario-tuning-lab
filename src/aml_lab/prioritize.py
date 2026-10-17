@@ -248,12 +248,46 @@ def bootstrap_pr_auc(y_true: np.ndarray, y_score: np.ndarray, n_boot: int = N_BO
 # Review-budget analysis
 # ---------------------------------------------------------------------------
 
+def _alerts_needed_for_target(cum_tp: np.ndarray, target_tp: int) -> int | None:
+    """Smallest prefix length (1-indexed) whose cumulative true-positive
+    count reaches target_tp, or None if it never does within the array.
+    """
+    if target_tp <= 0:
+        return 0
+    reach = np.where(cum_tp >= target_tp)[0]
+    return int(reach[0] + 1) if len(reach) else None
+
+
 def review_budget_analysis(
-    test_df: pd.DataFrame, score_col: str, budgets=REVIEW_BUDGETS, n_shuffles: int = N_SHUFFLES, seed: int = SEED
+    test_df: pd.DataFrame,
+    primary_score_col: str,
+    other_score_cols: dict[str, list[str]] | None = None,
+    budgets=REVIEW_BUDGETS,
+    n_shuffles: int = N_SHUFFLES,
+    seed: int = SEED,
 ) -> tuple[dict, pd.DataFrame]:
+    """Review-budget capture for the primary ("ML") score, reported next
+    to FIFO, random, and any other named baselines (logistic regression,
+    scenario prior). "FPs avoided at equal detection" is computed only
+    for the primary score, against FIFO and against random:
+
+        reference = how many productive alerts the PRIMARY score
+                    captures within its top-k (k = budget * n)
+        fifo_needed = smallest FIFO-order prefix that also captures
+                      `reference` productive alerts
+        fps_avoided_vs_fifo = fifo_needed - k
+
+    i.e. how many fewer alerts (so, since both reach the same number of
+    true positives, how many fewer false positives) a reviewer following
+    the primary score's order needs to inspect than one following FIFO
+    to find the same number of productive alerts. Same idea for random,
+    using the mean alerts-needed over n_shuffles shuffles.
+    """
+    other_score_cols = other_score_cols or {}
     n = len(test_df)
-    order_ml = test_df.sort_values(score_col, ascending=False).reset_index(drop=True)
+    order_primary = test_df.sort_values(primary_score_col, ascending=False).reset_index(drop=True)
     order_fifo = test_df.sort_values(["month", "customer_id"]).reset_index(drop=True)
+    cum_tp_fifo = order_fifo["is_productive"].cumsum().to_numpy()
     y = test_df["is_productive"].to_numpy()
 
     rng = np.random.default_rng(seed)
@@ -262,26 +296,57 @@ def review_budget_analysis(
     results = {}
     for b in budgets:
         k = max(1, round(n * b))
-        ml_tp = int(order_ml["is_productive"].iloc[:k].sum())
+        primary_tp = int(order_primary["is_productive"].iloc[:k].sum())
         fifo_tp = int(order_fifo["is_productive"].iloc[:k].sum())
 
-        rand_tp = np.empty(n_shuffles)
+        fifo_needed = _alerts_needed_for_target(cum_tp_fifo, primary_tp)
+        fps_avoided_vs_fifo = (fifo_needed - k) if fifo_needed is not None else None
+
+        rand_tp_at_k = np.empty(n_shuffles)
+        rand_needed = []
         for i in range(n_shuffles):
             rng.shuffle(idx_all)
-            rand_tp[i] = y[idx_all[:k]].sum()
+            cum_tp_rand = y[idx_all].cumsum()
+            rand_tp_at_k[i] = cum_tp_rand[k - 1]
+            needed = _alerts_needed_for_target(cum_tp_rand, primary_tp)
+            if needed is not None:
+                rand_needed.append(needed)
+        random_needed_mean = round(float(np.mean(rand_needed)), 2) if rand_needed else None
+        fps_avoided_vs_random = (
+            round(random_needed_mean - k, 2) if random_needed_mean is not None else None
+        )
 
-        cum_tp_ml = order_ml["is_productive"].cumsum().to_numpy()
-        reach = np.where(cum_tp_ml >= fifo_tp)[0]
-        fps_avoided = int(k - (reach[0] + 1)) if len(reach) else None
+        productive_captured = {"xgboost": primary_tp, "fifo": fifo_tp, "random_mean": round(float(rand_tp_at_k.mean()), 2)}
+        for name, cols in other_score_cols.items():
+            order_other = test_df.sort_values(cols, ascending=False).reset_index(drop=True)
+            productive_captured[name] = int(order_other["is_productive"].iloc[:k].sum())
 
         results[f"top_{round(b * 100)}pct"] = {
             "n_reviewed": k,
-            "ml_productive_captured": ml_tp,
-            "fifo_productive_captured": fifo_tp,
-            "random_productive_captured_mean": round(float(rand_tp.mean()), 2),
-            "fps_avoided_vs_fifo_at_equal_detection": fps_avoided,
+            "productive_captured": productive_captured,
+            "fifo_alerts_needed_to_match_xgboost": fifo_needed,
+            "fps_avoided_vs_fifo_at_equal_detection": fps_avoided_vs_fifo,
+            "random_alerts_needed_to_match_xgboost_mean": random_needed_mean,
+            "fps_avoided_vs_random_at_equal_detection": fps_avoided_vs_random,
         }
-    return results, order_ml
+    return results, order_primary
+
+
+# ---------------------------------------------------------------------------
+# Scenario-prior baseline: no ML at all, just each scenario's own
+# train-period productive rate (ties broken by evidence amount)
+# ---------------------------------------------------------------------------
+
+def add_scenario_prior_score(train_df: pd.DataFrame, test_df: pd.DataFrame) -> tuple[pd.DataFrame, dict]:
+    train_rate = train_df.groupby("scenario_id")["is_productive"].mean().to_dict()
+    test_df = test_df.copy()
+    test_df["scenario_prior_score"] = test_df["scenario_id"].map(train_rate)
+    # Tie-break column for ranking (not for the score itself, which stays
+    # the plain per-scenario rate so PR-AUC reflects exactly what's being
+    # claimed: "rank by scenario prior"). NaN evidence_amount (scenarios
+    # where that evidence field doesn't apply) sorts last.
+    test_df["scenario_prior_tiebreak"] = test_df["evidence_amount"].fillna(-np.inf)
+    return test_df, {k: round(float(v), 4) for k, v in train_rate.items()}
 
 
 # ---------------------------------------------------------------------------
@@ -392,9 +457,33 @@ def run_prioritization(
     test_df = test_df.copy()
     test_df["xgb_score"] = xgb_scores
     test_df["lr_score"] = lr_scores
+    test_df, scenario_prior_rates = add_scenario_prior_score(train_df, test_df)
+    scenario_prior_pr_auc = bootstrap_pr_auc(y_test, test_df["scenario_prior_score"].to_numpy())
 
-    review_budget, _ml_order = review_budget_analysis(test_df, "xgb_score")
+    review_budget, ml_order = review_budget_analysis(
+        test_df,
+        "xgb_score",
+        other_score_cols={
+            "logistic_regression": ["lr_score"],
+            "scenario_prior": ["scenario_prior_score", "scenario_prior_tiebreak"],
+        },
+    )
     by_scenario = by_scenario_breakdown(test_df, "xgb_score")
+
+    # The one productive alert (if any) XGBoost ranks outside the top 60%.
+    ml_order_ranked = ml_order.reset_index(drop=True)
+    ml_order_ranked["rank"] = np.arange(1, len(ml_order_ranked) + 1)
+    k_60 = max(1, round(len(ml_order_ranked) * 0.60))
+    missed_outside_top_60pct = [
+        {
+            "rank": int(row["rank"]),
+            "customer_id": row["customer_id"],
+            "month": int(row["month"]),
+            "scenario_id": row["scenario_id"],
+            "xgb_score": round(float(row["xgb_score"]), 4),
+        }
+        for _, row in ml_order_ranked[(ml_order_ranked["rank"] > k_60) & (ml_order_ranked["is_productive"] == 1)].iterrows()
+    ]
 
     explanation = compute_shap(xgb_model, X_test)
 
@@ -405,10 +494,13 @@ def run_prioritization(
         "pr_auc": {
             "xgboost": xgb_pr_auc,
             "logistic_regression": lr_pr_auc,
+            "scenario_prior": scenario_prior_pr_auc,
             "xgboost_beats_baseline": xgb_beats_baseline,
         },
+        "scenario_prior_train_rates": scenario_prior_rates,
         "review_budget": review_budget,
         "by_scenario": by_scenario,
+        "productive_alerts_outside_top_60pct": missed_outside_top_60pct,
         "model_params": {
             "xgboost": {"max_depth": 3, "n_estimators": 100, "learning_rate": 0.1, "scale_pos_weight": float(xgb_model.get_params()["scale_pos_weight"])},
             "logistic_regression": {"class_weight": "balanced", "max_iter": 2000},
@@ -472,17 +564,23 @@ def main(argv: list[str] | None = None) -> None:
     r = out["result"]
     print(f"Train: {r['train']['n_alerts']} alerts, {r['train']['n_positives']} positive")
     print(f"Test:  {r['test']['n_alerts']} alerts, {r['test']['n_positives']} positive")
-    print(f"PR-AUC: xgboost={r['pr_auc']['xgboost']['mean']} (CI {r['pr_auc']['xgboost']['ci_lower']}-{r['pr_auc']['xgboost']['ci_upper']}), "
-          f"logistic_regression={r['pr_auc']['logistic_regression']['mean']} "
-          f"(CI {r['pr_auc']['logistic_regression']['ci_lower']}-{r['pr_auc']['logistic_regression']['ci_upper']})")
+    for name in ("xgboost", "logistic_regression", "scenario_prior"):
+        m = r["pr_auc"][name]
+        print(f"PR-AUC {name}: {m['mean']} (CI {m['ci_lower']}-{m['ci_upper']})")
     print(f"XGBoost beats baseline: {r['pr_auc']['xgboost_beats_baseline']}")
+    print(f"Scenario-prior train rates: {r['scenario_prior_train_rates']}")
     for budget, stats in r["review_budget"].items():
-        print(f"  {budget}: ML={stats['ml_productive_captured']} FIFO={stats['fifo_productive_captured']} "
-              f"random~{stats['random_productive_captured_mean']} (n={stats['n_reviewed']}), "
-              f"FPs avoided vs FIFO={stats['fps_avoided_vs_fifo_at_equal_detection']}")
+        pc = stats["productive_captured"]
+        print(
+            f"  {budget} (n={stats['n_reviewed']}): xgboost={pc['xgboost']} lr={pc['logistic_regression']} "
+            f"scenario_prior={pc['scenario_prior']} fifo={pc['fifo']} random~{pc['random_mean']} | "
+            f"FPs avoided vs fifo={stats['fps_avoided_vs_fifo_at_equal_detection']}, "
+            f"vs random={stats['fps_avoided_vs_random_at_equal_detection']}"
+        )
     print("By scenario:")
     for sid, stats in r["by_scenario"].items():
         print(f"  {sid}: {stats}")
+    print(f"Productive alerts XGBoost ranks outside the top 60%: {r['productive_alerts_outside_top_60pct']}")
     print(f"\nWrote {args.metrics_dir / 'prioritization.json'}")
     print(f"Wrote {args.figures_dir / 'shap_global.png'}")
     print(f"Wrote {args.metrics_dir / 'alert_queue_test.csv'}")
