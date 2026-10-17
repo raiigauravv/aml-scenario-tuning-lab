@@ -12,6 +12,8 @@ dependencies = [
     "networkx>=3.2",
     "scikit-learn>=1.4",
     "matplotlib>=3.8",
+    "xgboost>=2.0",
+    "shap>=0.45",
 ]
 
 [project.optional-dependencies]
