@@ -15,6 +15,7 @@ dependencies = [
     "xgboost>=2.0",
     "shap>=0.45",
     "jinja2>=3.1",
+    "streamlit>=1.35",
 ]
 
 [project.optional-dependencies]

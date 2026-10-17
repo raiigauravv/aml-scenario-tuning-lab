@@ -1,0 +1,147 @@
+{
+  "seed": 42,
+  "train": {
+    "n_alerts": 921,
+    "n_positives": 76
+  },
+  "test": {
+    "n_alerts": 207,
+    "n_positives": 27
+  },
+  "pr_auc": {
+    "xgboost": {
+      "mean": 0.8603,
+      "ci_lower": 0.7421,
+      "ci_upper": 0.9449,
+      "n_bootstrap_samples_used": 1000
+    },
+    "logistic_regression": {
+      "mean": 0.8447,
+      "ci_lower": 0.7151,
+      "ci_upper": 0.9413,
+      "n_bootstrap_samples_used": 1000
+    },
+    "scenario_prior": {
+      "mean": 0.528,
+      "ci_lower": 0.3544,
+      "ci_upper": 0.6868,
+      "n_bootstrap_samples_used": 1000
+    },
+    "xgboost_beats_baseline": true
+  },
+  "scenario_prior_train_rates": {
+    "FAN-01": 0.0048,
+    "FAN-02": 0.2593,
+    "RMV-01": 0.0773,
+    "STR-01": 0.8966,
+    "WLT-01": 1.0
+  },
+  "review_budget": {
+    "top_20pct": {
+      "n_reviewed": 41,
+      "productive_captured": {
+        "xgboost": 26,
+        "fifo": 3,
+        "random_mean": 5.37,
+        "logistic_regression": 26,
+        "scenario_prior": 18
+      },
+      "fifo_alerts_needed_to_match_xgboost": 191,
+      "fps_avoided_vs_fifo_at_equal_detection": 150,
+      "random_alerts_needed_to_match_xgboost_mean": 193.05,
+      "fps_avoided_vs_random_at_equal_detection": 152.05
+    },
+    "top_40pct": {
+      "n_reviewed": 83,
+      "productive_captured": {
+        "xgboost": 26,
+        "fifo": 9,
+        "random_mean": 10.78,
+        "logistic_regression": 26,
+        "scenario_prior": 26
+      },
+      "fifo_alerts_needed_to_match_xgboost": 191,
+      "fps_avoided_vs_fifo_at_equal_detection": 108,
+      "random_alerts_needed_to_match_xgboost_mean": 193.32,
+      "fps_avoided_vs_random_at_equal_detection": 110.32
+    },
+    "top_60pct": {
+      "n_reviewed": 124,
+      "productive_captured": {
+        "xgboost": 26,
+        "fifo": 16,
+        "random_mean": 16.09,
+        "logistic_regression": 26,
+        "scenario_prior": 27
+      },
+      "fifo_alerts_needed_to_match_xgboost": 191,
+      "fps_avoided_vs_fifo_at_equal_detection": 67,
+      "random_alerts_needed_to_match_xgboost_mean": 193.26,
+      "fps_avoided_vs_random_at_equal_detection": 69.26
+    }
+  },
+  "by_scenario": {
+    "FAN-01": {
+      "n_alerts": 125,
+      "n_positives": 2,
+      "pr_auc": 0.5169,
+      "top_40pct_ml_captured": 1,
+      "top_40pct_fifo_captured": 1,
+      "n_reviewed_at_40pct": 50
+    },
+    "FAN-02": {
+      "n_alerts": 35,
+      "n_positives": 9,
+      "pr_auc": 0.5773,
+      "top_40pct_ml_captured": 7,
+      "top_40pct_fifo_captured": 2,
+      "n_reviewed_at_40pct": 14
+    },
+    "RMV-01": {
+      "n_alerts": 36,
+      "n_positives": 7,
+      "pr_auc": 0.9683,
+      "top_40pct_ml_captured": 7,
+      "top_40pct_fifo_captured": 4,
+      "n_reviewed_at_40pct": 14
+    },
+    "STR-01": {
+      "n_alerts": 6,
+      "n_positives": 4,
+      "pr_auc": 1.0,
+      "top_40pct_ml_captured": 2,
+      "top_40pct_fifo_captured": 2,
+      "n_reviewed_at_40pct": 2
+    },
+    "WLT-01": {
+      "n_alerts": 5,
+      "n_positives": 5,
+      "pr_auc": null
+    }
+  },
+  "productive_alerts_outside_top_60pct": [
+    {
+      "rank": 137,
+      "customer_id": "CUST010717",
+      "month": 11,
+      "scenario_id": "FAN-01",
+      "xgb_score": 0.0005
+    }
+  ],
+  "model_params": {
+    "xgboost": {
+      "max_depth": 3,
+      "n_estimators": 100,
+      "learning_rate": 0.1,
+      "scale_pos_weight": 11.118421052631579
+    },
+    "logistic_regression": {
+      "class_weight": "balanced",
+      "max_iter": 2000
+    }
+  },
+  "rules": [
+    "The model reorders alerts within the queue it is given; it never suppresses a scenario hit - every rule-based alert stays in the queue regardless of model score.",
+    "Test-period data (months 11-12) was used only for the numbers above, never for fitting, hyperparameter choice, or model selection."
+  ]
+}

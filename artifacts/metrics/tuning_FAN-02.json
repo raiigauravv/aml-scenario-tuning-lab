@@ -1,0 +1,6149 @@
+{
+  "scenario_id": "FAN-02",
+  "name": "Fan-in/Fan-out ring detection (pass-through subgraph)",
+  "typology": "fan_in_fan_out",
+  "grid_size": 54,
+  "pooled_choice": {
+    "params": {
+      "pass_through_ratio": 0.8,
+      "min_hub_in_degree": 5,
+      "min_component_size": 3,
+      "pass_through_window_hours": 240
+    },
+    "capacity": 200,
+    "capacity_constraint_satisfied": true,
+    "tuning": {
+      "alert_rows": 16,
+      "avg_alerts_per_month": 2.0,
+      "n_customers_alerted": 16,
+      "n_productive_customers": 0,
+      "productive_rate": 0.0,
+      "n_labeled_in_scope": 17,
+      "n_detected": 0,
+      "detection_rate": 0.0
+    },
+    "validation": {
+      "alert_rows": 11,
+      "avg_alerts_per_month": 5.5,
+      "n_customers_alerted": 11,
+      "n_productive_customers": 7,
+      "productive_rate": 0.6364,
+      "n_labeled_in_scope": 17,
+      "n_detected": 7,
+      "detection_rate": 0.4118,
+      "capacity_satisfied": true
+    }
+  },
+  "segment_choices": {
+    "0": {
+      "params": {
+        "pass_through_ratio": 0.8,
+        "min_hub_in_degree": 5,
+        "min_component_size": 3,
+        "pass_through_window_hours": 240
+      },
+      "capacity": 129,
+      "capacity_constraint_satisfied": true,
+      "tuning": {
+        "alert_rows": 10,
+        "avg_alerts_per_month": 1.25,
+        "n_customers_alerted": 10,
+        "n_productive_customers": 0,
+        "productive_rate": 0.0,
+        "n_labeled_in_scope": 14,
+        "n_detected": 0,
+        "detection_rate": 0.0
+      },
+      "validation": {
+        "alert_rows": 7,
+        "avg_alerts_per_month": 3.5,
+        "n_customers_alerted": 7,
+        "n_productive_customers": 3,
+        "productive_rate": 0.4286,
+        "n_labeled_in_scope": 9,
+        "n_detected": 3,
+        "detection_rate": 0.3333
+      },
+      "fallback_to_pooled": false,
+      "n_tuning_cases": 14,
+      "n_validation_cases": 9
+    },
+    "1": {
+      "params": {
+        "pass_through_ratio": 0.8,
+        "min_hub_in_degree": 5,
+        "min_component_size": 3,
+        "pass_through_window_hours": 240
+      },
+      "capacity": 200,
+      "capacity_constraint_satisfied": true,
+      "tuning": {
+        "alert_rows": 0,
+        "avg_alerts_per_month": 0.0,
+        "n_customers_alerted": 0,
+        "n_productive_customers": 0,
+        "productive_rate": null,
+        "n_labeled_in_scope": 1,
+        "n_detected": 0,
+        "detection_rate": 0.0
+      },
+      "validation": {
+        "alert_rows": 0,
+        "avg_alerts_per_month": 0.0,
+        "n_customers_alerted": 0,
+        "n_productive_customers": 0,
+        "productive_rate": null,
+        "n_labeled_in_scope": 0,
+        "n_detected": 0,
+        "detection_rate": null
+      },
+      "fallback_to_pooled": true,
+      "reason": "1 labeled tuning-period case(s) (need >= 5) and 0 labeled validation-period case(s) (need >= 1) in this segment"
+    },
+    "2": {
+      "params": {
+        "pass_through_ratio": 0.8,
+        "min_hub_in_degree": 5,
+        "min_component_size": 3,
+        "pass_through_window_hours": 240
+      },
+      "capacity": 200,
+      "capacity_constraint_satisfied": true,
+      "tuning": {
+        "alert_rows": 4,
+        "avg_alerts_per_month": 0.5,
+        "n_customers_alerted": 4,
+        "n_productive_customers": 0,
+        "productive_rate": 0.0,
+        "n_labeled_in_scope": 1,
+        "n_detected": 0,
+        "detection_rate": 0.0
+      },
+      "validation": {
+        "alert_rows": 3,
+        "avg_alerts_per_month": 1.5,
+        "n_customers_alerted": 3,
+        "n_productive_customers": 3,
+        "productive_rate": 1.0,
+        "n_labeled_in_scope": 5,
+        "n_detected": 3,
+        "detection_rate": 0.6
+      },
+      "fallback_to_pooled": true,
+      "reason": "1 labeled tuning-period case(s) (need >= 5) and 5 labeled validation-period case(s) (need >= 1) in this segment"
+    },
+    "3": {
+      "params": {
+        "pass_through_ratio": 0.8,
+        "min_hub_in_degree": 5,
+        "min_component_size": 3,
+        "pass_through_window_hours": 240
+      },
+      "capacity": 200,
+      "capacity_constraint_satisfied": true,
+      "tuning": {
+        "alert_rows": 2,
+        "avg_alerts_per_month": 0.25,
+        "n_customers_alerted": 2,
+        "n_productive_customers": 0,
+        "productive_rate": 0.0,
+        "n_labeled_in_scope": 1,
+        "n_detected": 0,
+        "detection_rate": 0.0
+      },
+      "validation": {
+        "alert_rows": 1,
+        "avg_alerts_per_month": 0.5,
+        "n_customers_alerted": 1,
+        "n_productive_customers": 1,
+        "productive_rate": 1.0,
+        "n_labeled_in_scope": 3,
+        "n_detected": 1,
+        "detection_rate": 0.3333
+      },
+      "fallback_to_pooled": true,
+      "reason": "1 labeled tuning-period case(s) (need >= 5) and 3 labeled validation-period case(s) (need >= 1) in this segment"
+    }
+  },
+  "atl_btl": [
+    {
+      "primary_param": "pass_through_ratio",
+      "chosen_value": 0.8,
+      "step_value": 0.7,
+      "n_extra_alerted_customers": 6,
+      "n_extra_productive": 0,
+      "extra_productive_rate": 0.0
+    },
+    {
+      "primary_param": "pass_through_ratio",
+      "chosen_value": 0.8,
+      "step_value": 0.6,
+      "n_extra_alerted_customers": 6,
+      "n_extra_productive": 0,
+      "extra_productive_rate": 0.0
+    }
+  ],
+  "test_results": {
+    "pooled": {
+      "alert_rows": 35,
+      "avg_alerts_per_month": 17.5,
+      "n_customers_alerted": 35,
+      "n_productive_customers": 9,
+      "productive_rate": 0.2571,
+      "n_labeled_in_scope": 11,
+      "n_detected": 9,
+      "detection_rate": 0.8182,
+      "capacity_satisfied": true
+    },
+    "0": {
+      "alert_rows": 17,
+      "avg_alerts_per_month": 8.5,
+      "n_customers_alerted": 17,
+      "n_productive_customers": 7,
+      "productive_rate": 0.4118,
+      "n_labeled_in_scope": 8,
+      "n_detected": 7,
+      "detection_rate": 0.875
+    },
+    "1": {
+      "alert_rows": 3,
+      "avg_alerts_per_month": 1.5,
+      "n_customers_alerted": 3,
+      "n_productive_customers": 0,
+      "productive_rate": 0.0,
+      "n_labeled_in_scope": 0,
+      "n_detected": 0,
+      "detection_rate": null
+    },
+    "2": {
+      "alert_rows": 14,
+      "avg_alerts_per_month": 7.0,
+      "n_customers_alerted": 14,
+      "n_productive_customers": 1,
+      "productive_rate": 0.0714,
+      "n_labeled_in_scope": 2,
+      "n_detected": 1,
+      "detection_rate": 0.5
+    },
+    "3": {
+      "alert_rows": 1,
+      "avg_alerts_per_month": 0.5,
+      "n_customers_alerted": 1,
+      "n_productive_customers": 1,
+      "productive_rate": 1.0,
+      "n_labeled_in_scope": 1,
+      "n_detected": 1,
+      "detection_rate": 1.0
+    }
+  },
+  "grid_results": [
+    {
+      "params": {
+        "pass_through_ratio": 0.6,
+        "min_hub_in_degree": 3,
+        "min_component_size": 3,
+        "pass_through_window_hours": 48
+      },
+      "pooled_tuning": {
+        "alert_rows": 285,
+        "avg_alerts_per_month": 35.62,
+        "n_customers_alerted": 284,
+        "n_productive_customers": 1,
+        "productive_rate": 0.0035,
+        "n_labeled_in_scope": 17,
+        "n_detected": 0,
+        "detection_rate": 0.0
+      },
+      "pooled_validation": {
+        "alert_rows": 70,
+        "avg_alerts_per_month": 35.0,
+        "n_customers_alerted": 70,
+        "n_productive_customers": 0,
+        "productive_rate": 0.0,
+        "n_labeled_in_scope": 17,
+        "n_detected": 0,
+        "detection_rate": 0.0
+      },
+      "segment_0_tuning": {
+        "alert_rows": 145,
+        "avg_alerts_per_month": 18.12,
+        "n_customers_alerted": 145,
+        "n_productive_customers": 1,
+        "productive_rate": 0.0069,
+        "n_labeled_in_scope": 14,
+        "n_detected": 0,
+        "detection_rate": 0.0
+      },
+      "segment_0_validation": {
+        "alert_rows": 30,
+        "avg_alerts_per_month": 15.0,
+        "n_customers_alerted": 30,
+        "n_productive_customers": 0,
+        "productive_rate": 0.0,
+        "n_labeled_in_scope": 9,
+        "n_detected": 0,
+        "detection_rate": 0.0
+      },
+      "segment_1_tuning": {
+        "alert_rows": 17,
+        "avg_alerts_per_month": 2.12,
+        "n_customers_alerted": 16,
+        "n_productive_customers": 0,
+        "productive_rate": 0.0,
+        "n_labeled_in_scope": 1,
+        "n_detected": 0,
+        "detection_rate": 0.0
+      },
+      "segment_1_validation": {
+        "alert_rows": 11,
+        "avg_alerts_per_month": 5.5,
+        "n_customers_alerted": 11,
+        "n_productive_customers": 0,
+        "productive_rate": 0.0,
+        "n_labeled_in_scope": 0,
+        "n_detected": 0,
+        "detection_rate": null
+      },
+      "segment_2_tuning": {
+        "alert_rows": 100,
+        "avg_alerts_per_month": 12.5,
+        "n_customers_alerted": 100,
+        "n_productive_customers": 0,
+        "productive_rate": 0.0,
+        "n_labeled_in_scope": 1,
+        "n_detected": 0,
+        "detection_rate": 0.0
+      },
+      "segment_2_validation": {
+        "alert_rows": 23,
+        "avg_alerts_per_month": 11.5,
+        "n_customers_alerted": 23,
+        "n_productive_customers": 0,
+        "productive_rate": 0.0,
+        "n_labeled_in_scope": 5,
+        "n_detected": 0,
+        "detection_rate": 0.0
+      },
+      "segment_3_tuning": {
+        "alert_rows": 23,
+        "avg_alerts_per_month": 2.88,
+        "n_customers_alerted": 23,
+        "n_productive_customers": 0,
+        "productive_rate": 0.0,
+        "n_labeled_in_scope": 1,
+        "n_detected": 0,
+        "detection_rate": 0.0
+      },
+      "segment_3_validation": {
+        "alert_rows": 6,
+        "avg_alerts_per_month": 3.0,
+        "n_customers_alerted": 6,
+        "n_productive_customers": 0,
+        "productive_rate": 0.0,
+        "n_labeled_in_scope": 3,
+        "n_detected": 0,
+        "detection_rate": 0.0
+      }
+    },
+    {
+      "params": {
+        "pass_through_ratio": 0.6,
+        "min_hub_in_degree": 3,
+        "min_component_size": 3,
+        "pass_through_window_hours": 120
+      },
+      "pooled_tuning": {
+        "alert_rows": 5648,
+        "avg_alerts_per_month": 706.0,
+        "n_customers_alerted": 4488,
+        "n_productive_customers": 8,
+        "productive_rate": 0.0018,
+        "n_labeled_in_scope": 17,
+        "n_detected": 2,
+        "detection_rate": 0.1176
+      },
+      "pooled_validation": {
+        "alert_rows": 1399,
+        "avg_alerts_per_month": 699.5,
+        "n_customers_alerted": 1329,
+        "n_productive_customers": 7,
+        "productive_rate": 0.0053,
+        "n_labeled_in_scope": 17,
+        "n_detected": 4,
+        "detection_rate": 0.2353
+      },
+      "segment_0_tuning": {
+        "alert_rows": 2788,
+        "avg_alerts_per_month": 348.5,
+        "n_customers_alerted": 2519,
+        "n_productive_customers": 5,
+        "productive_rate": 0.002,
+        "n_labeled_in_scope": 14,
+        "n_detected": 2,
+        "detection_rate": 0.1429
+      },
+      "segment_0_validation": {
+        "alert_rows": 679,
+        "avg_alerts_per_month": 339.5,
+        "n_customers_alerted": 668,
+        "n_productive_customers": 2,
+        "productive_rate": 0.003,
+        "n_labeled_in_scope": 9,
+        "n_detected": 1,
+        "detection_rate": 0.1111
+      },
+      "segment_1_tuning": {
+        "alert_rows": 328,
+        "avg_alerts_per_month": 41.0,
+        "n_customers_alerted": 265,
+        "n_productive_customers": 0,
+        "productive_rate": 0.0,
+        "n_labeled_in_scope": 1,
+        "n_detected": 0,
+        "detection_rate": 0.0
+      },
+      "segment_1_validation": {
+        "alert_rows": 96,
+        "avg_alerts_per_month": 48.0,
+        "n_customers_alerted": 92,
+        "n_productive_customers": 0,
+        "productive_rate": 0.0,
+        "n_labeled_in_scope": 0,
+        "n_detected": 0,
+        "detection_rate": null
+      },
+      "segment_2_tuning": {
+        "alert_rows": 2078,
+        "avg_alerts_per_month": 259.75,
+        "n_customers_alerted": 1295,
+        "n_productive_customers": 3,
+        "productive_rate": 0.0023,
+        "n_labeled_in_scope": 1,
+        "n_detected": 0,
+        "detection_rate": 0.0
+      },
+      "segment_2_validation": {
+        "alert_rows": 522,
+        "avg_alerts_per_month": 261.0,
+        "n_customers_alerted": 469,
+        "n_productive_customers": 5,
+        "productive_rate": 0.0107,
+        "n_labeled_in_scope": 5,
+        "n_detected": 3,
+        "detection_rate": 0.6
+      },
+      "segment_3_tuning": {
+        "alert_rows": 454,
+        "avg_alerts_per_month": 56.75,
+        "n_customers_alerted": 409,
+        "n_productive_customers": 0,
+        "productive_rate": 0.0,
+        "n_labeled_in_scope": 1,
+        "n_detected": 0,
+        "detection_rate": 0.0
+      },
+      "segment_3_validation": {
+        "alert_rows": 102,
+        "avg_alerts_per_month": 51.0,
+        "n_customers_alerted": 100,
+        "n_productive_customers": 0,
+        "productive_rate": 0.0,
+        "n_labeled_in_scope": 3,
+        "n_detected": 0,
+        "detection_rate": 0.0
+      }
+    },
+    {
+      "params": {
+        "pass_through_ratio": 0.6,
+        "min_hub_in_degree": 3,
+        "min_component_size": 3,
+        "pass_through_window_hours": 240
+      },
+      "pooled_tuning": {
+        "alert_rows": 7897,
+        "avg_alerts_per_month": 987.12,
+        "n_customers_alerted": 5937,
+        "n_productive_customers": 13,
+        "productive_rate": 0.0022,
+        "n_labeled_in_scope": 17,
+        "n_detected": 7,
+        "detection_rate": 0.4118
+      },
+      "pooled_validation": {
+        "alert_rows": 2031,
+        "avg_alerts_per_month": 1015.5,
+        "n_customers_alerted": 1898,
+        "n_productive_customers": 15,
+        "productive_rate": 0.0079,
+        "n_labeled_in_scope": 17,
+        "n_detected": 11,
+        "detection_rate": 0.6471
+      },
+      "segment_0_tuning": {
+        "alert_rows": 3969,
+        "avg_alerts_per_month": 496.12,
+        "n_customers_alerted": 3444,
+        "n_productive_customers": 9,
+        "productive_rate": 0.0026,
+        "n_labeled_in_scope": 14,
+        "n_detected": 6,
+        "detection_rate": 0.4286
+      },
+      "segment_0_validation": {
+        "alert_rows": 1014,
+        "avg_alerts_per_month": 507.0,
+        "n_customers_alerted": 987,
+        "n_productive_customers": 8,
+        "productive_rate": 0.0081,
+        "n_labeled_in_scope": 9,
+        "n_detected": 6,
+        "detection_rate": 0.6667
+      },
+      "segment_1_tuning": {
+        "alert_rows": 447,
+        "avg_alerts_per_month": 55.88,
+        "n_customers_alerted": 351,
+        "n_productive_customers": 0,
+        "productive_rate": 0.0,
+        "n_labeled_in_scope": 1,
+        "n_detected": 0,
+        "detection_rate": 0.0
+      },
+      "segment_1_validation": {
+        "alert_rows": 133,
+        "avg_alerts_per_month": 66.5,
+        "n_customers_alerted": 125,
+        "n_productive_customers": 0,
+        "productive_rate": 0.0,
+        "n_labeled_in_scope": 0,
+        "n_detected": 0,
+        "detection_rate": null
+      },
+      "segment_2_tuning": {
+        "alert_rows": 2831,
+        "avg_alerts_per_month": 353.88,
+        "n_customers_alerted": 1573,
+        "n_productive_customers": 3,
+        "productive_rate": 0.0019,
+        "n_labeled_in_scope": 1,
+        "n_detected": 0,
+        "detection_rate": 0.0
+      },
+      "segment_2_validation": {
+        "alert_rows": 724,
+        "avg_alerts_per_month": 362.0,
+        "n_customers_alerted": 630,
+        "n_productive_customers": 5,
+        "productive_rate": 0.0079,
+        "n_labeled_in_scope": 5,
+        "n_detected": 3,
+        "detection_rate": 0.6
+      },
+      "segment_3_tuning": {
+        "alert_rows": 650,
+        "avg_alerts_per_month": 81.25,
+        "n_customers_alerted": 569,
+        "n_productive_customers": 1,
+        "productive_rate": 0.0018,
+        "n_labeled_in_scope": 1,
+        "n_detected": 1,
+        "detection_rate": 1.0
+      },
+      "segment_3_validation": {
+        "alert_rows": 160,
+        "avg_alerts_per_month": 80.0,
+        "n_customers_alerted": 156,
+        "n_productive_customers": 2,
+        "productive_rate": 0.0128,
+        "n_labeled_in_scope": 3,
+        "n_detected": 2,
+        "detection_rate": 0.6667
+      }
+    },
+    {
+      "params": {
+        "pass_through_ratio": 0.6,
+        "min_hub_in_degree": 3,
+        "min_component_size": 4,
+        "pass_through_window_hours": 48
+      },
+      "pooled_tuning": {
+        "alert_rows": 285,
+        "avg_alerts_per_month": 35.62,
+        "n_customers_alerted": 284,
+        "n_productive_customers": 1,
+        "productive_rate": 0.0035,
+        "n_labeled_in_scope": 17,
+        "n_detected": 0,
+        "detection_rate": 0.0
+      },
+      "pooled_validation": {
+        "alert_rows": 70,
+        "avg_alerts_per_month": 35.0,
+        "n_customers_alerted": 70,
+        "n_productive_customers": 0,
+        "productive_rate": 0.0,
+        "n_labeled_in_scope": 17,
+        "n_detected": 0,
+        "detection_rate": 0.0
+      },
+      "segment_0_tuning": {
+        "alert_rows": 145,
+        "avg_alerts_per_month": 18.12,
+        "n_customers_alerted": 145,
+        "n_productive_customers": 1,
+        "productive_rate": 0.0069,
+        "n_labeled_in_scope": 14,
+        "n_detected": 0,
+        "detection_rate": 0.0
+      },
+      "segment_0_validation": {
+        "alert_rows": 30,
+        "avg_alerts_per_month": 15.0,
+        "n_customers_alerted": 30,
+        "n_productive_customers": 0,
+        "productive_rate": 0.0,
+        "n_labeled_in_scope": 9,
+        "n_detected": 0,
+        "detection_rate": 0.0
+      },
+      "segment_1_tuning": {
+        "alert_rows": 17,
+        "avg_alerts_per_month": 2.12,
+        "n_customers_alerted": 16,
+        "n_productive_customers": 0,
+        "productive_rate": 0.0,
+        "n_labeled_in_scope": 1,
+        "n_detected": 0,
+        "detection_rate": 0.0
+      },
+      "segment_1_validation": {
+        "alert_rows": 11,
+        "avg_alerts_per_month": 5.5,
+        "n_customers_alerted": 11,
+        "n_productive_customers": 0,
+        "productive_rate": 0.0,
+        "n_labeled_in_scope": 0,
+        "n_detected": 0,
+        "detection_rate": null
+      },
+      "segment_2_tuning": {
+        "alert_rows": 100,
+        "avg_alerts_per_month": 12.5,
+        "n_customers_alerted": 100,
+        "n_productive_customers": 0,
+        "productive_rate": 0.0,
+        "n_labeled_in_scope": 1,
+        "n_detected": 0,
+        "detection_rate": 0.0
+      },
+      "segment_2_validation": {
+        "alert_rows": 23,
+        "avg_alerts_per_month": 11.5,
+        "n_customers_alerted": 23,
+        "n_productive_customers": 0,
+        "productive_rate": 0.0,
+        "n_labeled_in_scope": 5,
+        "n_detected": 0,
+        "detection_rate": 0.0
+      },
+      "segment_3_tuning": {
+        "alert_rows": 23,
+        "avg_alerts_per_month": 2.88,
+        "n_customers_alerted": 23,
+        "n_productive_customers": 0,
+        "productive_rate": 0.0,
+        "n_labeled_in_scope": 1,
+        "n_detected": 0,
+        "detection_rate": 0.0
+      },
+      "segment_3_validation": {
+        "alert_rows": 6,
+        "avg_alerts_per_month": 3.0,
+        "n_customers_alerted": 6,
+        "n_productive_customers": 0,
+        "productive_rate": 0.0,
+        "n_labeled_in_scope": 3,
+        "n_detected": 0,
+        "detection_rate": 0.0
+      }
+    },
+    {
+      "params": {
+        "pass_through_ratio": 0.6,
+        "min_hub_in_degree": 3,
+        "min_component_size": 4,
+        "pass_through_window_hours": 120
+      },
+      "pooled_tuning": {
+        "alert_rows": 5648,
+        "avg_alerts_per_month": 706.0,
+        "n_customers_alerted": 4488,
+        "n_productive_customers": 8,
+        "productive_rate": 0.0018,
+        "n_labeled_in_scope": 17,
+        "n_detected": 2,
+        "detection_rate": 0.1176
+      },
+      "pooled_validation": {
+        "alert_rows": 1399,
+        "avg_alerts_per_month": 699.5,
+        "n_customers_alerted": 1329,
+        "n_productive_customers": 7,
+        "productive_rate": 0.0053,
+        "n_labeled_in_scope": 17,
+        "n_detected": 4,
+        "detection_rate": 0.2353
+      },
+      "segment_0_tuning": {
+        "alert_rows": 2788,
+        "avg_alerts_per_month": 348.5,
+        "n_customers_alerted": 2519,
+        "n_productive_customers": 5,
+        "productive_rate": 0.002,
+        "n_labeled_in_scope": 14,
+        "n_detected": 2,
+        "detection_rate": 0.1429
+      },
+      "segment_0_validation": {
+        "alert_rows": 679,
+        "avg_alerts_per_month": 339.5,
+        "n_customers_alerted": 668,
+        "n_productive_customers": 2,
+        "productive_rate": 0.003,
+        "n_labeled_in_scope": 9,
+        "n_detected": 1,
+        "detection_rate": 0.1111
+      },
+      "segment_1_tuning": {
+        "alert_rows": 328,
+        "avg_alerts_per_month": 41.0,
+        "n_customers_alerted": 265,
+        "n_productive_customers": 0,
+        "productive_rate": 0.0,
+        "n_labeled_in_scope": 1,
+        "n_detected": 0,
+        "detection_rate": 0.0
+      },
+      "segment_1_validation": {
+        "alert_rows": 96,
+        "avg_alerts_per_month": 48.0,
+        "n_customers_alerted": 92,
+        "n_productive_customers": 0,
+        "productive_rate": 0.0,
+        "n_labeled_in_scope": 0,
+        "n_detected": 0,
+        "detection_rate": null
+      },
+      "segment_2_tuning": {
+        "alert_rows": 2078,
+        "avg_alerts_per_month": 259.75,
+        "n_customers_alerted": 1295,
+        "n_productive_customers": 3,
+        "productive_rate": 0.0023,
+        "n_labeled_in_scope": 1,
+        "n_detected": 0,
+        "detection_rate": 0.0
+      },
+      "segment_2_validation": {
+        "alert_rows": 522,
+        "avg_alerts_per_month": 261.0,
+        "n_customers_alerted": 469,
+        "n_productive_customers": 5,
+        "productive_rate": 0.0107,
+        "n_labeled_in_scope": 5,
+        "n_detected": 3,
+        "detection_rate": 0.6
+      },
+      "segment_3_tuning": {
+        "alert_rows": 454,
+        "avg_alerts_per_month": 56.75,
+        "n_customers_alerted": 409,
+        "n_productive_customers": 0,
+        "productive_rate": 0.0,
+        "n_labeled_in_scope": 1,
+        "n_detected": 0,
+        "detection_rate": 0.0
+      },
+      "segment_3_validation": {
+        "alert_rows": 102,
+        "avg_alerts_per_month": 51.0,
+        "n_customers_alerted": 100,
+        "n_productive_customers": 0,
+        "productive_rate": 0.0,
+        "n_labeled_in_scope": 3,
+        "n_detected": 0,
+        "detection_rate": 0.0
+      }
+    },
+    {
+      "params": {
+        "pass_through_ratio": 0.6,
+        "min_hub_in_degree": 3,
+        "min_component_size": 4,
+        "pass_through_window_hours": 240
+      },
+      "pooled_tuning": {
+        "alert_rows": 7897,
+        "avg_alerts_per_month": 987.12,
+        "n_customers_alerted": 5937,
+        "n_productive_customers": 13,
+        "productive_rate": 0.0022,
+        "n_labeled_in_scope": 17,
+        "n_detected": 7,
+        "detection_rate": 0.4118
+      },
+      "pooled_validation": {
+        "alert_rows": 2031,
+        "avg_alerts_per_month": 1015.5,
+        "n_customers_alerted": 1898,
+        "n_productive_customers": 15,
+        "productive_rate": 0.0079,
+        "n_labeled_in_scope": 17,
+        "n_detected": 11,
+        "detection_rate": 0.6471
+      },
+      "segment_0_tuning": {
+        "alert_rows": 3969,
+        "avg_alerts_per_month": 496.12,
+        "n_customers_alerted": 3444,
+        "n_productive_customers": 9,
+        "productive_rate": 0.0026,
+        "n_labeled_in_scope": 14,
+        "n_detected": 6,
+        "detection_rate": 0.4286
+      },
+      "segment_0_validation": {
+        "alert_rows": 1014,
+        "avg_alerts_per_month": 507.0,
+        "n_customers_alerted": 987,
+        "n_productive_customers": 8,
+        "productive_rate": 0.0081,
+        "n_labeled_in_scope": 9,
+        "n_detected": 6,
+        "detection_rate": 0.6667
+      },
+      "segment_1_tuning": {
+        "alert_rows": 447,
+        "avg_alerts_per_month": 55.88,
+        "n_customers_alerted": 351,
+        "n_productive_customers": 0,
+        "productive_rate": 0.0,
+        "n_labeled_in_scope": 1,
+        "n_detected": 0,
+        "detection_rate": 0.0
+      },
+      "segment_1_validation": {
+        "alert_rows": 133,
+        "avg_alerts_per_month": 66.5,
+        "n_customers_alerted": 125,
+        "n_productive_customers": 0,
+        "productive_rate": 0.0,
+        "n_labeled_in_scope": 0,
+        "n_detected": 0,
+        "detection_rate": null
+      },
+      "segment_2_tuning": {
+        "alert_rows": 2831,
+        "avg_alerts_per_month": 353.88,
+        "n_customers_alerted": 1573,
+        "n_productive_customers": 3,
+        "productive_rate": 0.0019,
+        "n_labeled_in_scope": 1,
+        "n_detected": 0,
+        "detection_rate": 0.0
+      },
+      "segment_2_validation": {
+        "alert_rows": 724,
+        "avg_alerts_per_month": 362.0,
+        "n_customers_alerted": 630,
+        "n_productive_customers": 5,
+        "productive_rate": 0.0079,
+        "n_labeled_in_scope": 5,
+        "n_detected": 3,
+        "detection_rate": 0.6
+      },
+      "segment_3_tuning": {
+        "alert_rows": 650,
+        "avg_alerts_per_month": 81.25,
+        "n_customers_alerted": 569,
+        "n_productive_customers": 1,
+        "productive_rate": 0.0018,
+        "n_labeled_in_scope": 1,
+        "n_detected": 1,
+        "detection_rate": 1.0
+      },
+      "segment_3_validation": {
+        "alert_rows": 160,
+        "avg_alerts_per_month": 80.0,
+        "n_customers_alerted": 156,
+        "n_productive_customers": 2,
+        "productive_rate": 0.0128,
+        "n_labeled_in_scope": 3,
+        "n_detected": 2,
+        "detection_rate": 0.6667
+      }
+    },
+    {
+      "params": {
+        "pass_through_ratio": 0.6,
+        "min_hub_in_degree": 4,
+        "min_component_size": 3,
+        "pass_through_window_hours": 48
+      },
+      "pooled_tuning": {
+        "alert_rows": 40,
+        "avg_alerts_per_month": 5.0,
+        "n_customers_alerted": 40,
+        "n_productive_customers": 0,
+        "productive_rate": 0.0,
+        "n_labeled_in_scope": 17,
+        "n_detected": 0,
+        "detection_rate": 0.0
+      },
+      "pooled_validation": {
+        "alert_rows": 20,
+        "avg_alerts_per_month": 10.0,
+        "n_customers_alerted": 20,
+        "n_productive_customers": 0,
+        "productive_rate": 0.0,
+        "n_labeled_in_scope": 17,
+        "n_detected": 0,
+        "detection_rate": 0.0
+      },
+      "segment_0_tuning": {
+        "alert_rows": 27,
+        "avg_alerts_per_month": 3.38,
+        "n_customers_alerted": 27,
+        "n_productive_customers": 0,
+        "productive_rate": 0.0,
+        "n_labeled_in_scope": 14,
+        "n_detected": 0,
+        "detection_rate": 0.0
+      },
+      "segment_0_validation": {
+        "alert_rows": 9,
+        "avg_alerts_per_month": 4.5,
+        "n_customers_alerted": 9,
+        "n_productive_customers": 0,
+        "productive_rate": 0.0,
+        "n_labeled_in_scope": 9,
+        "n_detected": 0,
+        "detection_rate": 0.0
+      },
+      "segment_1_tuning": {
+        "alert_rows": 4,
+        "avg_alerts_per_month": 0.5,
+        "n_customers_alerted": 4,
+        "n_productive_customers": 0,
+        "productive_rate": 0.0,
+        "n_labeled_in_scope": 1,
+        "n_detected": 0,
+        "detection_rate": 0.0
+      },
+      "segment_1_validation": {
+        "alert_rows": 4,
+        "avg_alerts_per_month": 2.0,
+        "n_customers_alerted": 4,
+        "n_productive_customers": 0,
+        "productive_rate": 0.0,
+        "n_labeled_in_scope": 0,
+        "n_detected": 0,
+        "detection_rate": null
+      },
+      "segment_2_tuning": {
+        "alert_rows": 8,
+        "avg_alerts_per_month": 1.0,
+        "n_customers_alerted": 8,
+        "n_productive_customers": 0,
+        "productive_rate": 0.0,
+        "n_labeled_in_scope": 1,
+        "n_detected": 0,
+        "detection_rate": 0.0
+      },
+      "segment_2_validation": {
+        "alert_rows": 4,
+        "avg_alerts_per_month": 2.0,
+        "n_customers_alerted": 4,
+        "n_productive_customers": 0,
+        "productive_rate": 0.0,
+        "n_labeled_in_scope": 5,
+        "n_detected": 0,
+        "detection_rate": 0.0
+      },
+      "segment_3_tuning": {
+        "alert_rows": 1,
+        "avg_alerts_per_month": 0.12,
+        "n_customers_alerted": 1,
+        "n_productive_customers": 0,
+        "productive_rate": 0.0,
+        "n_labeled_in_scope": 1,
+        "n_detected": 0,
+        "detection_rate": 0.0
+      },
+      "segment_3_validation": {
+        "alert_rows": 3,
+        "avg_alerts_per_month": 1.5,
+        "n_customers_alerted": 3,
+        "n_productive_customers": 0,
+        "productive_rate": 0.0,
+        "n_labeled_in_scope": 3,
+        "n_detected": 0,
+        "detection_rate": 0.0
+      }
+    },
+    {
+      "params": {
+        "pass_through_ratio": 0.6,
+        "min_hub_in_degree": 4,
+        "min_component_size": 3,
+        "pass_through_window_hours": 120
+      },
+      "pooled_tuning": {
+        "alert_rows": 2660,
+        "avg_alerts_per_month": 332.5,
+        "n_customers_alerted": 2357,
+        "n_productive_customers": 6,
+        "productive_rate": 0.0025,
+        "n_labeled_in_scope": 17,
+        "n_detected": 2,
+        "detection_rate": 0.1176
+      },
+      "pooled_validation": {
+        "alert_rows": 576,
+        "avg_alerts_per_month": 288.0,
+        "n_customers_alerted": 569,
+        "n_productive_customers": 4,
+        "productive_rate": 0.007,
+        "n_labeled_in_scope": 17,
+        "n_detected": 4,
+        "detection_rate": 0.2353
+      },
+      "segment_0_tuning": {
+        "alert_rows": 1341,
+        "avg_alerts_per_month": 167.62,
+        "n_customers_alerted": 1264,
+        "n_productive_customers": 4,
+        "productive_rate": 0.0032,
+        "n_labeled_in_scope": 14,
+        "n_detected": 2,
+        "detection_rate": 0.1429
+      },
+      "segment_0_validation": {
+        "alert_rows": 289,
+        "avg_alerts_per_month": 144.5,
+        "n_customers_alerted": 289,
+        "n_productive_customers": 1,
+        "productive_rate": 0.0035,
+        "n_labeled_in_scope": 9,
+        "n_detected": 1,
+        "detection_rate": 0.1111
+      },
+      "segment_1_tuning": {
+        "alert_rows": 141,
+        "avg_alerts_per_month": 17.62,
+        "n_customers_alerted": 128,
+        "n_productive_customers": 0,
+        "productive_rate": 0.0,
+        "n_labeled_in_scope": 1,
+        "n_detected": 0,
+        "detection_rate": 0.0
+      },
+      "segment_1_validation": {
+        "alert_rows": 38,
+        "avg_alerts_per_month": 19.0,
+        "n_customers_alerted": 38,
+        "n_productive_customers": 0,
+        "productive_rate": 0.0,
+        "n_labeled_in_scope": 0,
+        "n_detected": 0,
+        "detection_rate": null
+      },
+      "segment_2_tuning": {
+        "alert_rows": 955,
+        "avg_alerts_per_month": 119.38,
+        "n_customers_alerted": 751,
+        "n_productive_customers": 2,
+        "productive_rate": 0.0027,
+        "n_labeled_in_scope": 1,
+        "n_detected": 0,
+        "detection_rate": 0.0
+      },
+      "segment_2_validation": {
+        "alert_rows": 199,
+        "avg_alerts_per_month": 99.5,
+        "n_customers_alerted": 192,
+        "n_productive_customers": 3,
+        "productive_rate": 0.0156,
+        "n_labeled_in_scope": 5,
+        "n_detected": 3,
+        "detection_rate": 0.6
+      },
+      "segment_3_tuning": {
+        "alert_rows": 223,
+        "avg_alerts_per_month": 27.88,
+        "n_customers_alerted": 214,
+        "n_productive_customers": 0,
+        "productive_rate": 0.0,
+        "n_labeled_in_scope": 1,
+        "n_detected": 0,
+        "detection_rate": 0.0
+      },
+      "segment_3_validation": {
+        "alert_rows": 50,
+        "avg_alerts_per_month": 25.0,
+        "n_customers_alerted": 50,
+        "n_productive_customers": 0,
+        "productive_rate": 0.0,
+        "n_labeled_in_scope": 3,
+        "n_detected": 0,
+        "detection_rate": 0.0
+      }
+    },
+    {
+      "params": {
+        "pass_through_ratio": 0.6,
+        "min_hub_in_degree": 4,
+        "min_component_size": 3,
+        "pass_through_window_hours": 240
+      },
+      "pooled_tuning": {
+        "alert_rows": 4658,
+        "avg_alerts_per_month": 582.25,
+        "n_customers_alerted": 3880,
+        "n_productive_customers": 12,
+        "productive_rate": 0.0031,
+        "n_labeled_in_scope": 17,
+        "n_detected": 7,
+        "detection_rate": 0.4118
+      },
+      "pooled_validation": {
+        "alert_rows": 1142,
+        "avg_alerts_per_month": 571.0,
+        "n_customers_alerted": 1105,
+        "n_productive_customers": 9,
+        "productive_rate": 0.0081,
+        "n_labeled_in_scope": 17,
+        "n_detected": 7,
+        "detection_rate": 0.4118
+      },
+      "segment_0_tuning": {
+        "alert_rows": 2381,
+        "avg_alerts_per_month": 297.62,
+        "n_customers_alerted": 2172,
+        "n_productive_customers": 8,
+        "productive_rate": 0.0037,
+        "n_labeled_in_scope": 14,
+        "n_detected": 6,
+        "detection_rate": 0.4286
+      },
+      "segment_0_validation": {
+        "alert_rows": 573,
+        "avg_alerts_per_month": 286.5,
+        "n_customers_alerted": 568,
+        "n_productive_customers": 4,
+        "productive_rate": 0.007,
+        "n_labeled_in_scope": 9,
+        "n_detected": 3,
+        "detection_rate": 0.3333
+      },
+      "segment_1_tuning": {
+        "alert_rows": 255,
+        "avg_alerts_per_month": 31.88,
+        "n_customers_alerted": 219,
+        "n_productive_customers": 0,
+        "productive_rate": 0.0,
+        "n_labeled_in_scope": 1,
+        "n_detected": 0,
+        "detection_rate": 0.0
+      },
+      "segment_1_validation": {
+        "alert_rows": 67,
+        "avg_alerts_per_month": 33.5,
+        "n_customers_alerted": 66,
+        "n_productive_customers": 0,
+        "productive_rate": 0.0,
+        "n_labeled_in_scope": 0,
+        "n_detected": 0,
+        "detection_rate": null
+      },
+      "segment_2_tuning": {
+        "alert_rows": 1627,
+        "avg_alerts_per_month": 203.38,
+        "n_customers_alerted": 1120,
+        "n_productive_customers": 3,
+        "productive_rate": 0.0027,
+        "n_labeled_in_scope": 1,
+        "n_detected": 0,
+        "detection_rate": 0.0
+      },
+      "segment_2_validation": {
+        "alert_rows": 404,
+        "avg_alerts_per_month": 202.0,
+        "n_customers_alerted": 374,
+        "n_productive_customers": 4,
+        "productive_rate": 0.0107,
+        "n_labeled_in_scope": 5,
+        "n_detected": 3,
+        "detection_rate": 0.6
+      },
+      "segment_3_tuning": {
+        "alert_rows": 395,
+        "avg_alerts_per_month": 49.38,
+        "n_customers_alerted": 369,
+        "n_productive_customers": 1,
+        "productive_rate": 0.0027,
+        "n_labeled_in_scope": 1,
+        "n_detected": 1,
+        "detection_rate": 1.0
+      },
+      "segment_3_validation": {
+        "alert_rows": 98,
+        "avg_alerts_per_month": 49.0,
+        "n_customers_alerted": 97,
+        "n_productive_customers": 1,
+        "productive_rate": 0.0103,
+        "n_labeled_in_scope": 3,
+        "n_detected": 1,
+        "detection_rate": 0.3333
+      }
+    },
+    {
+      "params": {
+        "pass_through_ratio": 0.6,
+        "min_hub_in_degree": 4,
+        "min_component_size": 4,
+        "pass_through_window_hours": 48
+      },
+      "pooled_tuning": {
+        "alert_rows": 40,
+        "avg_alerts_per_month": 5.0,
+        "n_customers_alerted": 40,
+        "n_productive_customers": 0,
+        "productive_rate": 0.0,
+        "n_labeled_in_scope": 17,
+        "n_detected": 0,
+        "detection_rate": 0.0
+      },
+      "pooled_validation": {
+        "alert_rows": 20,
+        "avg_alerts_per_month": 10.0,
+        "n_customers_alerted": 20,
+        "n_productive_customers": 0,
+        "productive_rate": 0.0,
+        "n_labeled_in_scope": 17,
+        "n_detected": 0,
+        "detection_rate": 0.0
+      },
+      "segment_0_tuning": {
+        "alert_rows": 27,
+        "avg_alerts_per_month": 3.38,
+        "n_customers_alerted": 27,
+        "n_productive_customers": 0,
+        "productive_rate": 0.0,
+        "n_labeled_in_scope": 14,
+        "n_detected": 0,
+        "detection_rate": 0.0
+      },
+      "segment_0_validation": {
+        "alert_rows": 9,
+        "avg_alerts_per_month": 4.5,
+        "n_customers_alerted": 9,
+        "n_productive_customers": 0,
+        "productive_rate": 0.0,
+        "n_labeled_in_scope": 9,
+        "n_detected": 0,
+        "detection_rate": 0.0
+      },
+      "segment_1_tuning": {
+        "alert_rows": 4,
+        "avg_alerts_per_month": 0.5,
+        "n_customers_alerted": 4,
+        "n_productive_customers": 0,
+        "productive_rate": 0.0,
+        "n_labeled_in_scope": 1,
+        "n_detected": 0,
+        "detection_rate": 0.0
+      },
+      "segment_1_validation": {
+        "alert_rows": 4,
+        "avg_alerts_per_month": 2.0,
+        "n_customers_alerted": 4,
+        "n_productive_customers": 0,
+        "productive_rate": 0.0,
+        "n_labeled_in_scope": 0,
+        "n_detected": 0,
+        "detection_rate": null
+      },
+      "segment_2_tuning": {
+        "alert_rows": 8,
+        "avg_alerts_per_month": 1.0,
+        "n_customers_alerted": 8,
+        "n_productive_customers": 0,
+        "productive_rate": 0.0,
+        "n_labeled_in_scope": 1,
+        "n_detected": 0,
+        "detection_rate": 0.0
+      },
+      "segment_2_validation": {
+        "alert_rows": 4,
+        "avg_alerts_per_month": 2.0,
+        "n_customers_alerted": 4,
+        "n_productive_customers": 0,
+        "productive_rate": 0.0,
+        "n_labeled_in_scope": 5,
+        "n_detected": 0,
+        "detection_rate": 0.0
+      },
+      "segment_3_tuning": {
+        "alert_rows": 1,
+        "avg_alerts_per_month": 0.12,
+        "n_customers_alerted": 1,
+        "n_productive_customers": 0,
+        "productive_rate": 0.0,
+        "n_labeled_in_scope": 1,
+        "n_detected": 0,
+        "detection_rate": 0.0
+      },
+      "segment_3_validation": {
+        "alert_rows": 3,
+        "avg_alerts_per_month": 1.5,
+        "n_customers_alerted": 3,
+        "n_productive_customers": 0,
+        "productive_rate": 0.0,
+        "n_labeled_in_scope": 3,
+        "n_detected": 0,
+        "detection_rate": 0.0
+      }
+    },
+    {
+      "params": {
+        "pass_through_ratio": 0.6,
+        "min_hub_in_degree": 4,
+        "min_component_size": 4,
+        "pass_through_window_hours": 120
+      },
+      "pooled_tuning": {
+        "alert_rows": 2660,
+        "avg_alerts_per_month": 332.5,
+        "n_customers_alerted": 2357,
+        "n_productive_customers": 6,
+        "productive_rate": 0.0025,
+        "n_labeled_in_scope": 17,
+        "n_detected": 2,
+        "detection_rate": 0.1176
+      },
+      "pooled_validation": {
+        "alert_rows": 576,
+        "avg_alerts_per_month": 288.0,
+        "n_customers_alerted": 569,
+        "n_productive_customers": 4,
+        "productive_rate": 0.007,
+        "n_labeled_in_scope": 17,
+        "n_detected": 4,
+        "detection_rate": 0.2353
+      },
+      "segment_0_tuning": {
+        "alert_rows": 1341,
+        "avg_alerts_per_month": 167.62,
+        "n_customers_alerted": 1264,
+        "n_productive_customers": 4,
+        "productive_rate": 0.0032,
+        "n_labeled_in_scope": 14,
+        "n_detected": 2,
+        "detection_rate": 0.1429
+      },
+      "segment_0_validation": {
+        "alert_rows": 289,
+        "avg_alerts_per_month": 144.5,
+        "n_customers_alerted": 289,
+        "n_productive_customers": 1,
+        "productive_rate": 0.0035,
+        "n_labeled_in_scope": 9,
+        "n_detected": 1,
+        "detection_rate": 0.1111
+      },
+      "segment_1_tuning": {
+        "alert_rows": 141,
+        "avg_alerts_per_month": 17.62,
+        "n_customers_alerted": 128,
+        "n_productive_customers": 0,
+        "productive_rate": 0.0,
+        "n_labeled_in_scope": 1,
+        "n_detected": 0,
+        "detection_rate": 0.0
+      },
+      "segment_1_validation": {
+        "alert_rows": 38,
+        "avg_alerts_per_month": 19.0,
+        "n_customers_alerted": 38,
+        "n_productive_customers": 0,
+        "productive_rate": 0.0,
+        "n_labeled_in_scope": 0,
+        "n_detected": 0,
+        "detection_rate": null
+      },
+      "segment_2_tuning": {
+        "alert_rows": 955,
+        "avg_alerts_per_month": 119.38,
+        "n_customers_alerted": 751,
+        "n_productive_customers": 2,
+        "productive_rate": 0.0027,
+        "n_labeled_in_scope": 1,
+        "n_detected": 0,
+        "detection_rate": 0.0
+      },
+      "segment_2_validation": {
+        "alert_rows": 199,
+        "avg_alerts_per_month": 99.5,
+        "n_customers_alerted": 192,
+        "n_productive_customers": 3,
+        "productive_rate": 0.0156,
+        "n_labeled_in_scope": 5,
+        "n_detected": 3,
+        "detection_rate": 0.6
+      },
+      "segment_3_tuning": {
+        "alert_rows": 223,
+        "avg_alerts_per_month": 27.88,
+        "n_customers_alerted": 214,
+        "n_productive_customers": 0,
+        "productive_rate": 0.0,
+        "n_labeled_in_scope": 1,
+        "n_detected": 0,
+        "detection_rate": 0.0
+      },
+      "segment_3_validation": {
+        "alert_rows": 50,
+        "avg_alerts_per_month": 25.0,
+        "n_customers_alerted": 50,
+        "n_productive_customers": 0,
+        "productive_rate": 0.0,
+        "n_labeled_in_scope": 3,
+        "n_detected": 0,
+        "detection_rate": 0.0
+      }
+    },
+    {
+      "params": {
+        "pass_through_ratio": 0.6,
+        "min_hub_in_degree": 4,
+        "min_component_size": 4,
+        "pass_through_window_hours": 240
+      },
+      "pooled_tuning": {
+        "alert_rows": 4658,
+        "avg_alerts_per_month": 582.25,
+        "n_customers_alerted": 3880,
+        "n_productive_customers": 12,
+        "productive_rate": 0.0031,
+        "n_labeled_in_scope": 17,
+        "n_detected": 7,
+        "detection_rate": 0.4118
+      },
+      "pooled_validation": {
+        "alert_rows": 1142,
+        "avg_alerts_per_month": 571.0,
+        "n_customers_alerted": 1105,
+        "n_productive_customers": 9,
+        "productive_rate": 0.0081,
+        "n_labeled_in_scope": 17,
+        "n_detected": 7,
+        "detection_rate": 0.4118
+      },
+      "segment_0_tuning": {
+        "alert_rows": 2381,
+        "avg_alerts_per_month": 297.62,
+        "n_customers_alerted": 2172,
+        "n_productive_customers": 8,
+        "productive_rate": 0.0037,
+        "n_labeled_in_scope": 14,
+        "n_detected": 6,
+        "detection_rate": 0.4286
+      },
+      "segment_0_validation": {
+        "alert_rows": 573,
+        "avg_alerts_per_month": 286.5,
+        "n_customers_alerted": 568,
+        "n_productive_customers": 4,
+        "productive_rate": 0.007,
+        "n_labeled_in_scope": 9,
+        "n_detected": 3,
+        "detection_rate": 0.3333
+      },
+      "segment_1_tuning": {
+        "alert_rows": 255,
+        "avg_alerts_per_month": 31.88,
+        "n_customers_alerted": 219,
+        "n_productive_customers": 0,
+        "productive_rate": 0.0,
+        "n_labeled_in_scope": 1,
+        "n_detected": 0,
+        "detection_rate": 0.0
+      },
+      "segment_1_validation": {
+        "alert_rows": 67,
+        "avg_alerts_per_month": 33.5,
+        "n_customers_alerted": 66,
+        "n_productive_customers": 0,
+        "productive_rate": 0.0,
+        "n_labeled_in_scope": 0,
+        "n_detected": 0,
+        "detection_rate": null
+      },
+      "segment_2_tuning": {
+        "alert_rows": 1627,
+        "avg_alerts_per_month": 203.38,
+        "n_customers_alerted": 1120,
+        "n_productive_customers": 3,
+        "productive_rate": 0.0027,
+        "n_labeled_in_scope": 1,
+        "n_detected": 0,
+        "detection_rate": 0.0
+      },
+      "segment_2_validation": {
+        "alert_rows": 404,
+        "avg_alerts_per_month": 202.0,
+        "n_customers_alerted": 374,
+        "n_productive_customers": 4,
+        "productive_rate": 0.0107,
+        "n_labeled_in_scope": 5,
+        "n_detected": 3,
+        "detection_rate": 0.6
+      },
+      "segment_3_tuning": {
+        "alert_rows": 395,
+        "avg_alerts_per_month": 49.38,
+        "n_customers_alerted": 369,
+        "n_productive_customers": 1,
+        "productive_rate": 0.0027,
+        "n_labeled_in_scope": 1,
+        "n_detected": 1,
+        "detection_rate": 1.0
+      },
+      "segment_3_validation": {
+        "alert_rows": 98,
+        "avg_alerts_per_month": 49.0,
+        "n_customers_alerted": 97,
+        "n_productive_customers": 1,
+        "productive_rate": 0.0103,
+        "n_labeled_in_scope": 3,
+        "n_detected": 1,
+        "detection_rate": 0.3333
+      }
+    },
+    {
+      "params": {
+        "pass_through_ratio": 0.6,
+        "min_hub_in_degree": 5,
+        "min_component_size": 3,
+        "pass_through_window_hours": 48
+      },
+      "pooled_tuning": {
+        "alert_rows": 0,
+        "avg_alerts_per_month": 0.0,
+        "n_customers_alerted": 0,
+        "n_productive_customers": 0,
+        "productive_rate": null,
+        "n_labeled_in_scope": 17,
+        "n_detected": 0,
+        "detection_rate": 0.0
+      },
+      "pooled_validation": {
+        "alert_rows": 0,
+        "avg_alerts_per_month": 0.0,
+        "n_customers_alerted": 0,
+        "n_productive_customers": 0,
+        "productive_rate": null,
+        "n_labeled_in_scope": 17,
+        "n_detected": 0,
+        "detection_rate": 0.0
+      },
+      "segment_0_tuning": {
+        "alert_rows": 0,
+        "avg_alerts_per_month": 0.0,
+        "n_customers_alerted": 0,
+        "n_productive_customers": 0,
+        "productive_rate": null,
+        "n_labeled_in_scope": 14,
+        "n_detected": 0,
+        "detection_rate": 0.0
+      },
+      "segment_0_validation": {
+        "alert_rows": 0,
+        "avg_alerts_per_month": 0.0,
+        "n_customers_alerted": 0,
+        "n_productive_customers": 0,
+        "productive_rate": null,
+        "n_labeled_in_scope": 9,
+        "n_detected": 0,
+        "detection_rate": 0.0
+      },
+      "segment_1_tuning": {
+        "alert_rows": 0,
+        "avg_alerts_per_month": 0.0,
+        "n_customers_alerted": 0,
+        "n_productive_customers": 0,
+        "productive_rate": null,
+        "n_labeled_in_scope": 1,
+        "n_detected": 0,
+        "detection_rate": 0.0
+      },
+      "segment_1_validation": {
+        "alert_rows": 0,
+        "avg_alerts_per_month": 0.0,
+        "n_customers_alerted": 0,
+        "n_productive_customers": 0,
+        "productive_rate": null,
+        "n_labeled_in_scope": 0,
+        "n_detected": 0,
+        "detection_rate": null
+      },
+      "segment_2_tuning": {
+        "alert_rows": 0,
+        "avg_alerts_per_month": 0.0,
+        "n_customers_alerted": 0,
+        "n_productive_customers": 0,
+        "productive_rate": null,
+        "n_labeled_in_scope": 1,
+        "n_detected": 0,
+        "detection_rate": 0.0
+      },
+      "segment_2_validation": {
+        "alert_rows": 0,
+        "avg_alerts_per_month": 0.0,
+        "n_customers_alerted": 0,
+        "n_productive_customers": 0,
+        "productive_rate": null,
+        "n_labeled_in_scope": 5,
+        "n_detected": 0,
+        "detection_rate": 0.0
+      },
+      "segment_3_tuning": {
+        "alert_rows": 0,
+        "avg_alerts_per_month": 0.0,
+        "n_customers_alerted": 0,
+        "n_productive_customers": 0,
+        "productive_rate": null,
+        "n_labeled_in_scope": 1,
+        "n_detected": 0,
+        "detection_rate": 0.0
+      },
+      "segment_3_validation": {
+        "alert_rows": 0,
+        "avg_alerts_per_month": 0.0,
+        "n_customers_alerted": 0,
+        "n_productive_customers": 0,
+        "productive_rate": null,
+        "n_labeled_in_scope": 3,
+        "n_detected": 0,
+        "detection_rate": 0.0
+      }
+    },
+    {
+      "params": {
+        "pass_through_ratio": 0.6,
+        "min_hub_in_degree": 5,
+        "min_component_size": 3,
+        "pass_through_window_hours": 120
+      },
+      "pooled_tuning": {
+        "alert_rows": 9,
+        "avg_alerts_per_month": 1.12,
+        "n_customers_alerted": 9,
+        "n_productive_customers": 0,
+        "productive_rate": 0.0,
+        "n_labeled_in_scope": 17,
+        "n_detected": 0,
+        "detection_rate": 0.0
+      },
+      "pooled_validation": {
+        "alert_rows": 6,
+        "avg_alerts_per_month": 3.0,
+        "n_customers_alerted": 6,
+        "n_productive_customers": 4,
+        "productive_rate": 0.6667,
+        "n_labeled_in_scope": 17,
+        "n_detected": 4,
+        "detection_rate": 0.2353
+      },
+      "segment_0_tuning": {
+        "alert_rows": 7,
+        "avg_alerts_per_month": 0.88,
+        "n_customers_alerted": 7,
+        "n_productive_customers": 0,
+        "productive_rate": 0.0,
+        "n_labeled_in_scope": 14,
+        "n_detected": 0,
+        "detection_rate": 0.0
+      },
+      "segment_0_validation": {
+        "alert_rows": 3,
+        "avg_alerts_per_month": 1.5,
+        "n_customers_alerted": 3,
+        "n_productive_customers": 1,
+        "productive_rate": 0.3333,
+        "n_labeled_in_scope": 9,
+        "n_detected": 1,
+        "detection_rate": 0.1111
+      },
+      "segment_1_tuning": {
+        "alert_rows": 0,
+        "avg_alerts_per_month": 0.0,
+        "n_customers_alerted": 0,
+        "n_productive_customers": 0,
+        "productive_rate": null,
+        "n_labeled_in_scope": 1,
+        "n_detected": 0,
+        "detection_rate": 0.0
+      },
+      "segment_1_validation": {
+        "alert_rows": 0,
+        "avg_alerts_per_month": 0.0,
+        "n_customers_alerted": 0,
+        "n_productive_customers": 0,
+        "productive_rate": null,
+        "n_labeled_in_scope": 0,
+        "n_detected": 0,
+        "detection_rate": null
+      },
+      "segment_2_tuning": {
+        "alert_rows": 2,
+        "avg_alerts_per_month": 0.25,
+        "n_customers_alerted": 2,
+        "n_productive_customers": 0,
+        "productive_rate": 0.0,
+        "n_labeled_in_scope": 1,
+        "n_detected": 0,
+        "detection_rate": 0.0
+      },
+      "segment_2_validation": {
+        "alert_rows": 3,
+        "avg_alerts_per_month": 1.5,
+        "n_customers_alerted": 3,
+        "n_productive_customers": 3,
+        "productive_rate": 1.0,
+        "n_labeled_in_scope": 5,
+        "n_detected": 3,
+        "detection_rate": 0.6
+      },
+      "segment_3_tuning": {
+        "alert_rows": 0,
+        "avg_alerts_per_month": 0.0,
+        "n_customers_alerted": 0,
+        "n_productive_customers": 0,
+        "productive_rate": null,
+        "n_labeled_in_scope": 1,
+        "n_detected": 0,
+        "detection_rate": 0.0
+      },
+      "segment_3_validation": {
+        "alert_rows": 0,
+        "avg_alerts_per_month": 0.0,
+        "n_customers_alerted": 0,
+        "n_productive_customers": 0,
+        "productive_rate": null,
+        "n_labeled_in_scope": 3,
+        "n_detected": 0,
+        "detection_rate": 0.0
+      }
+    },
+    {
+      "params": {
+        "pass_through_ratio": 0.6,
+        "min_hub_in_degree": 5,
+        "min_component_size": 3,
+        "pass_through_window_hours": 240
+      },
+      "pooled_tuning": {
+        "alert_rows": 22,
+        "avg_alerts_per_month": 2.75,
+        "n_customers_alerted": 22,
+        "n_productive_customers": 0,
+        "productive_rate": 0.0,
+        "n_labeled_in_scope": 17,
+        "n_detected": 0,
+        "detection_rate": 0.0
+      },
+      "pooled_validation": {
+        "alert_rows": 11,
+        "avg_alerts_per_month": 5.5,
+        "n_customers_alerted": 11,
+        "n_productive_customers": 7,
+        "productive_rate": 0.6364,
+        "n_labeled_in_scope": 17,
+        "n_detected": 7,
+        "detection_rate": 0.4118
+      },
+      "segment_0_tuning": {
+        "alert_rows": 15,
+        "avg_alerts_per_month": 1.88,
+        "n_customers_alerted": 15,
+        "n_productive_customers": 0,
+        "productive_rate": 0.0,
+        "n_labeled_in_scope": 14,
+        "n_detected": 0,
+        "detection_rate": 0.0
+      },
+      "segment_0_validation": {
+        "alert_rows": 7,
+        "avg_alerts_per_month": 3.5,
+        "n_customers_alerted": 7,
+        "n_productive_customers": 3,
+        "productive_rate": 0.4286,
+        "n_labeled_in_scope": 9,
+        "n_detected": 3,
+        "detection_rate": 0.3333
+      },
+      "segment_1_tuning": {
+        "alert_rows": 0,
+        "avg_alerts_per_month": 0.0,
+        "n_customers_alerted": 0,
+        "n_productive_customers": 0,
+        "productive_rate": null,
+        "n_labeled_in_scope": 1,
+        "n_detected": 0,
+        "detection_rate": 0.0
+      },
+      "segment_1_validation": {
+        "alert_rows": 0,
+        "avg_alerts_per_month": 0.0,
+        "n_customers_alerted": 0,
+        "n_productive_customers": 0,
+        "productive_rate": null,
+        "n_labeled_in_scope": 0,
+        "n_detected": 0,
+        "detection_rate": null
+      },
+      "segment_2_tuning": {
+        "alert_rows": 5,
+        "avg_alerts_per_month": 0.62,
+        "n_customers_alerted": 5,
+        "n_productive_customers": 0,
+        "productive_rate": 0.0,
+        "n_labeled_in_scope": 1,
+        "n_detected": 0,
+        "detection_rate": 0.0
+      },
+      "segment_2_validation": {
+        "alert_rows": 3,
+        "avg_alerts_per_month": 1.5,
+        "n_customers_alerted": 3,
+        "n_productive_customers": 3,
+        "productive_rate": 1.0,
+        "n_labeled_in_scope": 5,
+        "n_detected": 3,
+        "detection_rate": 0.6
+      },
+      "segment_3_tuning": {
+        "alert_rows": 2,
+        "avg_alerts_per_month": 0.25,
+        "n_customers_alerted": 2,
+        "n_productive_customers": 0,
+        "productive_rate": 0.0,
+        "n_labeled_in_scope": 1,
+        "n_detected": 0,
+        "detection_rate": 0.0
+      },
+      "segment_3_validation": {
+        "alert_rows": 1,
+        "avg_alerts_per_month": 0.5,
+        "n_customers_alerted": 1,
+        "n_productive_customers": 1,
+        "productive_rate": 1.0,
+        "n_labeled_in_scope": 3,
+        "n_detected": 1,
+        "detection_rate": 0.3333
+      }
+    },
+    {
+      "params": {
+        "pass_through_ratio": 0.6,
+        "min_hub_in_degree": 5,
+        "min_component_size": 4,
+        "pass_through_window_hours": 48
+      },
+      "pooled_tuning": {
+        "alert_rows": 0,
+        "avg_alerts_per_month": 0.0,
+        "n_customers_alerted": 0,
+        "n_productive_customers": 0,
+        "productive_rate": null,
+        "n_labeled_in_scope": 17,
+        "n_detected": 0,
+        "detection_rate": 0.0
+      },
+      "pooled_validation": {
+        "alert_rows": 0,
+        "avg_alerts_per_month": 0.0,
+        "n_customers_alerted": 0,
+        "n_productive_customers": 0,
+        "productive_rate": null,
+        "n_labeled_in_scope": 17,
+        "n_detected": 0,
+        "detection_rate": 0.0
+      },
+      "segment_0_tuning": {
+        "alert_rows": 0,
+        "avg_alerts_per_month": 0.0,
+        "n_customers_alerted": 0,
+        "n_productive_customers": 0,
+        "productive_rate": null,
+        "n_labeled_in_scope": 14,
+        "n_detected": 0,
+        "detection_rate": 0.0
+      },
+      "segment_0_validation": {
+        "alert_rows": 0,
+        "avg_alerts_per_month": 0.0,
+        "n_customers_alerted": 0,
+        "n_productive_customers": 0,
+        "productive_rate": null,
+        "n_labeled_in_scope": 9,
+        "n_detected": 0,
+        "detection_rate": 0.0
+      },
+      "segment_1_tuning": {
+        "alert_rows": 0,
+        "avg_alerts_per_month": 0.0,
+        "n_customers_alerted": 0,
+        "n_productive_customers": 0,
+        "productive_rate": null,
+        "n_labeled_in_scope": 1,
+        "n_detected": 0,
+        "detection_rate": 0.0
+      },
+      "segment_1_validation": {
+        "alert_rows": 0,
+        "avg_alerts_per_month": 0.0,
+        "n_customers_alerted": 0,
+        "n_productive_customers": 0,
+        "productive_rate": null,
+        "n_labeled_in_scope": 0,
+        "n_detected": 0,
+        "detection_rate": null
+      },
+      "segment_2_tuning": {
+        "alert_rows": 0,
+        "avg_alerts_per_month": 0.0,
+        "n_customers_alerted": 0,
+        "n_productive_customers": 0,
+        "productive_rate": null,
+        "n_labeled_in_scope": 1,
+        "n_detected": 0,
+        "detection_rate": 0.0
+      },
+      "segment_2_validation": {
+        "alert_rows": 0,
+        "avg_alerts_per_month": 0.0,
+        "n_customers_alerted": 0,
+        "n_productive_customers": 0,
+        "productive_rate": null,
+        "n_labeled_in_scope": 5,
+        "n_detected": 0,
+        "detection_rate": 0.0
+      },
+      "segment_3_tuning": {
+        "alert_rows": 0,
+        "avg_alerts_per_month": 0.0,
+        "n_customers_alerted": 0,
+        "n_productive_customers": 0,
+        "productive_rate": null,
+        "n_labeled_in_scope": 1,
+        "n_detected": 0,
+        "detection_rate": 0.0
+      },
+      "segment_3_validation": {
+        "alert_rows": 0,
+        "avg_alerts_per_month": 0.0,
+        "n_customers_alerted": 0,
+        "n_productive_customers": 0,
+        "productive_rate": null,
+        "n_labeled_in_scope": 3,
+        "n_detected": 0,
+        "detection_rate": 0.0
+      }
+    },
+    {
+      "params": {
+        "pass_through_ratio": 0.6,
+        "min_hub_in_degree": 5,
+        "min_component_size": 4,
+        "pass_through_window_hours": 120
+      },
+      "pooled_tuning": {
+        "alert_rows": 9,
+        "avg_alerts_per_month": 1.12,
+        "n_customers_alerted": 9,
+        "n_productive_customers": 0,
+        "productive_rate": 0.0,
+        "n_labeled_in_scope": 17,
+        "n_detected": 0,
+        "detection_rate": 0.0
+      },
+      "pooled_validation": {
+        "alert_rows": 6,
+        "avg_alerts_per_month": 3.0,
+        "n_customers_alerted": 6,
+        "n_productive_customers": 4,
+        "productive_rate": 0.6667,
+        "n_labeled_in_scope": 17,
+        "n_detected": 4,
+        "detection_rate": 0.2353
+      },
+      "segment_0_tuning": {
+        "alert_rows": 7,
+        "avg_alerts_per_month": 0.88,
+        "n_customers_alerted": 7,
+        "n_productive_customers": 0,
+        "productive_rate": 0.0,
+        "n_labeled_in_scope": 14,
+        "n_detected": 0,
+        "detection_rate": 0.0
+      },
+      "segment_0_validation": {
+        "alert_rows": 3,
+        "avg_alerts_per_month": 1.5,
+        "n_customers_alerted": 3,
+        "n_productive_customers": 1,
+        "productive_rate": 0.3333,
+        "n_labeled_in_scope": 9,
+        "n_detected": 1,
+        "detection_rate": 0.1111
+      },
+      "segment_1_tuning": {
+        "alert_rows": 0,
+        "avg_alerts_per_month": 0.0,
+        "n_customers_alerted": 0,
+        "n_productive_customers": 0,
+        "productive_rate": null,
+        "n_labeled_in_scope": 1,
+        "n_detected": 0,
+        "detection_rate": 0.0
+      },
+      "segment_1_validation": {
+        "alert_rows": 0,
+        "avg_alerts_per_month": 0.0,
+        "n_customers_alerted": 0,
+        "n_productive_customers": 0,
+        "productive_rate": null,
+        "n_labeled_in_scope": 0,
+        "n_detected": 0,
+        "detection_rate": null
+      },
+      "segment_2_tuning": {
+        "alert_rows": 2,
+        "avg_alerts_per_month": 0.25,
+        "n_customers_alerted": 2,
+        "n_productive_customers": 0,
+        "productive_rate": 0.0,
+        "n_labeled_in_scope": 1,
+        "n_detected": 0,
+        "detection_rate": 0.0
+      },
+      "segment_2_validation": {
+        "alert_rows": 3,
+        "avg_alerts_per_month": 1.5,
+        "n_customers_alerted": 3,
+        "n_productive_customers": 3,
+        "productive_rate": 1.0,
+        "n_labeled_in_scope": 5,
+        "n_detected": 3,
+        "detection_rate": 0.6
+      },
+      "segment_3_tuning": {
+        "alert_rows": 0,
+        "avg_alerts_per_month": 0.0,
+        "n_customers_alerted": 0,
+        "n_productive_customers": 0,
+        "productive_rate": null,
+        "n_labeled_in_scope": 1,
+        "n_detected": 0,
+        "detection_rate": 0.0
+      },
+      "segment_3_validation": {
+        "alert_rows": 0,
+        "avg_alerts_per_month": 0.0,
+        "n_customers_alerted": 0,
+        "n_productive_customers": 0,
+        "productive_rate": null,
+        "n_labeled_in_scope": 3,
+        "n_detected": 0,
+        "detection_rate": 0.0
+      }
+    },
+    {
+      "params": {
+        "pass_through_ratio": 0.6,
+        "min_hub_in_degree": 5,
+        "min_component_size": 4,
+        "pass_through_window_hours": 240
+      },
+      "pooled_tuning": {
+        "alert_rows": 22,
+        "avg_alerts_per_month": 2.75,
+        "n_customers_alerted": 22,
+        "n_productive_customers": 0,
+        "productive_rate": 0.0,
+        "n_labeled_in_scope": 17,
+        "n_detected": 0,
+        "detection_rate": 0.0
+      },
+      "pooled_validation": {
+        "alert_rows": 11,
+        "avg_alerts_per_month": 5.5,
+        "n_customers_alerted": 11,
+        "n_productive_customers": 7,
+        "productive_rate": 0.6364,
+        "n_labeled_in_scope": 17,
+        "n_detected": 7,
+        "detection_rate": 0.4118
+      },
+      "segment_0_tuning": {
+        "alert_rows": 15,
+        "avg_alerts_per_month": 1.88,
+        "n_customers_alerted": 15,
+        "n_productive_customers": 0,
+        "productive_rate": 0.0,
+        "n_labeled_in_scope": 14,
+        "n_detected": 0,
+        "detection_rate": 0.0
+      },
+      "segment_0_validation": {
+        "alert_rows": 7,
+        "avg_alerts_per_month": 3.5,
+        "n_customers_alerted": 7,
+        "n_productive_customers": 3,
+        "productive_rate": 0.4286,
+        "n_labeled_in_scope": 9,
+        "n_detected": 3,
+        "detection_rate": 0.3333
+      },
+      "segment_1_tuning": {
+        "alert_rows": 0,
+        "avg_alerts_per_month": 0.0,
+        "n_customers_alerted": 0,
+        "n_productive_customers": 0,
+        "productive_rate": null,
+        "n_labeled_in_scope": 1,
+        "n_detected": 0,
+        "detection_rate": 0.0
+      },
+      "segment_1_validation": {
+        "alert_rows": 0,
+        "avg_alerts_per_month": 0.0,
+        "n_customers_alerted": 0,
+        "n_productive_customers": 0,
+        "productive_rate": null,
+        "n_labeled_in_scope": 0,
+        "n_detected": 0,
+        "detection_rate": null
+      },
+      "segment_2_tuning": {
+        "alert_rows": 5,
+        "avg_alerts_per_month": 0.62,
+        "n_customers_alerted": 5,
+        "n_productive_customers": 0,
+        "productive_rate": 0.0,
+        "n_labeled_in_scope": 1,
+        "n_detected": 0,
+        "detection_rate": 0.0
+      },
+      "segment_2_validation": {
+        "alert_rows": 3,
+        "avg_alerts_per_month": 1.5,
+        "n_customers_alerted": 3,
+        "n_productive_customers": 3,
+        "productive_rate": 1.0,
+        "n_labeled_in_scope": 5,
+        "n_detected": 3,
+        "detection_rate": 0.6
+      },
+      "segment_3_tuning": {
+        "alert_rows": 2,
+        "avg_alerts_per_month": 0.25,
+        "n_customers_alerted": 2,
+        "n_productive_customers": 0,
+        "productive_rate": 0.0,
+        "n_labeled_in_scope": 1,
+        "n_detected": 0,
+        "detection_rate": 0.0
+      },
+      "segment_3_validation": {
+        "alert_rows": 1,
+        "avg_alerts_per_month": 0.5,
+        "n_customers_alerted": 1,
+        "n_productive_customers": 1,
+        "productive_rate": 1.0,
+        "n_labeled_in_scope": 3,
+        "n_detected": 1,
+        "detection_rate": 0.3333
+      }
+    },
+    {
+      "params": {
+        "pass_through_ratio": 0.7,
+        "min_hub_in_degree": 3,
+        "min_component_size": 3,
+        "pass_through_window_hours": 48
+      },
+      "pooled_tuning": {
+        "alert_rows": 284,
+        "avg_alerts_per_month": 35.5,
+        "n_customers_alerted": 283,
+        "n_productive_customers": 1,
+        "productive_rate": 0.0035,
+        "n_labeled_in_scope": 17,
+        "n_detected": 0,
+        "detection_rate": 0.0
+      },
+      "pooled_validation": {
+        "alert_rows": 70,
+        "avg_alerts_per_month": 35.0,
+        "n_customers_alerted": 70,
+        "n_productive_customers": 0,
+        "productive_rate": 0.0,
+        "n_labeled_in_scope": 17,
+        "n_detected": 0,
+        "detection_rate": 0.0
+      },
+      "segment_0_tuning": {
+        "alert_rows": 144,
+        "avg_alerts_per_month": 18.0,
+        "n_customers_alerted": 144,
+        "n_productive_customers": 1,
+        "productive_rate": 0.0069,
+        "n_labeled_in_scope": 14,
+        "n_detected": 0,
+        "detection_rate": 0.0
+      },
+      "segment_0_validation": {
+        "alert_rows": 30,
+        "avg_alerts_per_month": 15.0,
+        "n_customers_alerted": 30,
+        "n_productive_customers": 0,
+        "productive_rate": 0.0,
+        "n_labeled_in_scope": 9,
+        "n_detected": 0,
+        "detection_rate": 0.0
+      },
+      "segment_1_tuning": {
+        "alert_rows": 17,
+        "avg_alerts_per_month": 2.12,
+        "n_customers_alerted": 16,
+        "n_productive_customers": 0,
+        "productive_rate": 0.0,
+        "n_labeled_in_scope": 1,
+        "n_detected": 0,
+        "detection_rate": 0.0
+      },
+      "segment_1_validation": {
+        "alert_rows": 11,
+        "avg_alerts_per_month": 5.5,
+        "n_customers_alerted": 11,
+        "n_productive_customers": 0,
+        "productive_rate": 0.0,
+        "n_labeled_in_scope": 0,
+        "n_detected": 0,
+        "detection_rate": null
+      },
+      "segment_2_tuning": {
+        "alert_rows": 100,
+        "avg_alerts_per_month": 12.5,
+        "n_customers_alerted": 100,
+        "n_productive_customers": 0,
+        "productive_rate": 0.0,
+        "n_labeled_in_scope": 1,
+        "n_detected": 0,
+        "detection_rate": 0.0
+      },
+      "segment_2_validation": {
+        "alert_rows": 23,
+        "avg_alerts_per_month": 11.5,
+        "n_customers_alerted": 23,
+        "n_productive_customers": 0,
+        "productive_rate": 0.0,
+        "n_labeled_in_scope": 5,
+        "n_detected": 0,
+        "detection_rate": 0.0
+      },
+      "segment_3_tuning": {
+        "alert_rows": 23,
+        "avg_alerts_per_month": 2.88,
+        "n_customers_alerted": 23,
+        "n_productive_customers": 0,
+        "productive_rate": 0.0,
+        "n_labeled_in_scope": 1,
+        "n_detected": 0,
+        "detection_rate": 0.0
+      },
+      "segment_3_validation": {
+        "alert_rows": 6,
+        "avg_alerts_per_month": 3.0,
+        "n_customers_alerted": 6,
+        "n_productive_customers": 0,
+        "productive_rate": 0.0,
+        "n_labeled_in_scope": 3,
+        "n_detected": 0,
+        "detection_rate": 0.0
+      }
+    },
+    {
+      "params": {
+        "pass_through_ratio": 0.7,
+        "min_hub_in_degree": 3,
+        "min_component_size": 3,
+        "pass_through_window_hours": 120
+      },
+      "pooled_tuning": {
+        "alert_rows": 5640,
+        "avg_alerts_per_month": 705.0,
+        "n_customers_alerted": 4481,
+        "n_productive_customers": 8,
+        "productive_rate": 0.0018,
+        "n_labeled_in_scope": 17,
+        "n_detected": 2,
+        "detection_rate": 0.1176
+      },
+      "pooled_validation": {
+        "alert_rows": 1399,
+        "avg_alerts_per_month": 699.5,
+        "n_customers_alerted": 1329,
+        "n_productive_customers": 7,
+        "productive_rate": 0.0053,
+        "n_labeled_in_scope": 17,
+        "n_detected": 4,
+        "detection_rate": 0.2353
+      },
+      "segment_0_tuning": {
+        "alert_rows": 2781,
+        "avg_alerts_per_month": 347.62,
+        "n_customers_alerted": 2513,
+        "n_productive_customers": 5,
+        "productive_rate": 0.002,
+        "n_labeled_in_scope": 14,
+        "n_detected": 2,
+        "detection_rate": 0.1429
+      },
+      "segment_0_validation": {
+        "alert_rows": 679,
+        "avg_alerts_per_month": 339.5,
+        "n_customers_alerted": 668,
+        "n_productive_customers": 2,
+        "productive_rate": 0.003,
+        "n_labeled_in_scope": 9,
+        "n_detected": 1,
+        "detection_rate": 0.1111
+      },
+      "segment_1_tuning": {
+        "alert_rows": 327,
+        "avg_alerts_per_month": 40.88,
+        "n_customers_alerted": 264,
+        "n_productive_customers": 0,
+        "productive_rate": 0.0,
+        "n_labeled_in_scope": 1,
+        "n_detected": 0,
+        "detection_rate": 0.0
+      },
+      "segment_1_validation": {
+        "alert_rows": 96,
+        "avg_alerts_per_month": 48.0,
+        "n_customers_alerted": 92,
+        "n_productive_customers": 0,
+        "productive_rate": 0.0,
+        "n_labeled_in_scope": 0,
+        "n_detected": 0,
+        "detection_rate": null
+      },
+      "segment_2_tuning": {
+        "alert_rows": 2078,
+        "avg_alerts_per_month": 259.75,
+        "n_customers_alerted": 1295,
+        "n_productive_customers": 3,
+        "productive_rate": 0.0023,
+        "n_labeled_in_scope": 1,
+        "n_detected": 0,
+        "detection_rate": 0.0
+      },
+      "segment_2_validation": {
+        "alert_rows": 522,
+        "avg_alerts_per_month": 261.0,
+        "n_customers_alerted": 469,
+        "n_productive_customers": 5,
+        "productive_rate": 0.0107,
+        "n_labeled_in_scope": 5,
+        "n_detected": 3,
+        "detection_rate": 0.6
+      },
+      "segment_3_tuning": {
+        "alert_rows": 454,
+        "avg_alerts_per_month": 56.75,
+        "n_customers_alerted": 409,
+        "n_productive_customers": 0,
+        "productive_rate": 0.0,
+        "n_labeled_in_scope": 1,
+        "n_detected": 0,
+        "detection_rate": 0.0
+      },
+      "segment_3_validation": {
+        "alert_rows": 102,
+        "avg_alerts_per_month": 51.0,
+        "n_customers_alerted": 100,
+        "n_productive_customers": 0,
+        "productive_rate": 0.0,
+        "n_labeled_in_scope": 3,
+        "n_detected": 0,
+        "detection_rate": 0.0
+      }
+    },
+    {
+      "params": {
+        "pass_through_ratio": 0.7,
+        "min_hub_in_degree": 3,
+        "min_component_size": 3,
+        "pass_through_window_hours": 240
+      },
+      "pooled_tuning": {
+        "alert_rows": 7893,
+        "avg_alerts_per_month": 986.62,
+        "n_customers_alerted": 5935,
+        "n_productive_customers": 13,
+        "productive_rate": 0.0022,
+        "n_labeled_in_scope": 17,
+        "n_detected": 7,
+        "detection_rate": 0.4118
+      },
+      "pooled_validation": {
+        "alert_rows": 2031,
+        "avg_alerts_per_month": 1015.5,
+        "n_customers_alerted": 1898,
+        "n_productive_customers": 15,
+        "productive_rate": 0.0079,
+        "n_labeled_in_scope": 17,
+        "n_detected": 11,
+        "detection_rate": 0.6471
+      },
+      "segment_0_tuning": {
+        "alert_rows": 3967,
+        "avg_alerts_per_month": 495.88,
+        "n_customers_alerted": 3443,
+        "n_productive_customers": 9,
+        "productive_rate": 0.0026,
+        "n_labeled_in_scope": 14,
+        "n_detected": 6,
+        "detection_rate": 0.4286
+      },
+      "segment_0_validation": {
+        "alert_rows": 1014,
+        "avg_alerts_per_month": 507.0,
+        "n_customers_alerted": 987,
+        "n_productive_customers": 8,
+        "productive_rate": 0.0081,
+        "n_labeled_in_scope": 9,
+        "n_detected": 6,
+        "detection_rate": 0.6667
+      },
+      "segment_1_tuning": {
+        "alert_rows": 446,
+        "avg_alerts_per_month": 55.75,
+        "n_customers_alerted": 350,
+        "n_productive_customers": 0,
+        "productive_rate": 0.0,
+        "n_labeled_in_scope": 1,
+        "n_detected": 0,
+        "detection_rate": 0.0
+      },
+      "segment_1_validation": {
+        "alert_rows": 133,
+        "avg_alerts_per_month": 66.5,
+        "n_customers_alerted": 125,
+        "n_productive_customers": 0,
+        "productive_rate": 0.0,
+        "n_labeled_in_scope": 0,
+        "n_detected": 0,
+        "detection_rate": null
+      },
+      "segment_2_tuning": {
+        "alert_rows": 2830,
+        "avg_alerts_per_month": 353.75,
+        "n_customers_alerted": 1573,
+        "n_productive_customers": 3,
+        "productive_rate": 0.0019,
+        "n_labeled_in_scope": 1,
+        "n_detected": 0,
+        "detection_rate": 0.0
+      },
+      "segment_2_validation": {
+        "alert_rows": 724,
+        "avg_alerts_per_month": 362.0,
+        "n_customers_alerted": 630,
+        "n_productive_customers": 5,
+        "productive_rate": 0.0079,
+        "n_labeled_in_scope": 5,
+        "n_detected": 3,
+        "detection_rate": 0.6
+      },
+      "segment_3_tuning": {
+        "alert_rows": 650,
+        "avg_alerts_per_month": 81.25,
+        "n_customers_alerted": 569,
+        "n_productive_customers": 1,
+        "productive_rate": 0.0018,
+        "n_labeled_in_scope": 1,
+        "n_detected": 1,
+        "detection_rate": 1.0
+      },
+      "segment_3_validation": {
+        "alert_rows": 160,
+        "avg_alerts_per_month": 80.0,
+        "n_customers_alerted": 156,
+        "n_productive_customers": 2,
+        "productive_rate": 0.0128,
+        "n_labeled_in_scope": 3,
+        "n_detected": 2,
+        "detection_rate": 0.6667
+      }
+    },
+    {
+      "params": {
+        "pass_through_ratio": 0.7,
+        "min_hub_in_degree": 3,
+        "min_component_size": 4,
+        "pass_through_window_hours": 48
+      },
+      "pooled_tuning": {
+        "alert_rows": 284,
+        "avg_alerts_per_month": 35.5,
+        "n_customers_alerted": 283,
+        "n_productive_customers": 1,
+        "productive_rate": 0.0035,
+        "n_labeled_in_scope": 17,
+        "n_detected": 0,
+        "detection_rate": 0.0
+      },
+      "pooled_validation": {
+        "alert_rows": 70,
+        "avg_alerts_per_month": 35.0,
+        "n_customers_alerted": 70,
+        "n_productive_customers": 0,
+        "productive_rate": 0.0,
+        "n_labeled_in_scope": 17,
+        "n_detected": 0,
+        "detection_rate": 0.0
+      },
+      "segment_0_tuning": {
+        "alert_rows": 144,
+        "avg_alerts_per_month": 18.0,
+        "n_customers_alerted": 144,
+        "n_productive_customers": 1,
+        "productive_rate": 0.0069,
+        "n_labeled_in_scope": 14,
+        "n_detected": 0,
+        "detection_rate": 0.0
+      },
+      "segment_0_validation": {
+        "alert_rows": 30,
+        "avg_alerts_per_month": 15.0,
+        "n_customers_alerted": 30,
+        "n_productive_customers": 0,
+        "productive_rate": 0.0,
+        "n_labeled_in_scope": 9,
+        "n_detected": 0,
+        "detection_rate": 0.0
+      },
+      "segment_1_tuning": {
+        "alert_rows": 17,
+        "avg_alerts_per_month": 2.12,
+        "n_customers_alerted": 16,
+        "n_productive_customers": 0,
+        "productive_rate": 0.0,
+        "n_labeled_in_scope": 1,
+        "n_detected": 0,
+        "detection_rate": 0.0
+      },
+      "segment_1_validation": {
+        "alert_rows": 11,
+        "avg_alerts_per_month": 5.5,
+        "n_customers_alerted": 11,
+        "n_productive_customers": 0,
+        "productive_rate": 0.0,
+        "n_labeled_in_scope": 0,
+        "n_detected": 0,
+        "detection_rate": null
+      },
+      "segment_2_tuning": {
+        "alert_rows": 100,
+        "avg_alerts_per_month": 12.5,
+        "n_customers_alerted": 100,
+        "n_productive_customers": 0,
+        "productive_rate": 0.0,
+        "n_labeled_in_scope": 1,
+        "n_detected": 0,
+        "detection_rate": 0.0
+      },
+      "segment_2_validation": {
+        "alert_rows": 23,
+        "avg_alerts_per_month": 11.5,
+        "n_customers_alerted": 23,
+        "n_productive_customers": 0,
+        "productive_rate": 0.0,
+        "n_labeled_in_scope": 5,
+        "n_detected": 0,
+        "detection_rate": 0.0
+      },
+      "segment_3_tuning": {
+        "alert_rows": 23,
+        "avg_alerts_per_month": 2.88,
+        "n_customers_alerted": 23,
+        "n_productive_customers": 0,
+        "productive_rate": 0.0,
+        "n_labeled_in_scope": 1,
+        "n_detected": 0,
+        "detection_rate": 0.0
+      },
+      "segment_3_validation": {
+        "alert_rows": 6,
+        "avg_alerts_per_month": 3.0,
+        "n_customers_alerted": 6,
+        "n_productive_customers": 0,
+        "productive_rate": 0.0,
+        "n_labeled_in_scope": 3,
+        "n_detected": 0,
+        "detection_rate": 0.0
+      }
+    },
+    {
+      "params": {
+        "pass_through_ratio": 0.7,
+        "min_hub_in_degree": 3,
+        "min_component_size": 4,
+        "pass_through_window_hours": 120
+      },
+      "pooled_tuning": {
+        "alert_rows": 5640,
+        "avg_alerts_per_month": 705.0,
+        "n_customers_alerted": 4481,
+        "n_productive_customers": 8,
+        "productive_rate": 0.0018,
+        "n_labeled_in_scope": 17,
+        "n_detected": 2,
+        "detection_rate": 0.1176
+      },
+      "pooled_validation": {
+        "alert_rows": 1399,
+        "avg_alerts_per_month": 699.5,
+        "n_customers_alerted": 1329,
+        "n_productive_customers": 7,
+        "productive_rate": 0.0053,
+        "n_labeled_in_scope": 17,
+        "n_detected": 4,
+        "detection_rate": 0.2353
+      },
+      "segment_0_tuning": {
+        "alert_rows": 2781,
+        "avg_alerts_per_month": 347.62,
+        "n_customers_alerted": 2513,
+        "n_productive_customers": 5,
+        "productive_rate": 0.002,
+        "n_labeled_in_scope": 14,
+        "n_detected": 2,
+        "detection_rate": 0.1429
+      },
+      "segment_0_validation": {
+        "alert_rows": 679,
+        "avg_alerts_per_month": 339.5,
+        "n_customers_alerted": 668,
+        "n_productive_customers": 2,
+        "productive_rate": 0.003,
+        "n_labeled_in_scope": 9,
+        "n_detected": 1,
+        "detection_rate": 0.1111
+      },
+      "segment_1_tuning": {
+        "alert_rows": 327,
+        "avg_alerts_per_month": 40.88,
+        "n_customers_alerted": 264,
+        "n_productive_customers": 0,
+        "productive_rate": 0.0,
+        "n_labeled_in_scope": 1,
+        "n_detected": 0,
+        "detection_rate": 0.0
+      },
+      "segment_1_validation": {
+        "alert_rows": 96,
+        "avg_alerts_per_month": 48.0,
+        "n_customers_alerted": 92,
+        "n_productive_customers": 0,
+        "productive_rate": 0.0,
+        "n_labeled_in_scope": 0,
+        "n_detected": 0,
+        "detection_rate": null
+      },
+      "segment_2_tuning": {
+        "alert_rows": 2078,
+        "avg_alerts_per_month": 259.75,
+        "n_customers_alerted": 1295,
+        "n_productive_customers": 3,
+        "productive_rate": 0.0023,
+        "n_labeled_in_scope": 1,
+        "n_detected": 0,
+        "detection_rate": 0.0
+      },
+      "segment_2_validation": {
+        "alert_rows": 522,
+        "avg_alerts_per_month": 261.0,
+        "n_customers_alerted": 469,
+        "n_productive_customers": 5,
+        "productive_rate": 0.0107,
+        "n_labeled_in_scope": 5,
+        "n_detected": 3,
+        "detection_rate": 0.6
+      },
+      "segment_3_tuning": {
+        "alert_rows": 454,
+        "avg_alerts_per_month": 56.75,
+        "n_customers_alerted": 409,
+        "n_productive_customers": 0,
+        "productive_rate": 0.0,
+        "n_labeled_in_scope": 1,
+        "n_detected": 0,
+        "detection_rate": 0.0
+      },
+      "segment_3_validation": {
+        "alert_rows": 102,
+        "avg_alerts_per_month": 51.0,
+        "n_customers_alerted": 100,
+        "n_productive_customers": 0,
+        "productive_rate": 0.0,
+        "n_labeled_in_scope": 3,
+        "n_detected": 0,
+        "detection_rate": 0.0
+      }
+    },
+    {
+      "params": {
+        "pass_through_ratio": 0.7,
+        "min_hub_in_degree": 3,
+        "min_component_size": 4,
+        "pass_through_window_hours": 240
+      },
+      "pooled_tuning": {
+        "alert_rows": 7893,
+        "avg_alerts_per_month": 986.62,
+        "n_customers_alerted": 5935,
+        "n_productive_customers": 13,
+        "productive_rate": 0.0022,
+        "n_labeled_in_scope": 17,
+        "n_detected": 7,
+        "detection_rate": 0.4118
+      },
+      "pooled_validation": {
+        "alert_rows": 2031,
+        "avg_alerts_per_month": 1015.5,
+        "n_customers_alerted": 1898,
+        "n_productive_customers": 15,
+        "productive_rate": 0.0079,
+        "n_labeled_in_scope": 17,
+        "n_detected": 11,
+        "detection_rate": 0.6471
+      },
+      "segment_0_tuning": {
+        "alert_rows": 3967,
+        "avg_alerts_per_month": 495.88,
+        "n_customers_alerted": 3443,
+        "n_productive_customers": 9,
+        "productive_rate": 0.0026,
+        "n_labeled_in_scope": 14,
+        "n_detected": 6,
+        "detection_rate": 0.4286
+      },
+      "segment_0_validation": {
+        "alert_rows": 1014,
+        "avg_alerts_per_month": 507.0,
+        "n_customers_alerted": 987,
+        "n_productive_customers": 8,
+        "productive_rate": 0.0081,
+        "n_labeled_in_scope": 9,
+        "n_detected": 6,
+        "detection_rate": 0.6667
+      },
+      "segment_1_tuning": {
+        "alert_rows": 446,
+        "avg_alerts_per_month": 55.75,
+        "n_customers_alerted": 350,
+        "n_productive_customers": 0,
+        "productive_rate": 0.0,
+        "n_labeled_in_scope": 1,
+        "n_detected": 0,
+        "detection_rate": 0.0
+      },
+      "segment_1_validation": {
+        "alert_rows": 133,
+        "avg_alerts_per_month": 66.5,
+        "n_customers_alerted": 125,
+        "n_productive_customers": 0,
+        "productive_rate": 0.0,
+        "n_labeled_in_scope": 0,
+        "n_detected": 0,
+        "detection_rate": null
+      },
+      "segment_2_tuning": {
+        "alert_rows": 2830,
+        "avg_alerts_per_month": 353.75,
+        "n_customers_alerted": 1573,
+        "n_productive_customers": 3,
+        "productive_rate": 0.0019,
+        "n_labeled_in_scope": 1,
+        "n_detected": 0,
+        "detection_rate": 0.0
+      },
+      "segment_2_validation": {
+        "alert_rows": 724,
+        "avg_alerts_per_month": 362.0,
+        "n_customers_alerted": 630,
+        "n_productive_customers": 5,
+        "productive_rate": 0.0079,
+        "n_labeled_in_scope": 5,
+        "n_detected": 3,
+        "detection_rate": 0.6
+      },
+      "segment_3_tuning": {
+        "alert_rows": 650,
+        "avg_alerts_per_month": 81.25,
+        "n_customers_alerted": 569,
+        "n_productive_customers": 1,
+        "productive_rate": 0.0018,
+        "n_labeled_in_scope": 1,
+        "n_detected": 1,
+        "detection_rate": 1.0
+      },
+      "segment_3_validation": {
+        "alert_rows": 160,
+        "avg_alerts_per_month": 80.0,
+        "n_customers_alerted": 156,
+        "n_productive_customers": 2,
+        "productive_rate": 0.0128,
+        "n_labeled_in_scope": 3,
+        "n_detected": 2,
+        "detection_rate": 0.6667
+      }
+    },
+    {
+      "params": {
+        "pass_through_ratio": 0.7,
+        "min_hub_in_degree": 4,
+        "min_component_size": 3,
+        "pass_through_window_hours": 48
+      },
+      "pooled_tuning": {
+        "alert_rows": 40,
+        "avg_alerts_per_month": 5.0,
+        "n_customers_alerted": 40,
+        "n_productive_customers": 0,
+        "productive_rate": 0.0,
+        "n_labeled_in_scope": 17,
+        "n_detected": 0,
+        "detection_rate": 0.0
+      },
+      "pooled_validation": {
+        "alert_rows": 20,
+        "avg_alerts_per_month": 10.0,
+        "n_customers_alerted": 20,
+        "n_productive_customers": 0,
+        "productive_rate": 0.0,
+        "n_labeled_in_scope": 17,
+        "n_detected": 0,
+        "detection_rate": 0.0
+      },
+      "segment_0_tuning": {
+        "alert_rows": 27,
+        "avg_alerts_per_month": 3.38,
+        "n_customers_alerted": 27,
+        "n_productive_customers": 0,
+        "productive_rate": 0.0,
+        "n_labeled_in_scope": 14,
+        "n_detected": 0,
+        "detection_rate": 0.0
+      },
+      "segment_0_validation": {
+        "alert_rows": 9,
+        "avg_alerts_per_month": 4.5,
+        "n_customers_alerted": 9,
+        "n_productive_customers": 0,
+        "productive_rate": 0.0,
+        "n_labeled_in_scope": 9,
+        "n_detected": 0,
+        "detection_rate": 0.0
+      },
+      "segment_1_tuning": {
+        "alert_rows": 4,
+        "avg_alerts_per_month": 0.5,
+        "n_customers_alerted": 4,
+        "n_productive_customers": 0,
+        "productive_rate": 0.0,
+        "n_labeled_in_scope": 1,
+        "n_detected": 0,
+        "detection_rate": 0.0
+      },
+      "segment_1_validation": {
+        "alert_rows": 4,
+        "avg_alerts_per_month": 2.0,
+        "n_customers_alerted": 4,
+        "n_productive_customers": 0,
+        "productive_rate": 0.0,
+        "n_labeled_in_scope": 0,
+        "n_detected": 0,
+        "detection_rate": null
+      },
+      "segment_2_tuning": {
+        "alert_rows": 8,
+        "avg_alerts_per_month": 1.0,
+        "n_customers_alerted": 8,
+        "n_productive_customers": 0,
+        "productive_rate": 0.0,
+        "n_labeled_in_scope": 1,
+        "n_detected": 0,
+        "detection_rate": 0.0
+      },
+      "segment_2_validation": {
+        "alert_rows": 4,
+        "avg_alerts_per_month": 2.0,
+        "n_customers_alerted": 4,
+        "n_productive_customers": 0,
+        "productive_rate": 0.0,
+        "n_labeled_in_scope": 5,
+        "n_detected": 0,
+        "detection_rate": 0.0
+      },
+      "segment_3_tuning": {
+        "alert_rows": 1,
+        "avg_alerts_per_month": 0.12,
+        "n_customers_alerted": 1,
+        "n_productive_customers": 0,
+        "productive_rate": 0.0,
+        "n_labeled_in_scope": 1,
+        "n_detected": 0,
+        "detection_rate": 0.0
+      },
+      "segment_3_validation": {
+        "alert_rows": 3,
+        "avg_alerts_per_month": 1.5,
+        "n_customers_alerted": 3,
+        "n_productive_customers": 0,
+        "productive_rate": 0.0,
+        "n_labeled_in_scope": 3,
+        "n_detected": 0,
+        "detection_rate": 0.0
+      }
+    },
+    {
+      "params": {
+        "pass_through_ratio": 0.7,
+        "min_hub_in_degree": 4,
+        "min_component_size": 3,
+        "pass_through_window_hours": 120
+      },
+      "pooled_tuning": {
+        "alert_rows": 2647,
+        "avg_alerts_per_month": 330.88,
+        "n_customers_alerted": 2346,
+        "n_productive_customers": 5,
+        "productive_rate": 0.0021,
+        "n_labeled_in_scope": 17,
+        "n_detected": 2,
+        "detection_rate": 0.1176
+      },
+      "pooled_validation": {
+        "alert_rows": 576,
+        "avg_alerts_per_month": 288.0,
+        "n_customers_alerted": 569,
+        "n_productive_customers": 4,
+        "productive_rate": 0.007,
+        "n_labeled_in_scope": 17,
+        "n_detected": 4,
+        "detection_rate": 0.2353
+      },
+      "segment_0_tuning": {
+        "alert_rows": 1333,
+        "avg_alerts_per_month": 166.62,
+        "n_customers_alerted": 1257,
+        "n_productive_customers": 3,
+        "productive_rate": 0.0024,
+        "n_labeled_in_scope": 14,
+        "n_detected": 2,
+        "detection_rate": 0.1429
+      },
+      "segment_0_validation": {
+        "alert_rows": 289,
+        "avg_alerts_per_month": 144.5,
+        "n_customers_alerted": 289,
+        "n_productive_customers": 1,
+        "productive_rate": 0.0035,
+        "n_labeled_in_scope": 9,
+        "n_detected": 1,
+        "detection_rate": 0.1111
+      },
+      "segment_1_tuning": {
+        "alert_rows": 140,
+        "avg_alerts_per_month": 17.5,
+        "n_customers_alerted": 127,
+        "n_productive_customers": 0,
+        "productive_rate": 0.0,
+        "n_labeled_in_scope": 1,
+        "n_detected": 0,
+        "detection_rate": 0.0
+      },
+      "segment_1_validation": {
+        "alert_rows": 38,
+        "avg_alerts_per_month": 19.0,
+        "n_customers_alerted": 38,
+        "n_productive_customers": 0,
+        "productive_rate": 0.0,
+        "n_labeled_in_scope": 0,
+        "n_detected": 0,
+        "detection_rate": null
+      },
+      "segment_2_tuning": {
+        "alert_rows": 952,
+        "avg_alerts_per_month": 119.0,
+        "n_customers_alerted": 749,
+        "n_productive_customers": 2,
+        "productive_rate": 0.0027,
+        "n_labeled_in_scope": 1,
+        "n_detected": 0,
+        "detection_rate": 0.0
+      },
+      "segment_2_validation": {
+        "alert_rows": 199,
+        "avg_alerts_per_month": 99.5,
+        "n_customers_alerted": 192,
+        "n_productive_customers": 3,
+        "productive_rate": 0.0156,
+        "n_labeled_in_scope": 5,
+        "n_detected": 3,
+        "detection_rate": 0.6
+      },
+      "segment_3_tuning": {
+        "alert_rows": 222,
+        "avg_alerts_per_month": 27.75,
+        "n_customers_alerted": 213,
+        "n_productive_customers": 0,
+        "productive_rate": 0.0,
+        "n_labeled_in_scope": 1,
+        "n_detected": 0,
+        "detection_rate": 0.0
+      },
+      "segment_3_validation": {
+        "alert_rows": 50,
+        "avg_alerts_per_month": 25.0,
+        "n_customers_alerted": 50,
+        "n_productive_customers": 0,
+        "productive_rate": 0.0,
+        "n_labeled_in_scope": 3,
+        "n_detected": 0,
+        "detection_rate": 0.0
+      }
+    },
+    {
+      "params": {
+        "pass_through_ratio": 0.7,
+        "min_hub_in_degree": 4,
+        "min_component_size": 3,
+        "pass_through_window_hours": 240
+      },
+      "pooled_tuning": {
+        "alert_rows": 4648,
+        "avg_alerts_per_month": 581.0,
+        "n_customers_alerted": 3874,
+        "n_productive_customers": 12,
+        "productive_rate": 0.0031,
+        "n_labeled_in_scope": 17,
+        "n_detected": 7,
+        "detection_rate": 0.4118
+      },
+      "pooled_validation": {
+        "alert_rows": 1142,
+        "avg_alerts_per_month": 571.0,
+        "n_customers_alerted": 1105,
+        "n_productive_customers": 9,
+        "productive_rate": 0.0081,
+        "n_labeled_in_scope": 17,
+        "n_detected": 7,
+        "detection_rate": 0.4118
+      },
+      "segment_0_tuning": {
+        "alert_rows": 2375,
+        "avg_alerts_per_month": 296.88,
+        "n_customers_alerted": 2169,
+        "n_productive_customers": 8,
+        "productive_rate": 0.0037,
+        "n_labeled_in_scope": 14,
+        "n_detected": 6,
+        "detection_rate": 0.4286
+      },
+      "segment_0_validation": {
+        "alert_rows": 573,
+        "avg_alerts_per_month": 286.5,
+        "n_customers_alerted": 568,
+        "n_productive_customers": 4,
+        "productive_rate": 0.007,
+        "n_labeled_in_scope": 9,
+        "n_detected": 3,
+        "detection_rate": 0.3333
+      },
+      "segment_1_tuning": {
+        "alert_rows": 254,
+        "avg_alerts_per_month": 31.75,
+        "n_customers_alerted": 218,
+        "n_productive_customers": 0,
+        "productive_rate": 0.0,
+        "n_labeled_in_scope": 1,
+        "n_detected": 0,
+        "detection_rate": 0.0
+      },
+      "segment_1_validation": {
+        "alert_rows": 67,
+        "avg_alerts_per_month": 33.5,
+        "n_customers_alerted": 66,
+        "n_productive_customers": 0,
+        "productive_rate": 0.0,
+        "n_labeled_in_scope": 0,
+        "n_detected": 0,
+        "detection_rate": null
+      },
+      "segment_2_tuning": {
+        "alert_rows": 1624,
+        "avg_alerts_per_month": 203.0,
+        "n_customers_alerted": 1118,
+        "n_productive_customers": 3,
+        "productive_rate": 0.0027,
+        "n_labeled_in_scope": 1,
+        "n_detected": 0,
+        "detection_rate": 0.0
+      },
+      "segment_2_validation": {
+        "alert_rows": 404,
+        "avg_alerts_per_month": 202.0,
+        "n_customers_alerted": 374,
+        "n_productive_customers": 4,
+        "productive_rate": 0.0107,
+        "n_labeled_in_scope": 5,
+        "n_detected": 3,
+        "detection_rate": 0.6
+      },
+      "segment_3_tuning": {
+        "alert_rows": 395,
+        "avg_alerts_per_month": 49.38,
+        "n_customers_alerted": 369,
+        "n_productive_customers": 1,
+        "productive_rate": 0.0027,
+        "n_labeled_in_scope": 1,
+        "n_detected": 1,
+        "detection_rate": 1.0
+      },
+      "segment_3_validation": {
+        "alert_rows": 98,
+        "avg_alerts_per_month": 49.0,
+        "n_customers_alerted": 97,
+        "n_productive_customers": 1,
+        "productive_rate": 0.0103,
+        "n_labeled_in_scope": 3,
+        "n_detected": 1,
+        "detection_rate": 0.3333
+      }
+    },
+    {
+      "params": {
+        "pass_through_ratio": 0.7,
+        "min_hub_in_degree": 4,
+        "min_component_size": 4,
+        "pass_through_window_hours": 48
+      },
+      "pooled_tuning": {
+        "alert_rows": 40,
+        "avg_alerts_per_month": 5.0,
+        "n_customers_alerted": 40,
+        "n_productive_customers": 0,
+        "productive_rate": 0.0,
+        "n_labeled_in_scope": 17,
+        "n_detected": 0,
+        "detection_rate": 0.0
+      },
+      "pooled_validation": {
+        "alert_rows": 20,
+        "avg_alerts_per_month": 10.0,
+        "n_customers_alerted": 20,
+        "n_productive_customers": 0,
+        "productive_rate": 0.0,
+        "n_labeled_in_scope": 17,
+        "n_detected": 0,
+        "detection_rate": 0.0
+      },
+      "segment_0_tuning": {
+        "alert_rows": 27,
+        "avg_alerts_per_month": 3.38,
+        "n_customers_alerted": 27,
+        "n_productive_customers": 0,
+        "productive_rate": 0.0,
+        "n_labeled_in_scope": 14,
+        "n_detected": 0,
+        "detection_rate": 0.0
+      },
+      "segment_0_validation": {
+        "alert_rows": 9,
+        "avg_alerts_per_month": 4.5,
+        "n_customers_alerted": 9,
+        "n_productive_customers": 0,
+        "productive_rate": 0.0,
+        "n_labeled_in_scope": 9,
+        "n_detected": 0,
+        "detection_rate": 0.0
+      },
+      "segment_1_tuning": {
+        "alert_rows": 4,
+        "avg_alerts_per_month": 0.5,
+        "n_customers_alerted": 4,
+        "n_productive_customers": 0,
+        "productive_rate": 0.0,
+        "n_labeled_in_scope": 1,
+        "n_detected": 0,
+        "detection_rate": 0.0
+      },
+      "segment_1_validation": {
+        "alert_rows": 4,
+        "avg_alerts_per_month": 2.0,
+        "n_customers_alerted": 4,
+        "n_productive_customers": 0,
+        "productive_rate": 0.0,
+        "n_labeled_in_scope": 0,
+        "n_detected": 0,
+        "detection_rate": null
+      },
+      "segment_2_tuning": {
+        "alert_rows": 8,
+        "avg_alerts_per_month": 1.0,
+        "n_customers_alerted": 8,
+        "n_productive_customers": 0,
+        "productive_rate": 0.0,
+        "n_labeled_in_scope": 1,
+        "n_detected": 0,
+        "detection_rate": 0.0
+      },
+      "segment_2_validation": {
+        "alert_rows": 4,
+        "avg_alerts_per_month": 2.0,
+        "n_customers_alerted": 4,
+        "n_productive_customers": 0,
+        "productive_rate": 0.0,
+        "n_labeled_in_scope": 5,
+        "n_detected": 0,
+        "detection_rate": 0.0
+      },
+      "segment_3_tuning": {
+        "alert_rows": 1,
+        "avg_alerts_per_month": 0.12,
+        "n_customers_alerted": 1,
+        "n_productive_customers": 0,
+        "productive_rate": 0.0,
+        "n_labeled_in_scope": 1,
+        "n_detected": 0,
+        "detection_rate": 0.0
+      },
+      "segment_3_validation": {
+        "alert_rows": 3,
+        "avg_alerts_per_month": 1.5,
+        "n_customers_alerted": 3,
+        "n_productive_customers": 0,
+        "productive_rate": 0.0,
+        "n_labeled_in_scope": 3,
+        "n_detected": 0,
+        "detection_rate": 0.0
+      }
+    },
+    {
+      "params": {
+        "pass_through_ratio": 0.7,
+        "min_hub_in_degree": 4,
+        "min_component_size": 4,
+        "pass_through_window_hours": 120
+      },
+      "pooled_tuning": {
+        "alert_rows": 2647,
+        "avg_alerts_per_month": 330.88,
+        "n_customers_alerted": 2346,
+        "n_productive_customers": 5,
+        "productive_rate": 0.0021,
+        "n_labeled_in_scope": 17,
+        "n_detected": 2,
+        "detection_rate": 0.1176
+      },
+      "pooled_validation": {
+        "alert_rows": 576,
+        "avg_alerts_per_month": 288.0,
+        "n_customers_alerted": 569,
+        "n_productive_customers": 4,
+        "productive_rate": 0.007,
+        "n_labeled_in_scope": 17,
+        "n_detected": 4,
+        "detection_rate": 0.2353
+      },
+      "segment_0_tuning": {
+        "alert_rows": 1333,
+        "avg_alerts_per_month": 166.62,
+        "n_customers_alerted": 1257,
+        "n_productive_customers": 3,
+        "productive_rate": 0.0024,
+        "n_labeled_in_scope": 14,
+        "n_detected": 2,
+        "detection_rate": 0.1429
+      },
+      "segment_0_validation": {
+        "alert_rows": 289,
+        "avg_alerts_per_month": 144.5,
+        "n_customers_alerted": 289,
+        "n_productive_customers": 1,
+        "productive_rate": 0.0035,
+        "n_labeled_in_scope": 9,
+        "n_detected": 1,
+        "detection_rate": 0.1111
+      },
+      "segment_1_tuning": {
+        "alert_rows": 140,
+        "avg_alerts_per_month": 17.5,
+        "n_customers_alerted": 127,
+        "n_productive_customers": 0,
+        "productive_rate": 0.0,
+        "n_labeled_in_scope": 1,
+        "n_detected": 0,
+        "detection_rate": 0.0
+      },
+      "segment_1_validation": {
+        "alert_rows": 38,
+        "avg_alerts_per_month": 19.0,
+        "n_customers_alerted": 38,
+        "n_productive_customers": 0,
+        "productive_rate": 0.0,
+        "n_labeled_in_scope": 0,
+        "n_detected": 0,
+        "detection_rate": null
+      },
+      "segment_2_tuning": {
+        "alert_rows": 952,
+        "avg_alerts_per_month": 119.0,
+        "n_customers_alerted": 749,
+        "n_productive_customers": 2,
+        "productive_rate": 0.0027,
+        "n_labeled_in_scope": 1,
+        "n_detected": 0,
+        "detection_rate": 0.0
+      },
+      "segment_2_validation": {
+        "alert_rows": 199,
+        "avg_alerts_per_month": 99.5,
+        "n_customers_alerted": 192,
+        "n_productive_customers": 3,
+        "productive_rate": 0.0156,
+        "n_labeled_in_scope": 5,
+        "n_detected": 3,
+        "detection_rate": 0.6
+      },
+      "segment_3_tuning": {
+        "alert_rows": 222,
+        "avg_alerts_per_month": 27.75,
+        "n_customers_alerted": 213,
+        "n_productive_customers": 0,
+        "productive_rate": 0.0,
+        "n_labeled_in_scope": 1,
+        "n_detected": 0,
+        "detection_rate": 0.0
+      },
+      "segment_3_validation": {
+        "alert_rows": 50,
+        "avg_alerts_per_month": 25.0,
+        "n_customers_alerted": 50,
+        "n_productive_customers": 0,
+        "productive_rate": 0.0,
+        "n_labeled_in_scope": 3,
+        "n_detected": 0,
+        "detection_rate": 0.0
+      }
+    },
+    {
+      "params": {
+        "pass_through_ratio": 0.7,
+        "min_hub_in_degree": 4,
+        "min_component_size": 4,
+        "pass_through_window_hours": 240
+      },
+      "pooled_tuning": {
+        "alert_rows": 4648,
+        "avg_alerts_per_month": 581.0,
+        "n_customers_alerted": 3874,
+        "n_productive_customers": 12,
+        "productive_rate": 0.0031,
+        "n_labeled_in_scope": 17,
+        "n_detected": 7,
+        "detection_rate": 0.4118
+      },
+      "pooled_validation": {
+        "alert_rows": 1142,
+        "avg_alerts_per_month": 571.0,
+        "n_customers_alerted": 1105,
+        "n_productive_customers": 9,
+        "productive_rate": 0.0081,
+        "n_labeled_in_scope": 17,
+        "n_detected": 7,
+        "detection_rate": 0.4118
+      },
+      "segment_0_tuning": {
+        "alert_rows": 2375,
+        "avg_alerts_per_month": 296.88,
+        "n_customers_alerted": 2169,
+        "n_productive_customers": 8,
+        "productive_rate": 0.0037,
+        "n_labeled_in_scope": 14,
+        "n_detected": 6,
+        "detection_rate": 0.4286
+      },
+      "segment_0_validation": {
+        "alert_rows": 573,
+        "avg_alerts_per_month": 286.5,
+        "n_customers_alerted": 568,
+        "n_productive_customers": 4,
+        "productive_rate": 0.007,
+        "n_labeled_in_scope": 9,
+        "n_detected": 3,
+        "detection_rate": 0.3333
+      },
+      "segment_1_tuning": {
+        "alert_rows": 254,
+        "avg_alerts_per_month": 31.75,
+        "n_customers_alerted": 218,
+        "n_productive_customers": 0,
+        "productive_rate": 0.0,
+        "n_labeled_in_scope": 1,
+        "n_detected": 0,
+        "detection_rate": 0.0
+      },
+      "segment_1_validation": {
+        "alert_rows": 67,
+        "avg_alerts_per_month": 33.5,
+        "n_customers_alerted": 66,
+        "n_productive_customers": 0,
+        "productive_rate": 0.0,
+        "n_labeled_in_scope": 0,
+        "n_detected": 0,
+        "detection_rate": null
+      },
+      "segment_2_tuning": {
+        "alert_rows": 1624,
+        "avg_alerts_per_month": 203.0,
+        "n_customers_alerted": 1118,
+        "n_productive_customers": 3,
+        "productive_rate": 0.0027,
+        "n_labeled_in_scope": 1,
+        "n_detected": 0,
+        "detection_rate": 0.0
+      },
+      "segment_2_validation": {
+        "alert_rows": 404,
+        "avg_alerts_per_month": 202.0,
+        "n_customers_alerted": 374,
+        "n_productive_customers": 4,
+        "productive_rate": 0.0107,
+        "n_labeled_in_scope": 5,
+        "n_detected": 3,
+        "detection_rate": 0.6
+      },
+      "segment_3_tuning": {
+        "alert_rows": 395,
+        "avg_alerts_per_month": 49.38,
+        "n_customers_alerted": 369,
+        "n_productive_customers": 1,
+        "productive_rate": 0.0027,
+        "n_labeled_in_scope": 1,
+        "n_detected": 1,
+        "detection_rate": 1.0
+      },
+      "segment_3_validation": {
+        "alert_rows": 98,
+        "avg_alerts_per_month": 49.0,
+        "n_customers_alerted": 97,
+        "n_productive_customers": 1,
+        "productive_rate": 0.0103,
+        "n_labeled_in_scope": 3,
+        "n_detected": 1,
+        "detection_rate": 0.3333
+      }
+    },
+    {
+      "params": {
+        "pass_through_ratio": 0.7,
+        "min_hub_in_degree": 5,
+        "min_component_size": 3,
+        "pass_through_window_hours": 48
+      },
+      "pooled_tuning": {
+        "alert_rows": 0,
+        "avg_alerts_per_month": 0.0,
+        "n_customers_alerted": 0,
+        "n_productive_customers": 0,
+        "productive_rate": null,
+        "n_labeled_in_scope": 17,
+        "n_detected": 0,
+        "detection_rate": 0.0
+      },
+      "pooled_validation": {
+        "alert_rows": 0,
+        "avg_alerts_per_month": 0.0,
+        "n_customers_alerted": 0,
+        "n_productive_customers": 0,
+        "productive_rate": null,
+        "n_labeled_in_scope": 17,
+        "n_detected": 0,
+        "detection_rate": 0.0
+      },
+      "segment_0_tuning": {
+        "alert_rows": 0,
+        "avg_alerts_per_month": 0.0,
+        "n_customers_alerted": 0,
+        "n_productive_customers": 0,
+        "productive_rate": null,
+        "n_labeled_in_scope": 14,
+        "n_detected": 0,
+        "detection_rate": 0.0
+      },
+      "segment_0_validation": {
+        "alert_rows": 0,
+        "avg_alerts_per_month": 0.0,
+        "n_customers_alerted": 0,
+        "n_productive_customers": 0,
+        "productive_rate": null,
+        "n_labeled_in_scope": 9,
+        "n_detected": 0,
+        "detection_rate": 0.0
+      },
+      "segment_1_tuning": {
+        "alert_rows": 0,
+        "avg_alerts_per_month": 0.0,
+        "n_customers_alerted": 0,
+        "n_productive_customers": 0,
+        "productive_rate": null,
+        "n_labeled_in_scope": 1,
+        "n_detected": 0,
+        "detection_rate": 0.0
+      },
+      "segment_1_validation": {
+        "alert_rows": 0,
+        "avg_alerts_per_month": 0.0,
+        "n_customers_alerted": 0,
+        "n_productive_customers": 0,
+        "productive_rate": null,
+        "n_labeled_in_scope": 0,
+        "n_detected": 0,
+        "detection_rate": null
+      },
+      "segment_2_tuning": {
+        "alert_rows": 0,
+        "avg_alerts_per_month": 0.0,
+        "n_customers_alerted": 0,
+        "n_productive_customers": 0,
+        "productive_rate": null,
+        "n_labeled_in_scope": 1,
+        "n_detected": 0,
+        "detection_rate": 0.0
+      },
+      "segment_2_validation": {
+        "alert_rows": 0,
+        "avg_alerts_per_month": 0.0,
+        "n_customers_alerted": 0,
+        "n_productive_customers": 0,
+        "productive_rate": null,
+        "n_labeled_in_scope": 5,
+        "n_detected": 0,
+        "detection_rate": 0.0
+      },
+      "segment_3_tuning": {
+        "alert_rows": 0,
+        "avg_alerts_per_month": 0.0,
+        "n_customers_alerted": 0,
+        "n_productive_customers": 0,
+        "productive_rate": null,
+        "n_labeled_in_scope": 1,
+        "n_detected": 0,
+        "detection_rate": 0.0
+      },
+      "segment_3_validation": {
+        "alert_rows": 0,
+        "avg_alerts_per_month": 0.0,
+        "n_customers_alerted": 0,
+        "n_productive_customers": 0,
+        "productive_rate": null,
+        "n_labeled_in_scope": 3,
+        "n_detected": 0,
+        "detection_rate": 0.0
+      }
+    },
+    {
+      "params": {
+        "pass_through_ratio": 0.7,
+        "min_hub_in_degree": 5,
+        "min_component_size": 3,
+        "pass_through_window_hours": 120
+      },
+      "pooled_tuning": {
+        "alert_rows": 9,
+        "avg_alerts_per_month": 1.12,
+        "n_customers_alerted": 9,
+        "n_productive_customers": 0,
+        "productive_rate": 0.0,
+        "n_labeled_in_scope": 17,
+        "n_detected": 0,
+        "detection_rate": 0.0
+      },
+      "pooled_validation": {
+        "alert_rows": 6,
+        "avg_alerts_per_month": 3.0,
+        "n_customers_alerted": 6,
+        "n_productive_customers": 4,
+        "productive_rate": 0.6667,
+        "n_labeled_in_scope": 17,
+        "n_detected": 4,
+        "detection_rate": 0.2353
+      },
+      "segment_0_tuning": {
+        "alert_rows": 7,
+        "avg_alerts_per_month": 0.88,
+        "n_customers_alerted": 7,
+        "n_productive_customers": 0,
+        "productive_rate": 0.0,
+        "n_labeled_in_scope": 14,
+        "n_detected": 0,
+        "detection_rate": 0.0
+      },
+      "segment_0_validation": {
+        "alert_rows": 3,
+        "avg_alerts_per_month": 1.5,
+        "n_customers_alerted": 3,
+        "n_productive_customers": 1,
+        "productive_rate": 0.3333,
+        "n_labeled_in_scope": 9,
+        "n_detected": 1,
+        "detection_rate": 0.1111
+      },
+      "segment_1_tuning": {
+        "alert_rows": 0,
+        "avg_alerts_per_month": 0.0,
+        "n_customers_alerted": 0,
+        "n_productive_customers": 0,
+        "productive_rate": null,
+        "n_labeled_in_scope": 1,
+        "n_detected": 0,
+        "detection_rate": 0.0
+      },
+      "segment_1_validation": {
+        "alert_rows": 0,
+        "avg_alerts_per_month": 0.0,
+        "n_customers_alerted": 0,
+        "n_productive_customers": 0,
+        "productive_rate": null,
+        "n_labeled_in_scope": 0,
+        "n_detected": 0,
+        "detection_rate": null
+      },
+      "segment_2_tuning": {
+        "alert_rows": 2,
+        "avg_alerts_per_month": 0.25,
+        "n_customers_alerted": 2,
+        "n_productive_customers": 0,
+        "productive_rate": 0.0,
+        "n_labeled_in_scope": 1,
+        "n_detected": 0,
+        "detection_rate": 0.0
+      },
+      "segment_2_validation": {
+        "alert_rows": 3,
+        "avg_alerts_per_month": 1.5,
+        "n_customers_alerted": 3,
+        "n_productive_customers": 3,
+        "productive_rate": 1.0,
+        "n_labeled_in_scope": 5,
+        "n_detected": 3,
+        "detection_rate": 0.6
+      },
+      "segment_3_tuning": {
+        "alert_rows": 0,
+        "avg_alerts_per_month": 0.0,
+        "n_customers_alerted": 0,
+        "n_productive_customers": 0,
+        "productive_rate": null,
+        "n_labeled_in_scope": 1,
+        "n_detected": 0,
+        "detection_rate": 0.0
+      },
+      "segment_3_validation": {
+        "alert_rows": 0,
+        "avg_alerts_per_month": 0.0,
+        "n_customers_alerted": 0,
+        "n_productive_customers": 0,
+        "productive_rate": null,
+        "n_labeled_in_scope": 3,
+        "n_detected": 0,
+        "detection_rate": 0.0
+      }
+    },
+    {
+      "params": {
+        "pass_through_ratio": 0.7,
+        "min_hub_in_degree": 5,
+        "min_component_size": 3,
+        "pass_through_window_hours": 240
+      },
+      "pooled_tuning": {
+        "alert_rows": 22,
+        "avg_alerts_per_month": 2.75,
+        "n_customers_alerted": 22,
+        "n_productive_customers": 0,
+        "productive_rate": 0.0,
+        "n_labeled_in_scope": 17,
+        "n_detected": 0,
+        "detection_rate": 0.0
+      },
+      "pooled_validation": {
+        "alert_rows": 11,
+        "avg_alerts_per_month": 5.5,
+        "n_customers_alerted": 11,
+        "n_productive_customers": 7,
+        "productive_rate": 0.6364,
+        "n_labeled_in_scope": 17,
+        "n_detected": 7,
+        "detection_rate": 0.4118
+      },
+      "segment_0_tuning": {
+        "alert_rows": 15,
+        "avg_alerts_per_month": 1.88,
+        "n_customers_alerted": 15,
+        "n_productive_customers": 0,
+        "productive_rate": 0.0,
+        "n_labeled_in_scope": 14,
+        "n_detected": 0,
+        "detection_rate": 0.0
+      },
+      "segment_0_validation": {
+        "alert_rows": 7,
+        "avg_alerts_per_month": 3.5,
+        "n_customers_alerted": 7,
+        "n_productive_customers": 3,
+        "productive_rate": 0.4286,
+        "n_labeled_in_scope": 9,
+        "n_detected": 3,
+        "detection_rate": 0.3333
+      },
+      "segment_1_tuning": {
+        "alert_rows": 0,
+        "avg_alerts_per_month": 0.0,
+        "n_customers_alerted": 0,
+        "n_productive_customers": 0,
+        "productive_rate": null,
+        "n_labeled_in_scope": 1,
+        "n_detected": 0,
+        "detection_rate": 0.0
+      },
+      "segment_1_validation": {
+        "alert_rows": 0,
+        "avg_alerts_per_month": 0.0,
+        "n_customers_alerted": 0,
+        "n_productive_customers": 0,
+        "productive_rate": null,
+        "n_labeled_in_scope": 0,
+        "n_detected": 0,
+        "detection_rate": null
+      },
+      "segment_2_tuning": {
+        "alert_rows": 5,
+        "avg_alerts_per_month": 0.62,
+        "n_customers_alerted": 5,
+        "n_productive_customers": 0,
+        "productive_rate": 0.0,
+        "n_labeled_in_scope": 1,
+        "n_detected": 0,
+        "detection_rate": 0.0
+      },
+      "segment_2_validation": {
+        "alert_rows": 3,
+        "avg_alerts_per_month": 1.5,
+        "n_customers_alerted": 3,
+        "n_productive_customers": 3,
+        "productive_rate": 1.0,
+        "n_labeled_in_scope": 5,
+        "n_detected": 3,
+        "detection_rate": 0.6
+      },
+      "segment_3_tuning": {
+        "alert_rows": 2,
+        "avg_alerts_per_month": 0.25,
+        "n_customers_alerted": 2,
+        "n_productive_customers": 0,
+        "productive_rate": 0.0,
+        "n_labeled_in_scope": 1,
+        "n_detected": 0,
+        "detection_rate": 0.0
+      },
+      "segment_3_validation": {
+        "alert_rows": 1,
+        "avg_alerts_per_month": 0.5,
+        "n_customers_alerted": 1,
+        "n_productive_customers": 1,
+        "productive_rate": 1.0,
+        "n_labeled_in_scope": 3,
+        "n_detected": 1,
+        "detection_rate": 0.3333
+      }
+    },
+    {
+      "params": {
+        "pass_through_ratio": 0.7,
+        "min_hub_in_degree": 5,
+        "min_component_size": 4,
+        "pass_through_window_hours": 48
+      },
+      "pooled_tuning": {
+        "alert_rows": 0,
+        "avg_alerts_per_month": 0.0,
+        "n_customers_alerted": 0,
+        "n_productive_customers": 0,
+        "productive_rate": null,
+        "n_labeled_in_scope": 17,
+        "n_detected": 0,
+        "detection_rate": 0.0
+      },
+      "pooled_validation": {
+        "alert_rows": 0,
+        "avg_alerts_per_month": 0.0,
+        "n_customers_alerted": 0,
+        "n_productive_customers": 0,
+        "productive_rate": null,
+        "n_labeled_in_scope": 17,
+        "n_detected": 0,
+        "detection_rate": 0.0
+      },
+      "segment_0_tuning": {
+        "alert_rows": 0,
+        "avg_alerts_per_month": 0.0,
+        "n_customers_alerted": 0,
+        "n_productive_customers": 0,
+        "productive_rate": null,
+        "n_labeled_in_scope": 14,
+        "n_detected": 0,
+        "detection_rate": 0.0
+      },
+      "segment_0_validation": {
+        "alert_rows": 0,
+        "avg_alerts_per_month": 0.0,
+        "n_customers_alerted": 0,
+        "n_productive_customers": 0,
+        "productive_rate": null,
+        "n_labeled_in_scope": 9,
+        "n_detected": 0,
+        "detection_rate": 0.0
+      },
+      "segment_1_tuning": {
+        "alert_rows": 0,
+        "avg_alerts_per_month": 0.0,
+        "n_customers_alerted": 0,
+        "n_productive_customers": 0,
+        "productive_rate": null,
+        "n_labeled_in_scope": 1,
+        "n_detected": 0,
+        "detection_rate": 0.0
+      },
+      "segment_1_validation": {
+        "alert_rows": 0,
+        "avg_alerts_per_month": 0.0,
+        "n_customers_alerted": 0,
+        "n_productive_customers": 0,
+        "productive_rate": null,
+        "n_labeled_in_scope": 0,
+        "n_detected": 0,
+        "detection_rate": null
+      },
+      "segment_2_tuning": {
+        "alert_rows": 0,
+        "avg_alerts_per_month": 0.0,
+        "n_customers_alerted": 0,
+        "n_productive_customers": 0,
+        "productive_rate": null,
+        "n_labeled_in_scope": 1,
+        "n_detected": 0,
+        "detection_rate": 0.0
+      },
+      "segment_2_validation": {
+        "alert_rows": 0,
+        "avg_alerts_per_month": 0.0,
+        "n_customers_alerted": 0,
+        "n_productive_customers": 0,
+        "productive_rate": null,
+        "n_labeled_in_scope": 5,
+        "n_detected": 0,
+        "detection_rate": 0.0
+      },
+      "segment_3_tuning": {
+        "alert_rows": 0,
+        "avg_alerts_per_month": 0.0,
+        "n_customers_alerted": 0,
+        "n_productive_customers": 0,
+        "productive_rate": null,
+        "n_labeled_in_scope": 1,
+        "n_detected": 0,
+        "detection_rate": 0.0
+      },
+      "segment_3_validation": {
+        "alert_rows": 0,
+        "avg_alerts_per_month": 0.0,
+        "n_customers_alerted": 0,
+        "n_productive_customers": 0,
+        "productive_rate": null,
+        "n_labeled_in_scope": 3,
+        "n_detected": 0,
+        "detection_rate": 0.0
+      }
+    },
+    {
+      "params": {
+        "pass_through_ratio": 0.7,
+        "min_hub_in_degree": 5,
+        "min_component_size": 4,
+        "pass_through_window_hours": 120
+      },
+      "pooled_tuning": {
+        "alert_rows": 9,
+        "avg_alerts_per_month": 1.12,
+        "n_customers_alerted": 9,
+        "n_productive_customers": 0,
+        "productive_rate": 0.0,
+        "n_labeled_in_scope": 17,
+        "n_detected": 0,
+        "detection_rate": 0.0
+      },
+      "pooled_validation": {
+        "alert_rows": 6,
+        "avg_alerts_per_month": 3.0,
+        "n_customers_alerted": 6,
+        "n_productive_customers": 4,
+        "productive_rate": 0.6667,
+        "n_labeled_in_scope": 17,
+        "n_detected": 4,
+        "detection_rate": 0.2353
+      },
+      "segment_0_tuning": {
+        "alert_rows": 7,
+        "avg_alerts_per_month": 0.88,
+        "n_customers_alerted": 7,
+        "n_productive_customers": 0,
+        "productive_rate": 0.0,
+        "n_labeled_in_scope": 14,
+        "n_detected": 0,
+        "detection_rate": 0.0
+      },
+      "segment_0_validation": {
+        "alert_rows": 3,
+        "avg_alerts_per_month": 1.5,
+        "n_customers_alerted": 3,
+        "n_productive_customers": 1,
+        "productive_rate": 0.3333,
+        "n_labeled_in_scope": 9,
+        "n_detected": 1,
+        "detection_rate": 0.1111
+      },
+      "segment_1_tuning": {
+        "alert_rows": 0,
+        "avg_alerts_per_month": 0.0,
+        "n_customers_alerted": 0,
+        "n_productive_customers": 0,
+        "productive_rate": null,
+        "n_labeled_in_scope": 1,
+        "n_detected": 0,
+        "detection_rate": 0.0
+      },
+      "segment_1_validation": {
+        "alert_rows": 0,
+        "avg_alerts_per_month": 0.0,
+        "n_customers_alerted": 0,
+        "n_productive_customers": 0,
+        "productive_rate": null,
+        "n_labeled_in_scope": 0,
+        "n_detected": 0,
+        "detection_rate": null
+      },
+      "segment_2_tuning": {
+        "alert_rows": 2,
+        "avg_alerts_per_month": 0.25,
+        "n_customers_alerted": 2,
+        "n_productive_customers": 0,
+        "productive_rate": 0.0,
+        "n_labeled_in_scope": 1,
+        "n_detected": 0,
+        "detection_rate": 0.0
+      },
+      "segment_2_validation": {
+        "alert_rows": 3,
+        "avg_alerts_per_month": 1.5,
+        "n_customers_alerted": 3,
+        "n_productive_customers": 3,
+        "productive_rate": 1.0,
+        "n_labeled_in_scope": 5,
+        "n_detected": 3,
+        "detection_rate": 0.6
+      },
+      "segment_3_tuning": {
+        "alert_rows": 0,
+        "avg_alerts_per_month": 0.0,
+        "n_customers_alerted": 0,
+        "n_productive_customers": 0,
+        "productive_rate": null,
+        "n_labeled_in_scope": 1,
+        "n_detected": 0,
+        "detection_rate": 0.0
+      },
+      "segment_3_validation": {
+        "alert_rows": 0,
+        "avg_alerts_per_month": 0.0,
+        "n_customers_alerted": 0,
+        "n_productive_customers": 0,
+        "productive_rate": null,
+        "n_labeled_in_scope": 3,
+        "n_detected": 0,
+        "detection_rate": 0.0
+      }
+    },
+    {
+      "params": {
+        "pass_through_ratio": 0.7,
+        "min_hub_in_degree": 5,
+        "min_component_size": 4,
+        "pass_through_window_hours": 240
+      },
+      "pooled_tuning": {
+        "alert_rows": 22,
+        "avg_alerts_per_month": 2.75,
+        "n_customers_alerted": 22,
+        "n_productive_customers": 0,
+        "productive_rate": 0.0,
+        "n_labeled_in_scope": 17,
+        "n_detected": 0,
+        "detection_rate": 0.0
+      },
+      "pooled_validation": {
+        "alert_rows": 11,
+        "avg_alerts_per_month": 5.5,
+        "n_customers_alerted": 11,
+        "n_productive_customers": 7,
+        "productive_rate": 0.6364,
+        "n_labeled_in_scope": 17,
+        "n_detected": 7,
+        "detection_rate": 0.4118
+      },
+      "segment_0_tuning": {
+        "alert_rows": 15,
+        "avg_alerts_per_month": 1.88,
+        "n_customers_alerted": 15,
+        "n_productive_customers": 0,
+        "productive_rate": 0.0,
+        "n_labeled_in_scope": 14,
+        "n_detected": 0,
+        "detection_rate": 0.0
+      },
+      "segment_0_validation": {
+        "alert_rows": 7,
+        "avg_alerts_per_month": 3.5,
+        "n_customers_alerted": 7,
+        "n_productive_customers": 3,
+        "productive_rate": 0.4286,
+        "n_labeled_in_scope": 9,
+        "n_detected": 3,
+        "detection_rate": 0.3333
+      },
+      "segment_1_tuning": {
+        "alert_rows": 0,
+        "avg_alerts_per_month": 0.0,
+        "n_customers_alerted": 0,
+        "n_productive_customers": 0,
+        "productive_rate": null,
+        "n_labeled_in_scope": 1,
+        "n_detected": 0,
+        "detection_rate": 0.0
+      },
+      "segment_1_validation": {
+        "alert_rows": 0,
+        "avg_alerts_per_month": 0.0,
+        "n_customers_alerted": 0,
+        "n_productive_customers": 0,
+        "productive_rate": null,
+        "n_labeled_in_scope": 0,
+        "n_detected": 0,
+        "detection_rate": null
+      },
+      "segment_2_tuning": {
+        "alert_rows": 5,
+        "avg_alerts_per_month": 0.62,
+        "n_customers_alerted": 5,
+        "n_productive_customers": 0,
+        "productive_rate": 0.0,
+        "n_labeled_in_scope": 1,
+        "n_detected": 0,
+        "detection_rate": 0.0
+      },
+      "segment_2_validation": {
+        "alert_rows": 3,
+        "avg_alerts_per_month": 1.5,
+        "n_customers_alerted": 3,
+        "n_productive_customers": 3,
+        "productive_rate": 1.0,
+        "n_labeled_in_scope": 5,
+        "n_detected": 3,
+        "detection_rate": 0.6
+      },
+      "segment_3_tuning": {
+        "alert_rows": 2,
+        "avg_alerts_per_month": 0.25,
+        "n_customers_alerted": 2,
+        "n_productive_customers": 0,
+        "productive_rate": 0.0,
+        "n_labeled_in_scope": 1,
+        "n_detected": 0,
+        "detection_rate": 0.0
+      },
+      "segment_3_validation": {
+        "alert_rows": 1,
+        "avg_alerts_per_month": 0.5,
+        "n_customers_alerted": 1,
+        "n_productive_customers": 1,
+        "productive_rate": 1.0,
+        "n_labeled_in_scope": 3,
+        "n_detected": 1,
+        "detection_rate": 0.3333
+      }
+    },
+    {
+      "params": {
+        "pass_through_ratio": 0.8,
+        "min_hub_in_degree": 3,
+        "min_component_size": 3,
+        "pass_through_window_hours": 48
+      },
+      "pooled_tuning": {
+        "alert_rows": 280,
+        "avg_alerts_per_month": 35.0,
+        "n_customers_alerted": 279,
+        "n_productive_customers": 1,
+        "productive_rate": 0.0036,
+        "n_labeled_in_scope": 17,
+        "n_detected": 0,
+        "detection_rate": 0.0
+      },
+      "pooled_validation": {
+        "alert_rows": 70,
+        "avg_alerts_per_month": 35.0,
+        "n_customers_alerted": 70,
+        "n_productive_customers": 0,
+        "productive_rate": 0.0,
+        "n_labeled_in_scope": 17,
+        "n_detected": 0,
+        "detection_rate": 0.0
+      },
+      "segment_0_tuning": {
+        "alert_rows": 141,
+        "avg_alerts_per_month": 17.62,
+        "n_customers_alerted": 141,
+        "n_productive_customers": 1,
+        "productive_rate": 0.0071,
+        "n_labeled_in_scope": 14,
+        "n_detected": 0,
+        "detection_rate": 0.0
+      },
+      "segment_0_validation": {
+        "alert_rows": 30,
+        "avg_alerts_per_month": 15.0,
+        "n_customers_alerted": 30,
+        "n_productive_customers": 0,
+        "productive_rate": 0.0,
+        "n_labeled_in_scope": 9,
+        "n_detected": 0,
+        "detection_rate": 0.0
+      },
+      "segment_1_tuning": {
+        "alert_rows": 17,
+        "avg_alerts_per_month": 2.12,
+        "n_customers_alerted": 16,
+        "n_productive_customers": 0,
+        "productive_rate": 0.0,
+        "n_labeled_in_scope": 1,
+        "n_detected": 0,
+        "detection_rate": 0.0
+      },
+      "segment_1_validation": {
+        "alert_rows": 11,
+        "avg_alerts_per_month": 5.5,
+        "n_customers_alerted": 11,
+        "n_productive_customers": 0,
+        "productive_rate": 0.0,
+        "n_labeled_in_scope": 0,
+        "n_detected": 0,
+        "detection_rate": null
+      },
+      "segment_2_tuning": {
+        "alert_rows": 99,
+        "avg_alerts_per_month": 12.38,
+        "n_customers_alerted": 99,
+        "n_productive_customers": 0,
+        "productive_rate": 0.0,
+        "n_labeled_in_scope": 1,
+        "n_detected": 0,
+        "detection_rate": 0.0
+      },
+      "segment_2_validation": {
+        "alert_rows": 23,
+        "avg_alerts_per_month": 11.5,
+        "n_customers_alerted": 23,
+        "n_productive_customers": 0,
+        "productive_rate": 0.0,
+        "n_labeled_in_scope": 5,
+        "n_detected": 0,
+        "detection_rate": 0.0
+      },
+      "segment_3_tuning": {
+        "alert_rows": 23,
+        "avg_alerts_per_month": 2.88,
+        "n_customers_alerted": 23,
+        "n_productive_customers": 0,
+        "productive_rate": 0.0,
+        "n_labeled_in_scope": 1,
+        "n_detected": 0,
+        "detection_rate": 0.0
+      },
+      "segment_3_validation": {
+        "alert_rows": 6,
+        "avg_alerts_per_month": 3.0,
+        "n_customers_alerted": 6,
+        "n_productive_customers": 0,
+        "productive_rate": 0.0,
+        "n_labeled_in_scope": 3,
+        "n_detected": 0,
+        "detection_rate": 0.0
+      }
+    },
+    {
+      "params": {
+        "pass_through_ratio": 0.8,
+        "min_hub_in_degree": 3,
+        "min_component_size": 3,
+        "pass_through_window_hours": 120
+      },
+      "pooled_tuning": {
+        "alert_rows": 5639,
+        "avg_alerts_per_month": 704.88,
+        "n_customers_alerted": 4481,
+        "n_productive_customers": 8,
+        "productive_rate": 0.0018,
+        "n_labeled_in_scope": 17,
+        "n_detected": 2,
+        "detection_rate": 0.1176
+      },
+      "pooled_validation": {
+        "alert_rows": 1399,
+        "avg_alerts_per_month": 699.5,
+        "n_customers_alerted": 1329,
+        "n_productive_customers": 7,
+        "productive_rate": 0.0053,
+        "n_labeled_in_scope": 17,
+        "n_detected": 4,
+        "detection_rate": 0.2353
+      },
+      "segment_0_tuning": {
+        "alert_rows": 2780,
+        "avg_alerts_per_month": 347.5,
+        "n_customers_alerted": 2513,
+        "n_productive_customers": 5,
+        "productive_rate": 0.002,
+        "n_labeled_in_scope": 14,
+        "n_detected": 2,
+        "detection_rate": 0.1429
+      },
+      "segment_0_validation": {
+        "alert_rows": 679,
+        "avg_alerts_per_month": 339.5,
+        "n_customers_alerted": 668,
+        "n_productive_customers": 2,
+        "productive_rate": 0.003,
+        "n_labeled_in_scope": 9,
+        "n_detected": 1,
+        "detection_rate": 0.1111
+      },
+      "segment_1_tuning": {
+        "alert_rows": 327,
+        "avg_alerts_per_month": 40.88,
+        "n_customers_alerted": 264,
+        "n_productive_customers": 0,
+        "productive_rate": 0.0,
+        "n_labeled_in_scope": 1,
+        "n_detected": 0,
+        "detection_rate": 0.0
+      },
+      "segment_1_validation": {
+        "alert_rows": 96,
+        "avg_alerts_per_month": 48.0,
+        "n_customers_alerted": 92,
+        "n_productive_customers": 0,
+        "productive_rate": 0.0,
+        "n_labeled_in_scope": 0,
+        "n_detected": 0,
+        "detection_rate": null
+      },
+      "segment_2_tuning": {
+        "alert_rows": 2078,
+        "avg_alerts_per_month": 259.75,
+        "n_customers_alerted": 1295,
+        "n_productive_customers": 3,
+        "productive_rate": 0.0023,
+        "n_labeled_in_scope": 1,
+        "n_detected": 0,
+        "detection_rate": 0.0
+      },
+      "segment_2_validation": {
+        "alert_rows": 522,
+        "avg_alerts_per_month": 261.0,
+        "n_customers_alerted": 469,
+        "n_productive_customers": 5,
+        "productive_rate": 0.0107,
+        "n_labeled_in_scope": 5,
+        "n_detected": 3,
+        "detection_rate": 0.6
+      },
+      "segment_3_tuning": {
+        "alert_rows": 454,
+        "avg_alerts_per_month": 56.75,
+        "n_customers_alerted": 409,
+        "n_productive_customers": 0,
+        "productive_rate": 0.0,
+        "n_labeled_in_scope": 1,
+        "n_detected": 0,
+        "detection_rate": 0.0
+      },
+      "segment_3_validation": {
+        "alert_rows": 102,
+        "avg_alerts_per_month": 51.0,
+        "n_customers_alerted": 100,
+        "n_productive_customers": 0,
+        "productive_rate": 0.0,
+        "n_labeled_in_scope": 3,
+        "n_detected": 0,
+        "detection_rate": 0.0
+      }
+    },
+    {
+      "params": {
+        "pass_through_ratio": 0.8,
+        "min_hub_in_degree": 3,
+        "min_component_size": 3,
+        "pass_through_window_hours": 240
+      },
+      "pooled_tuning": {
+        "alert_rows": 7889,
+        "avg_alerts_per_month": 986.12,
+        "n_customers_alerted": 5931,
+        "n_productive_customers": 13,
+        "productive_rate": 0.0022,
+        "n_labeled_in_scope": 17,
+        "n_detected": 7,
+        "detection_rate": 0.4118
+      },
+      "pooled_validation": {
+        "alert_rows": 2031,
+        "avg_alerts_per_month": 1015.5,
+        "n_customers_alerted": 1898,
+        "n_productive_customers": 15,
+        "productive_rate": 0.0079,
+        "n_labeled_in_scope": 17,
+        "n_detected": 11,
+        "detection_rate": 0.6471
+      },
+      "segment_0_tuning": {
+        "alert_rows": 3964,
+        "avg_alerts_per_month": 495.5,
+        "n_customers_alerted": 3440,
+        "n_productive_customers": 9,
+        "productive_rate": 0.0026,
+        "n_labeled_in_scope": 14,
+        "n_detected": 6,
+        "detection_rate": 0.4286
+      },
+      "segment_0_validation": {
+        "alert_rows": 1014,
+        "avg_alerts_per_month": 507.0,
+        "n_customers_alerted": 987,
+        "n_productive_customers": 8,
+        "productive_rate": 0.0081,
+        "n_labeled_in_scope": 9,
+        "n_detected": 6,
+        "detection_rate": 0.6667
+      },
+      "segment_1_tuning": {
+        "alert_rows": 446,
+        "avg_alerts_per_month": 55.75,
+        "n_customers_alerted": 350,
+        "n_productive_customers": 0,
+        "productive_rate": 0.0,
+        "n_labeled_in_scope": 1,
+        "n_detected": 0,
+        "detection_rate": 0.0
+      },
+      "segment_1_validation": {
+        "alert_rows": 133,
+        "avg_alerts_per_month": 66.5,
+        "n_customers_alerted": 125,
+        "n_productive_customers": 0,
+        "productive_rate": 0.0,
+        "n_labeled_in_scope": 0,
+        "n_detected": 0,
+        "detection_rate": null
+      },
+      "segment_2_tuning": {
+        "alert_rows": 2829,
+        "avg_alerts_per_month": 353.62,
+        "n_customers_alerted": 1572,
+        "n_productive_customers": 3,
+        "productive_rate": 0.0019,
+        "n_labeled_in_scope": 1,
+        "n_detected": 0,
+        "detection_rate": 0.0
+      },
+      "segment_2_validation": {
+        "alert_rows": 724,
+        "avg_alerts_per_month": 362.0,
+        "n_customers_alerted": 630,
+        "n_productive_customers": 5,
+        "productive_rate": 0.0079,
+        "n_labeled_in_scope": 5,
+        "n_detected": 3,
+        "detection_rate": 0.6
+      },
+      "segment_3_tuning": {
+        "alert_rows": 650,
+        "avg_alerts_per_month": 81.25,
+        "n_customers_alerted": 569,
+        "n_productive_customers": 1,
+        "productive_rate": 0.0018,
+        "n_labeled_in_scope": 1,
+        "n_detected": 1,
+        "detection_rate": 1.0
+      },
+      "segment_3_validation": {
+        "alert_rows": 160,
+        "avg_alerts_per_month": 80.0,
+        "n_customers_alerted": 156,
+        "n_productive_customers": 2,
+        "productive_rate": 0.0128,
+        "n_labeled_in_scope": 3,
+        "n_detected": 2,
+        "detection_rate": 0.6667
+      }
+    },
+    {
+      "params": {
+        "pass_through_ratio": 0.8,
+        "min_hub_in_degree": 3,
+        "min_component_size": 4,
+        "pass_through_window_hours": 48
+      },
+      "pooled_tuning": {
+        "alert_rows": 280,
+        "avg_alerts_per_month": 35.0,
+        "n_customers_alerted": 279,
+        "n_productive_customers": 1,
+        "productive_rate": 0.0036,
+        "n_labeled_in_scope": 17,
+        "n_detected": 0,
+        "detection_rate": 0.0
+      },
+      "pooled_validation": {
+        "alert_rows": 70,
+        "avg_alerts_per_month": 35.0,
+        "n_customers_alerted": 70,
+        "n_productive_customers": 0,
+        "productive_rate": 0.0,
+        "n_labeled_in_scope": 17,
+        "n_detected": 0,
+        "detection_rate": 0.0
+      },
+      "segment_0_tuning": {
+        "alert_rows": 141,
+        "avg_alerts_per_month": 17.62,
+        "n_customers_alerted": 141,
+        "n_productive_customers": 1,
+        "productive_rate": 0.0071,
+        "n_labeled_in_scope": 14,
+        "n_detected": 0,
+        "detection_rate": 0.0
+      },
+      "segment_0_validation": {
+        "alert_rows": 30,
+        "avg_alerts_per_month": 15.0,
+        "n_customers_alerted": 30,
+        "n_productive_customers": 0,
+        "productive_rate": 0.0,
+        "n_labeled_in_scope": 9,
+        "n_detected": 0,
+        "detection_rate": 0.0
+      },
+      "segment_1_tuning": {
+        "alert_rows": 17,
+        "avg_alerts_per_month": 2.12,
+        "n_customers_alerted": 16,
+        "n_productive_customers": 0,
+        "productive_rate": 0.0,
+        "n_labeled_in_scope": 1,
+        "n_detected": 0,
+        "detection_rate": 0.0
+      },
+      "segment_1_validation": {
+        "alert_rows": 11,
+        "avg_alerts_per_month": 5.5,
+        "n_customers_alerted": 11,
+        "n_productive_customers": 0,
+        "productive_rate": 0.0,
+        "n_labeled_in_scope": 0,
+        "n_detected": 0,
+        "detection_rate": null
+      },
+      "segment_2_tuning": {
+        "alert_rows": 99,
+        "avg_alerts_per_month": 12.38,
+        "n_customers_alerted": 99,
+        "n_productive_customers": 0,
+        "productive_rate": 0.0,
+        "n_labeled_in_scope": 1,
+        "n_detected": 0,
+        "detection_rate": 0.0
+      },
+      "segment_2_validation": {
+        "alert_rows": 23,
+        "avg_alerts_per_month": 11.5,
+        "n_customers_alerted": 23,
+        "n_productive_customers": 0,
+        "productive_rate": 0.0,
+        "n_labeled_in_scope": 5,
+        "n_detected": 0,
+        "detection_rate": 0.0
+      },
+      "segment_3_tuning": {
+        "alert_rows": 23,
+        "avg_alerts_per_month": 2.88,
+        "n_customers_alerted": 23,
+        "n_productive_customers": 0,
+        "productive_rate": 0.0,
+        "n_labeled_in_scope": 1,
+        "n_detected": 0,
+        "detection_rate": 0.0
+      },
+      "segment_3_validation": {
+        "alert_rows": 6,
+        "avg_alerts_per_month": 3.0,
+        "n_customers_alerted": 6,
+        "n_productive_customers": 0,
+        "productive_rate": 0.0,
+        "n_labeled_in_scope": 3,
+        "n_detected": 0,
+        "detection_rate": 0.0
+      }
+    },
+    {
+      "params": {
+        "pass_through_ratio": 0.8,
+        "min_hub_in_degree": 3,
+        "min_component_size": 4,
+        "pass_through_window_hours": 120
+      },
+      "pooled_tuning": {
+        "alert_rows": 5639,
+        "avg_alerts_per_month": 704.88,
+        "n_customers_alerted": 4481,
+        "n_productive_customers": 8,
+        "productive_rate": 0.0018,
+        "n_labeled_in_scope": 17,
+        "n_detected": 2,
+        "detection_rate": 0.1176
+      },
+      "pooled_validation": {
+        "alert_rows": 1399,
+        "avg_alerts_per_month": 699.5,
+        "n_customers_alerted": 1329,
+        "n_productive_customers": 7,
+        "productive_rate": 0.0053,
+        "n_labeled_in_scope": 17,
+        "n_detected": 4,
+        "detection_rate": 0.2353
+      },
+      "segment_0_tuning": {
+        "alert_rows": 2780,
+        "avg_alerts_per_month": 347.5,
+        "n_customers_alerted": 2513,
+        "n_productive_customers": 5,
+        "productive_rate": 0.002,
+        "n_labeled_in_scope": 14,
+        "n_detected": 2,
+        "detection_rate": 0.1429
+      },
+      "segment_0_validation": {
+        "alert_rows": 679,
+        "avg_alerts_per_month": 339.5,
+        "n_customers_alerted": 668,
+        "n_productive_customers": 2,
+        "productive_rate": 0.003,
+        "n_labeled_in_scope": 9,
+        "n_detected": 1,
+        "detection_rate": 0.1111
+      },
+      "segment_1_tuning": {
+        "alert_rows": 327,
+        "avg_alerts_per_month": 40.88,
+        "n_customers_alerted": 264,
+        "n_productive_customers": 0,
+        "productive_rate": 0.0,
+        "n_labeled_in_scope": 1,
+        "n_detected": 0,
+        "detection_rate": 0.0
+      },
+      "segment_1_validation": {
+        "alert_rows": 96,
+        "avg_alerts_per_month": 48.0,
+        "n_customers_alerted": 92,
+        "n_productive_customers": 0,
+        "productive_rate": 0.0,
+        "n_labeled_in_scope": 0,
+        "n_detected": 0,
+        "detection_rate": null
+      },
+      "segment_2_tuning": {
+        "alert_rows": 2078,
+        "avg_alerts_per_month": 259.75,
+        "n_customers_alerted": 1295,
+        "n_productive_customers": 3,
+        "productive_rate": 0.0023,
+        "n_labeled_in_scope": 1,
+        "n_detected": 0,
+        "detection_rate": 0.0
+      },
+      "segment_2_validation": {
+        "alert_rows": 522,
+        "avg_alerts_per_month": 261.0,
+        "n_customers_alerted": 469,
+        "n_productive_customers": 5,
+        "productive_rate": 0.0107,
+        "n_labeled_in_scope": 5,
+        "n_detected": 3,
+        "detection_rate": 0.6
+      },
+      "segment_3_tuning": {
+        "alert_rows": 454,
+        "avg_alerts_per_month": 56.75,
+        "n_customers_alerted": 409,
+        "n_productive_customers": 0,
+        "productive_rate": 0.0,
+        "n_labeled_in_scope": 1,
+        "n_detected": 0,
+        "detection_rate": 0.0
+      },
+      "segment_3_validation": {
+        "alert_rows": 102,
+        "avg_alerts_per_month": 51.0,
+        "n_customers_alerted": 100,
+        "n_productive_customers": 0,
+        "productive_rate": 0.0,
+        "n_labeled_in_scope": 3,
+        "n_detected": 0,
+        "detection_rate": 0.0
+      }
+    },
+    {
+      "params": {
+        "pass_through_ratio": 0.8,
+        "min_hub_in_degree": 3,
+        "min_component_size": 4,
+        "pass_through_window_hours": 240
+      },
+      "pooled_tuning": {
+        "alert_rows": 7889,
+        "avg_alerts_per_month": 986.12,
+        "n_customers_alerted": 5931,
+        "n_productive_customers": 13,
+        "productive_rate": 0.0022,
+        "n_labeled_in_scope": 17,
+        "n_detected": 7,
+        "detection_rate": 0.4118
+      },
+      "pooled_validation": {
+        "alert_rows": 2031,
+        "avg_alerts_per_month": 1015.5,
+        "n_customers_alerted": 1898,
+        "n_productive_customers": 15,
+        "productive_rate": 0.0079,
+        "n_labeled_in_scope": 17,
+        "n_detected": 11,
+        "detection_rate": 0.6471
+      },
+      "segment_0_tuning": {
+        "alert_rows": 3964,
+        "avg_alerts_per_month": 495.5,
+        "n_customers_alerted": 3440,
+        "n_productive_customers": 9,
+        "productive_rate": 0.0026,
+        "n_labeled_in_scope": 14,
+        "n_detected": 6,
+        "detection_rate": 0.4286
+      },
+      "segment_0_validation": {
+        "alert_rows": 1014,
+        "avg_alerts_per_month": 507.0,
+        "n_customers_alerted": 987,
+        "n_productive_customers": 8,
+        "productive_rate": 0.0081,
+        "n_labeled_in_scope": 9,
+        "n_detected": 6,
+        "detection_rate": 0.6667
+      },
+      "segment_1_tuning": {
+        "alert_rows": 446,
+        "avg_alerts_per_month": 55.75,
+        "n_customers_alerted": 350,
+        "n_productive_customers": 0,
+        "productive_rate": 0.0,
+        "n_labeled_in_scope": 1,
+        "n_detected": 0,
+        "detection_rate": 0.0
+      },
+      "segment_1_validation": {
+        "alert_rows": 133,
+        "avg_alerts_per_month": 66.5,
+        "n_customers_alerted": 125,
+        "n_productive_customers": 0,
+        "productive_rate": 0.0,
+        "n_labeled_in_scope": 0,
+        "n_detected": 0,
+        "detection_rate": null
+      },
+      "segment_2_tuning": {
+        "alert_rows": 2829,
+        "avg_alerts_per_month": 353.62,
+        "n_customers_alerted": 1572,
+        "n_productive_customers": 3,
+        "productive_rate": 0.0019,
+        "n_labeled_in_scope": 1,
+        "n_detected": 0,
+        "detection_rate": 0.0
+      },
+      "segment_2_validation": {
+        "alert_rows": 724,
+        "avg_alerts_per_month": 362.0,
+        "n_customers_alerted": 630,
+        "n_productive_customers": 5,
+        "productive_rate": 0.0079,
+        "n_labeled_in_scope": 5,
+        "n_detected": 3,
+        "detection_rate": 0.6
+      },
+      "segment_3_tuning": {
+        "alert_rows": 650,
+        "avg_alerts_per_month": 81.25,
+        "n_customers_alerted": 569,
+        "n_productive_customers": 1,
+        "productive_rate": 0.0018,
+        "n_labeled_in_scope": 1,
+        "n_detected": 1,
+        "detection_rate": 1.0
+      },
+      "segment_3_validation": {
+        "alert_rows": 160,
+        "avg_alerts_per_month": 80.0,
+        "n_customers_alerted": 156,
+        "n_productive_customers": 2,
+        "productive_rate": 0.0128,
+        "n_labeled_in_scope": 3,
+        "n_detected": 2,
+        "detection_rate": 0.6667
+      }
+    },
+    {
+      "params": {
+        "pass_through_ratio": 0.8,
+        "min_hub_in_degree": 4,
+        "min_component_size": 3,
+        "pass_through_window_hours": 48
+      },
+      "pooled_tuning": {
+        "alert_rows": 40,
+        "avg_alerts_per_month": 5.0,
+        "n_customers_alerted": 40,
+        "n_productive_customers": 0,
+        "productive_rate": 0.0,
+        "n_labeled_in_scope": 17,
+        "n_detected": 0,
+        "detection_rate": 0.0
+      },
+      "pooled_validation": {
+        "alert_rows": 20,
+        "avg_alerts_per_month": 10.0,
+        "n_customers_alerted": 20,
+        "n_productive_customers": 0,
+        "productive_rate": 0.0,
+        "n_labeled_in_scope": 17,
+        "n_detected": 0,
+        "detection_rate": 0.0
+      },
+      "segment_0_tuning": {
+        "alert_rows": 27,
+        "avg_alerts_per_month": 3.38,
+        "n_customers_alerted": 27,
+        "n_productive_customers": 0,
+        "productive_rate": 0.0,
+        "n_labeled_in_scope": 14,
+        "n_detected": 0,
+        "detection_rate": 0.0
+      },
+      "segment_0_validation": {
+        "alert_rows": 9,
+        "avg_alerts_per_month": 4.5,
+        "n_customers_alerted": 9,
+        "n_productive_customers": 0,
+        "productive_rate": 0.0,
+        "n_labeled_in_scope": 9,
+        "n_detected": 0,
+        "detection_rate": 0.0
+      },
+      "segment_1_tuning": {
+        "alert_rows": 4,
+        "avg_alerts_per_month": 0.5,
+        "n_customers_alerted": 4,
+        "n_productive_customers": 0,
+        "productive_rate": 0.0,
+        "n_labeled_in_scope": 1,
+        "n_detected": 0,
+        "detection_rate": 0.0
+      },
+      "segment_1_validation": {
+        "alert_rows": 4,
+        "avg_alerts_per_month": 2.0,
+        "n_customers_alerted": 4,
+        "n_productive_customers": 0,
+        "productive_rate": 0.0,
+        "n_labeled_in_scope": 0,
+        "n_detected": 0,
+        "detection_rate": null
+      },
+      "segment_2_tuning": {
+        "alert_rows": 8,
+        "avg_alerts_per_month": 1.0,
+        "n_customers_alerted": 8,
+        "n_productive_customers": 0,
+        "productive_rate": 0.0,
+        "n_labeled_in_scope": 1,
+        "n_detected": 0,
+        "detection_rate": 0.0
+      },
+      "segment_2_validation": {
+        "alert_rows": 4,
+        "avg_alerts_per_month": 2.0,
+        "n_customers_alerted": 4,
+        "n_productive_customers": 0,
+        "productive_rate": 0.0,
+        "n_labeled_in_scope": 5,
+        "n_detected": 0,
+        "detection_rate": 0.0
+      },
+      "segment_3_tuning": {
+        "alert_rows": 1,
+        "avg_alerts_per_month": 0.12,
+        "n_customers_alerted": 1,
+        "n_productive_customers": 0,
+        "productive_rate": 0.0,
+        "n_labeled_in_scope": 1,
+        "n_detected": 0,
+        "detection_rate": 0.0
+      },
+      "segment_3_validation": {
+        "alert_rows": 3,
+        "avg_alerts_per_month": 1.5,
+        "n_customers_alerted": 3,
+        "n_productive_customers": 0,
+        "productive_rate": 0.0,
+        "n_labeled_in_scope": 3,
+        "n_detected": 0,
+        "detection_rate": 0.0
+      }
+    },
+    {
+      "params": {
+        "pass_through_ratio": 0.8,
+        "min_hub_in_degree": 4,
+        "min_component_size": 3,
+        "pass_through_window_hours": 120
+      },
+      "pooled_tuning": {
+        "alert_rows": 2646,
+        "avg_alerts_per_month": 330.75,
+        "n_customers_alerted": 2346,
+        "n_productive_customers": 5,
+        "productive_rate": 0.0021,
+        "n_labeled_in_scope": 17,
+        "n_detected": 2,
+        "detection_rate": 0.1176
+      },
+      "pooled_validation": {
+        "alert_rows": 576,
+        "avg_alerts_per_month": 288.0,
+        "n_customers_alerted": 569,
+        "n_productive_customers": 4,
+        "productive_rate": 0.007,
+        "n_labeled_in_scope": 17,
+        "n_detected": 4,
+        "detection_rate": 0.2353
+      },
+      "segment_0_tuning": {
+        "alert_rows": 1332,
+        "avg_alerts_per_month": 166.5,
+        "n_customers_alerted": 1257,
+        "n_productive_customers": 3,
+        "productive_rate": 0.0024,
+        "n_labeled_in_scope": 14,
+        "n_detected": 2,
+        "detection_rate": 0.1429
+      },
+      "segment_0_validation": {
+        "alert_rows": 289,
+        "avg_alerts_per_month": 144.5,
+        "n_customers_alerted": 289,
+        "n_productive_customers": 1,
+        "productive_rate": 0.0035,
+        "n_labeled_in_scope": 9,
+        "n_detected": 1,
+        "detection_rate": 0.1111
+      },
+      "segment_1_tuning": {
+        "alert_rows": 140,
+        "avg_alerts_per_month": 17.5,
+        "n_customers_alerted": 127,
+        "n_productive_customers": 0,
+        "productive_rate": 0.0,
+        "n_labeled_in_scope": 1,
+        "n_detected": 0,
+        "detection_rate": 0.0
+      },
+      "segment_1_validation": {
+        "alert_rows": 38,
+        "avg_alerts_per_month": 19.0,
+        "n_customers_alerted": 38,
+        "n_productive_customers": 0,
+        "productive_rate": 0.0,
+        "n_labeled_in_scope": 0,
+        "n_detected": 0,
+        "detection_rate": null
+      },
+      "segment_2_tuning": {
+        "alert_rows": 952,
+        "avg_alerts_per_month": 119.0,
+        "n_customers_alerted": 749,
+        "n_productive_customers": 2,
+        "productive_rate": 0.0027,
+        "n_labeled_in_scope": 1,
+        "n_detected": 0,
+        "detection_rate": 0.0
+      },
+      "segment_2_validation": {
+        "alert_rows": 199,
+        "avg_alerts_per_month": 99.5,
+        "n_customers_alerted": 192,
+        "n_productive_customers": 3,
+        "productive_rate": 0.0156,
+        "n_labeled_in_scope": 5,
+        "n_detected": 3,
+        "detection_rate": 0.6
+      },
+      "segment_3_tuning": {
+        "alert_rows": 222,
+        "avg_alerts_per_month": 27.75,
+        "n_customers_alerted": 213,
+        "n_productive_customers": 0,
+        "productive_rate": 0.0,
+        "n_labeled_in_scope": 1,
+        "n_detected": 0,
+        "detection_rate": 0.0
+      },
+      "segment_3_validation": {
+        "alert_rows": 50,
+        "avg_alerts_per_month": 25.0,
+        "n_customers_alerted": 50,
+        "n_productive_customers": 0,
+        "productive_rate": 0.0,
+        "n_labeled_in_scope": 3,
+        "n_detected": 0,
+        "detection_rate": 0.0
+      }
+    },
+    {
+      "params": {
+        "pass_through_ratio": 0.8,
+        "min_hub_in_degree": 4,
+        "min_component_size": 3,
+        "pass_through_window_hours": 240
+      },
+      "pooled_tuning": {
+        "alert_rows": 4645,
+        "avg_alerts_per_month": 580.62,
+        "n_customers_alerted": 3871,
+        "n_productive_customers": 12,
+        "productive_rate": 0.0031,
+        "n_labeled_in_scope": 17,
+        "n_detected": 7,
+        "detection_rate": 0.4118
+      },
+      "pooled_validation": {
+        "alert_rows": 1142,
+        "avg_alerts_per_month": 571.0,
+        "n_customers_alerted": 1105,
+        "n_productive_customers": 9,
+        "productive_rate": 0.0081,
+        "n_labeled_in_scope": 17,
+        "n_detected": 7,
+        "detection_rate": 0.4118
+      },
+      "segment_0_tuning": {
+        "alert_rows": 2373,
+        "avg_alerts_per_month": 296.62,
+        "n_customers_alerted": 2167,
+        "n_productive_customers": 8,
+        "productive_rate": 0.0037,
+        "n_labeled_in_scope": 14,
+        "n_detected": 6,
+        "detection_rate": 0.4286
+      },
+      "segment_0_validation": {
+        "alert_rows": 573,
+        "avg_alerts_per_month": 286.5,
+        "n_customers_alerted": 568,
+        "n_productive_customers": 4,
+        "productive_rate": 0.007,
+        "n_labeled_in_scope": 9,
+        "n_detected": 3,
+        "detection_rate": 0.3333
+      },
+      "segment_1_tuning": {
+        "alert_rows": 254,
+        "avg_alerts_per_month": 31.75,
+        "n_customers_alerted": 218,
+        "n_productive_customers": 0,
+        "productive_rate": 0.0,
+        "n_labeled_in_scope": 1,
+        "n_detected": 0,
+        "detection_rate": 0.0
+      },
+      "segment_1_validation": {
+        "alert_rows": 67,
+        "avg_alerts_per_month": 33.5,
+        "n_customers_alerted": 66,
+        "n_productive_customers": 0,
+        "productive_rate": 0.0,
+        "n_labeled_in_scope": 0,
+        "n_detected": 0,
+        "detection_rate": null
+      },
+      "segment_2_tuning": {
+        "alert_rows": 1623,
+        "avg_alerts_per_month": 202.88,
+        "n_customers_alerted": 1117,
+        "n_productive_customers": 3,
+        "productive_rate": 0.0027,
+        "n_labeled_in_scope": 1,
+        "n_detected": 0,
+        "detection_rate": 0.0
+      },
+      "segment_2_validation": {
+        "alert_rows": 404,
+        "avg_alerts_per_month": 202.0,
+        "n_customers_alerted": 374,
+        "n_productive_customers": 4,
+        "productive_rate": 0.0107,
+        "n_labeled_in_scope": 5,
+        "n_detected": 3,
+        "detection_rate": 0.6
+      },
+      "segment_3_tuning": {
+        "alert_rows": 395,
+        "avg_alerts_per_month": 49.38,
+        "n_customers_alerted": 369,
+        "n_productive_customers": 1,
+        "productive_rate": 0.0027,
+        "n_labeled_in_scope": 1,
+        "n_detected": 1,
+        "detection_rate": 1.0
+      },
+      "segment_3_validation": {
+        "alert_rows": 98,
+        "avg_alerts_per_month": 49.0,
+        "n_customers_alerted": 97,
+        "n_productive_customers": 1,
+        "productive_rate": 0.0103,
+        "n_labeled_in_scope": 3,
+        "n_detected": 1,
+        "detection_rate": 0.3333
+      }
+    },
+    {
+      "params": {
+        "pass_through_ratio": 0.8,
+        "min_hub_in_degree": 4,
+        "min_component_size": 4,
+        "pass_through_window_hours": 48
+      },
+      "pooled_tuning": {
+        "alert_rows": 40,
+        "avg_alerts_per_month": 5.0,
+        "n_customers_alerted": 40,
+        "n_productive_customers": 0,
+        "productive_rate": 0.0,
+        "n_labeled_in_scope": 17,
+        "n_detected": 0,
+        "detection_rate": 0.0
+      },
+      "pooled_validation": {
+        "alert_rows": 20,
+        "avg_alerts_per_month": 10.0,
+        "n_customers_alerted": 20,
+        "n_productive_customers": 0,
+        "productive_rate": 0.0,
+        "n_labeled_in_scope": 17,
+        "n_detected": 0,
+        "detection_rate": 0.0
+      },
+      "segment_0_tuning": {
+        "alert_rows": 27,
+        "avg_alerts_per_month": 3.38,
+        "n_customers_alerted": 27,
+        "n_productive_customers": 0,
+        "productive_rate": 0.0,
+        "n_labeled_in_scope": 14,
+        "n_detected": 0,
+        "detection_rate": 0.0
+      },
+      "segment_0_validation": {
+        "alert_rows": 9,
+        "avg_alerts_per_month": 4.5,
+        "n_customers_alerted": 9,
+        "n_productive_customers": 0,
+        "productive_rate": 0.0,
+        "n_labeled_in_scope": 9,
+        "n_detected": 0,
+        "detection_rate": 0.0
+      },
+      "segment_1_tuning": {
+        "alert_rows": 4,
+        "avg_alerts_per_month": 0.5,
+        "n_customers_alerted": 4,
+        "n_productive_customers": 0,
+        "productive_rate": 0.0,
+        "n_labeled_in_scope": 1,
+        "n_detected": 0,
+        "detection_rate": 0.0
+      },
+      "segment_1_validation": {
+        "alert_rows": 4,
+        "avg_alerts_per_month": 2.0,
+        "n_customers_alerted": 4,
+        "n_productive_customers": 0,
+        "productive_rate": 0.0,
+        "n_labeled_in_scope": 0,
+        "n_detected": 0,
+        "detection_rate": null
+      },
+      "segment_2_tuning": {
+        "alert_rows": 8,
+        "avg_alerts_per_month": 1.0,
+        "n_customers_alerted": 8,
+        "n_productive_customers": 0,
+        "productive_rate": 0.0,
+        "n_labeled_in_scope": 1,
+        "n_detected": 0,
+        "detection_rate": 0.0
+      },
+      "segment_2_validation": {
+        "alert_rows": 4,
+        "avg_alerts_per_month": 2.0,
+        "n_customers_alerted": 4,
+        "n_productive_customers": 0,
+        "productive_rate": 0.0,
+        "n_labeled_in_scope": 5,
+        "n_detected": 0,
+        "detection_rate": 0.0
+      },
+      "segment_3_tuning": {
+        "alert_rows": 1,
+        "avg_alerts_per_month": 0.12,
+        "n_customers_alerted": 1,
+        "n_productive_customers": 0,
+        "productive_rate": 0.0,
+        "n_labeled_in_scope": 1,
+        "n_detected": 0,
+        "detection_rate": 0.0
+      },
+      "segment_3_validation": {
+        "alert_rows": 3,
+        "avg_alerts_per_month": 1.5,
+        "n_customers_alerted": 3,
+        "n_productive_customers": 0,
+        "productive_rate": 0.0,
+        "n_labeled_in_scope": 3,
+        "n_detected": 0,
+        "detection_rate": 0.0
+      }
+    },
+    {
+      "params": {
+        "pass_through_ratio": 0.8,
+        "min_hub_in_degree": 4,
+        "min_component_size": 4,
+        "pass_through_window_hours": 120
+      },
+      "pooled_tuning": {
+        "alert_rows": 2646,
+        "avg_alerts_per_month": 330.75,
+        "n_customers_alerted": 2346,
+        "n_productive_customers": 5,
+        "productive_rate": 0.0021,
+        "n_labeled_in_scope": 17,
+        "n_detected": 2,
+        "detection_rate": 0.1176
+      },
+      "pooled_validation": {
+        "alert_rows": 576,
+        "avg_alerts_per_month": 288.0,
+        "n_customers_alerted": 569,
+        "n_productive_customers": 4,
+        "productive_rate": 0.007,
+        "n_labeled_in_scope": 17,
+        "n_detected": 4,
+        "detection_rate": 0.2353
+      },
+      "segment_0_tuning": {
+        "alert_rows": 1332,
+        "avg_alerts_per_month": 166.5,
+        "n_customers_alerted": 1257,
+        "n_productive_customers": 3,
+        "productive_rate": 0.0024,
+        "n_labeled_in_scope": 14,
+        "n_detected": 2,
+        "detection_rate": 0.1429
+      },
+      "segment_0_validation": {
+        "alert_rows": 289,
+        "avg_alerts_per_month": 144.5,
+        "n_customers_alerted": 289,
+        "n_productive_customers": 1,
+        "productive_rate": 0.0035,
+        "n_labeled_in_scope": 9,
+        "n_detected": 1,
+        "detection_rate": 0.1111
+      },
+      "segment_1_tuning": {
+        "alert_rows": 140,
+        "avg_alerts_per_month": 17.5,
+        "n_customers_alerted": 127,
+        "n_productive_customers": 0,
+        "productive_rate": 0.0,
+        "n_labeled_in_scope": 1,
+        "n_detected": 0,
+        "detection_rate": 0.0
+      },
+      "segment_1_validation": {
+        "alert_rows": 38,
+        "avg_alerts_per_month": 19.0,
+        "n_customers_alerted": 38,
+        "n_productive_customers": 0,
+        "productive_rate": 0.0,
+        "n_labeled_in_scope": 0,
+        "n_detected": 0,
+        "detection_rate": null
+      },
+      "segment_2_tuning": {
+        "alert_rows": 952,
+        "avg_alerts_per_month": 119.0,
+        "n_customers_alerted": 749,
+        "n_productive_customers": 2,
+        "productive_rate": 0.0027,
+        "n_labeled_in_scope": 1,
+        "n_detected": 0,
+        "detection_rate": 0.0
+      },
+      "segment_2_validation": {
+        "alert_rows": 199,
+        "avg_alerts_per_month": 99.5,
+        "n_customers_alerted": 192,
+        "n_productive_customers": 3,
+        "productive_rate": 0.0156,
+        "n_labeled_in_scope": 5,
+        "n_detected": 3,
+        "detection_rate": 0.6
+      },
+      "segment_3_tuning": {
+        "alert_rows": 222,
+        "avg_alerts_per_month": 27.75,
+        "n_customers_alerted": 213,
+        "n_productive_customers": 0,
+        "productive_rate": 0.0,
+        "n_labeled_in_scope": 1,
+        "n_detected": 0,
+        "detection_rate": 0.0
+      },
+      "segment_3_validation": {
+        "alert_rows": 50,
+        "avg_alerts_per_month": 25.0,
+        "n_customers_alerted": 50,
+        "n_productive_customers": 0,
+        "productive_rate": 0.0,
+        "n_labeled_in_scope": 3,
+        "n_detected": 0,
+        "detection_rate": 0.0
+      }
+    },
+    {
+      "params": {
+        "pass_through_ratio": 0.8,
+        "min_hub_in_degree": 4,
+        "min_component_size": 4,
+        "pass_through_window_hours": 240
+      },
+      "pooled_tuning": {
+        "alert_rows": 4645,
+        "avg_alerts_per_month": 580.62,
+        "n_customers_alerted": 3871,
+        "n_productive_customers": 12,
+        "productive_rate": 0.0031,
+        "n_labeled_in_scope": 17,
+        "n_detected": 7,
+        "detection_rate": 0.4118
+      },
+      "pooled_validation": {
+        "alert_rows": 1142,
+        "avg_alerts_per_month": 571.0,
+        "n_customers_alerted": 1105,
+        "n_productive_customers": 9,
+        "productive_rate": 0.0081,
+        "n_labeled_in_scope": 17,
+        "n_detected": 7,
+        "detection_rate": 0.4118
+      },
+      "segment_0_tuning": {
+        "alert_rows": 2373,
+        "avg_alerts_per_month": 296.62,
+        "n_customers_alerted": 2167,
+        "n_productive_customers": 8,
+        "productive_rate": 0.0037,
+        "n_labeled_in_scope": 14,
+        "n_detected": 6,
+        "detection_rate": 0.4286
+      },
+      "segment_0_validation": {
+        "alert_rows": 573,
+        "avg_alerts_per_month": 286.5,
+        "n_customers_alerted": 568,
+        "n_productive_customers": 4,
+        "productive_rate": 0.007,
+        "n_labeled_in_scope": 9,
+        "n_detected": 3,
+        "detection_rate": 0.3333
+      },
+      "segment_1_tuning": {
+        "alert_rows": 254,
+        "avg_alerts_per_month": 31.75,
+        "n_customers_alerted": 218,
+        "n_productive_customers": 0,
+        "productive_rate": 0.0,
+        "n_labeled_in_scope": 1,
+        "n_detected": 0,
+        "detection_rate": 0.0
+      },
+      "segment_1_validation": {
+        "alert_rows": 67,
+        "avg_alerts_per_month": 33.5,
+        "n_customers_alerted": 66,
+        "n_productive_customers": 0,
+        "productive_rate": 0.0,
+        "n_labeled_in_scope": 0,
+        "n_detected": 0,
+        "detection_rate": null
+      },
+      "segment_2_tuning": {
+        "alert_rows": 1623,
+        "avg_alerts_per_month": 202.88,
+        "n_customers_alerted": 1117,
+        "n_productive_customers": 3,
+        "productive_rate": 0.0027,
+        "n_labeled_in_scope": 1,
+        "n_detected": 0,
+        "detection_rate": 0.0
+      },
+      "segment_2_validation": {
+        "alert_rows": 404,
+        "avg_alerts_per_month": 202.0,
+        "n_customers_alerted": 374,
+        "n_productive_customers": 4,
+        "productive_rate": 0.0107,
+        "n_labeled_in_scope": 5,
+        "n_detected": 3,
+        "detection_rate": 0.6
+      },
+      "segment_3_tuning": {
+        "alert_rows": 395,
+        "avg_alerts_per_month": 49.38,
+        "n_customers_alerted": 369,
+        "n_productive_customers": 1,
+        "productive_rate": 0.0027,
+        "n_labeled_in_scope": 1,
+        "n_detected": 1,
+        "detection_rate": 1.0
+      },
+      "segment_3_validation": {
+        "alert_rows": 98,
+        "avg_alerts_per_month": 49.0,
+        "n_customers_alerted": 97,
+        "n_productive_customers": 1,
+        "productive_rate": 0.0103,
+        "n_labeled_in_scope": 3,
+        "n_detected": 1,
+        "detection_rate": 0.3333
+      }
+    },
+    {
+      "params": {
+        "pass_through_ratio": 0.8,
+        "min_hub_in_degree": 5,
+        "min_component_size": 3,
+        "pass_through_window_hours": 48
+      },
+      "pooled_tuning": {
+        "alert_rows": 0,
+        "avg_alerts_per_month": 0.0,
+        "n_customers_alerted": 0,
+        "n_productive_customers": 0,
+        "productive_rate": null,
+        "n_labeled_in_scope": 17,
+        "n_detected": 0,
+        "detection_rate": 0.0
+      },
+      "pooled_validation": {
+        "alert_rows": 0,
+        "avg_alerts_per_month": 0.0,
+        "n_customers_alerted": 0,
+        "n_productive_customers": 0,
+        "productive_rate": null,
+        "n_labeled_in_scope": 17,
+        "n_detected": 0,
+        "detection_rate": 0.0
+      },
+      "segment_0_tuning": {
+        "alert_rows": 0,
+        "avg_alerts_per_month": 0.0,
+        "n_customers_alerted": 0,
+        "n_productive_customers": 0,
+        "productive_rate": null,
+        "n_labeled_in_scope": 14,
+        "n_detected": 0,
+        "detection_rate": 0.0
+      },
+      "segment_0_validation": {
+        "alert_rows": 0,
+        "avg_alerts_per_month": 0.0,
+        "n_customers_alerted": 0,
+        "n_productive_customers": 0,
+        "productive_rate": null,
+        "n_labeled_in_scope": 9,
+        "n_detected": 0,
+        "detection_rate": 0.0
+      },
+      "segment_1_tuning": {
+        "alert_rows": 0,
+        "avg_alerts_per_month": 0.0,
+        "n_customers_alerted": 0,
+        "n_productive_customers": 0,
+        "productive_rate": null,
+        "n_labeled_in_scope": 1,
+        "n_detected": 0,
+        "detection_rate": 0.0
+      },
+      "segment_1_validation": {
+        "alert_rows": 0,
+        "avg_alerts_per_month": 0.0,
+        "n_customers_alerted": 0,
+        "n_productive_customers": 0,
+        "productive_rate": null,
+        "n_labeled_in_scope": 0,
+        "n_detected": 0,
+        "detection_rate": null
+      },
+      "segment_2_tuning": {
+        "alert_rows": 0,
+        "avg_alerts_per_month": 0.0,
+        "n_customers_alerted": 0,
+        "n_productive_customers": 0,
+        "productive_rate": null,
+        "n_labeled_in_scope": 1,
+        "n_detected": 0,
+        "detection_rate": 0.0
+      },
+      "segment_2_validation": {
+        "alert_rows": 0,
+        "avg_alerts_per_month": 0.0,
+        "n_customers_alerted": 0,
+        "n_productive_customers": 0,
+        "productive_rate": null,
+        "n_labeled_in_scope": 5,
+        "n_detected": 0,
+        "detection_rate": 0.0
+      },
+      "segment_3_tuning": {
+        "alert_rows": 0,
+        "avg_alerts_per_month": 0.0,
+        "n_customers_alerted": 0,
+        "n_productive_customers": 0,
+        "productive_rate": null,
+        "n_labeled_in_scope": 1,
+        "n_detected": 0,
+        "detection_rate": 0.0
+      },
+      "segment_3_validation": {
+        "alert_rows": 0,
+        "avg_alerts_per_month": 0.0,
+        "n_customers_alerted": 0,
+        "n_productive_customers": 0,
+        "productive_rate": null,
+        "n_labeled_in_scope": 3,
+        "n_detected": 0,
+        "detection_rate": 0.0
+      }
+    },
+    {
+      "params": {
+        "pass_through_ratio": 0.8,
+        "min_hub_in_degree": 5,
+        "min_component_size": 3,
+        "pass_through_window_hours": 120
+      },
+      "pooled_tuning": {
+        "alert_rows": 9,
+        "avg_alerts_per_month": 1.12,
+        "n_customers_alerted": 9,
+        "n_productive_customers": 0,
+        "productive_rate": 0.0,
+        "n_labeled_in_scope": 17,
+        "n_detected": 0,
+        "detection_rate": 0.0
+      },
+      "pooled_validation": {
+        "alert_rows": 6,
+        "avg_alerts_per_month": 3.0,
+        "n_customers_alerted": 6,
+        "n_productive_customers": 4,
+        "productive_rate": 0.6667,
+        "n_labeled_in_scope": 17,
+        "n_detected": 4,
+        "detection_rate": 0.2353
+      },
+      "segment_0_tuning": {
+        "alert_rows": 7,
+        "avg_alerts_per_month": 0.88,
+        "n_customers_alerted": 7,
+        "n_productive_customers": 0,
+        "productive_rate": 0.0,
+        "n_labeled_in_scope": 14,
+        "n_detected": 0,
+        "detection_rate": 0.0
+      },
+      "segment_0_validation": {
+        "alert_rows": 3,
+        "avg_alerts_per_month": 1.5,
+        "n_customers_alerted": 3,
+        "n_productive_customers": 1,
+        "productive_rate": 0.3333,
+        "n_labeled_in_scope": 9,
+        "n_detected": 1,
+        "detection_rate": 0.1111
+      },
+      "segment_1_tuning": {
+        "alert_rows": 0,
+        "avg_alerts_per_month": 0.0,
+        "n_customers_alerted": 0,
+        "n_productive_customers": 0,
+        "productive_rate": null,
+        "n_labeled_in_scope": 1,
+        "n_detected": 0,
+        "detection_rate": 0.0
+      },
+      "segment_1_validation": {
+        "alert_rows": 0,
+        "avg_alerts_per_month": 0.0,
+        "n_customers_alerted": 0,
+        "n_productive_customers": 0,
+        "productive_rate": null,
+        "n_labeled_in_scope": 0,
+        "n_detected": 0,
+        "detection_rate": null
+      },
+      "segment_2_tuning": {
+        "alert_rows": 2,
+        "avg_alerts_per_month": 0.25,
+        "n_customers_alerted": 2,
+        "n_productive_customers": 0,
+        "productive_rate": 0.0,
+        "n_labeled_in_scope": 1,
+        "n_detected": 0,
+        "detection_rate": 0.0
+      },
+      "segment_2_validation": {
+        "alert_rows": 3,
+        "avg_alerts_per_month": 1.5,
+        "n_customers_alerted": 3,
+        "n_productive_customers": 3,
+        "productive_rate": 1.0,
+        "n_labeled_in_scope": 5,
+        "n_detected": 3,
+        "detection_rate": 0.6
+      },
+      "segment_3_tuning": {
+        "alert_rows": 0,
+        "avg_alerts_per_month": 0.0,
+        "n_customers_alerted": 0,
+        "n_productive_customers": 0,
+        "productive_rate": null,
+        "n_labeled_in_scope": 1,
+        "n_detected": 0,
+        "detection_rate": 0.0
+      },
+      "segment_3_validation": {
+        "alert_rows": 0,
+        "avg_alerts_per_month": 0.0,
+        "n_customers_alerted": 0,
+        "n_productive_customers": 0,
+        "productive_rate": null,
+        "n_labeled_in_scope": 3,
+        "n_detected": 0,
+        "detection_rate": 0.0
+      }
+    },
+    {
+      "params": {
+        "pass_through_ratio": 0.8,
+        "min_hub_in_degree": 5,
+        "min_component_size": 3,
+        "pass_through_window_hours": 240
+      },
+      "pooled_tuning": {
+        "alert_rows": 16,
+        "avg_alerts_per_month": 2.0,
+        "n_customers_alerted": 16,
+        "n_productive_customers": 0,
+        "productive_rate": 0.0,
+        "n_labeled_in_scope": 17,
+        "n_detected": 0,
+        "detection_rate": 0.0
+      },
+      "pooled_validation": {
+        "alert_rows": 11,
+        "avg_alerts_per_month": 5.5,
+        "n_customers_alerted": 11,
+        "n_productive_customers": 7,
+        "productive_rate": 0.6364,
+        "n_labeled_in_scope": 17,
+        "n_detected": 7,
+        "detection_rate": 0.4118,
+        "capacity_satisfied": true
+      },
+      "segment_0_tuning": {
+        "alert_rows": 10,
+        "avg_alerts_per_month": 1.25,
+        "n_customers_alerted": 10,
+        "n_productive_customers": 0,
+        "productive_rate": 0.0,
+        "n_labeled_in_scope": 14,
+        "n_detected": 0,
+        "detection_rate": 0.0
+      },
+      "segment_0_validation": {
+        "alert_rows": 7,
+        "avg_alerts_per_month": 3.5,
+        "n_customers_alerted": 7,
+        "n_productive_customers": 3,
+        "productive_rate": 0.4286,
+        "n_labeled_in_scope": 9,
+        "n_detected": 3,
+        "detection_rate": 0.3333
+      },
+      "segment_1_tuning": {
+        "alert_rows": 0,
+        "avg_alerts_per_month": 0.0,
+        "n_customers_alerted": 0,
+        "n_productive_customers": 0,
+        "productive_rate": null,
+        "n_labeled_in_scope": 1,
+        "n_detected": 0,
+        "detection_rate": 0.0
+      },
+      "segment_1_validation": {
+        "alert_rows": 0,
+        "avg_alerts_per_month": 0.0,
+        "n_customers_alerted": 0,
+        "n_productive_customers": 0,
+        "productive_rate": null,
+        "n_labeled_in_scope": 0,
+        "n_detected": 0,
+        "detection_rate": null
+      },
+      "segment_2_tuning": {
+        "alert_rows": 4,
+        "avg_alerts_per_month": 0.5,
+        "n_customers_alerted": 4,
+        "n_productive_customers": 0,
+        "productive_rate": 0.0,
+        "n_labeled_in_scope": 1,
+        "n_detected": 0,
+        "detection_rate": 0.0
+      },
+      "segment_2_validation": {
+        "alert_rows": 3,
+        "avg_alerts_per_month": 1.5,
+        "n_customers_alerted": 3,
+        "n_productive_customers": 3,
+        "productive_rate": 1.0,
+        "n_labeled_in_scope": 5,
+        "n_detected": 3,
+        "detection_rate": 0.6
+      },
+      "segment_3_tuning": {
+        "alert_rows": 2,
+        "avg_alerts_per_month": 0.25,
+        "n_customers_alerted": 2,
+        "n_productive_customers": 0,
+        "productive_rate": 0.0,
+        "n_labeled_in_scope": 1,
+        "n_detected": 0,
+        "detection_rate": 0.0
+      },
+      "segment_3_validation": {
+        "alert_rows": 1,
+        "avg_alerts_per_month": 0.5,
+        "n_customers_alerted": 1,
+        "n_productive_customers": 1,
+        "productive_rate": 1.0,
+        "n_labeled_in_scope": 3,
+        "n_detected": 1,
+        "detection_rate": 0.3333
+      }
+    },
+    {
+      "params": {
+        "pass_through_ratio": 0.8,
+        "min_hub_in_degree": 5,
+        "min_component_size": 4,
+        "pass_through_window_hours": 48
+      },
+      "pooled_tuning": {
+        "alert_rows": 0,
+        "avg_alerts_per_month": 0.0,
+        "n_customers_alerted": 0,
+        "n_productive_customers": 0,
+        "productive_rate": null,
+        "n_labeled_in_scope": 17,
+        "n_detected": 0,
+        "detection_rate": 0.0
+      },
+      "pooled_validation": {
+        "alert_rows": 0,
+        "avg_alerts_per_month": 0.0,
+        "n_customers_alerted": 0,
+        "n_productive_customers": 0,
+        "productive_rate": null,
+        "n_labeled_in_scope": 17,
+        "n_detected": 0,
+        "detection_rate": 0.0
+      },
+      "segment_0_tuning": {
+        "alert_rows": 0,
+        "avg_alerts_per_month": 0.0,
+        "n_customers_alerted": 0,
+        "n_productive_customers": 0,
+        "productive_rate": null,
+        "n_labeled_in_scope": 14,
+        "n_detected": 0,
+        "detection_rate": 0.0
+      },
+      "segment_0_validation": {
+        "alert_rows": 0,
+        "avg_alerts_per_month": 0.0,
+        "n_customers_alerted": 0,
+        "n_productive_customers": 0,
+        "productive_rate": null,
+        "n_labeled_in_scope": 9,
+        "n_detected": 0,
+        "detection_rate": 0.0
+      },
+      "segment_1_tuning": {
+        "alert_rows": 0,
+        "avg_alerts_per_month": 0.0,
+        "n_customers_alerted": 0,
+        "n_productive_customers": 0,
+        "productive_rate": null,
+        "n_labeled_in_scope": 1,
+        "n_detected": 0,
+        "detection_rate": 0.0
+      },
+      "segment_1_validation": {
+        "alert_rows": 0,
+        "avg_alerts_per_month": 0.0,
+        "n_customers_alerted": 0,
+        "n_productive_customers": 0,
+        "productive_rate": null,
+        "n_labeled_in_scope": 0,
+        "n_detected": 0,
+        "detection_rate": null
+      },
+      "segment_2_tuning": {
+        "alert_rows": 0,
+        "avg_alerts_per_month": 0.0,
+        "n_customers_alerted": 0,
+        "n_productive_customers": 0,
+        "productive_rate": null,
+        "n_labeled_in_scope": 1,
+        "n_detected": 0,
+        "detection_rate": 0.0
+      },
+      "segment_2_validation": {
+        "alert_rows": 0,
+        "avg_alerts_per_month": 0.0,
+        "n_customers_alerted": 0,
+        "n_productive_customers": 0,
+        "productive_rate": null,
+        "n_labeled_in_scope": 5,
+        "n_detected": 0,
+        "detection_rate": 0.0
+      },
+      "segment_3_tuning": {
+        "alert_rows": 0,
+        "avg_alerts_per_month": 0.0,
+        "n_customers_alerted": 0,
+        "n_productive_customers": 0,
+        "productive_rate": null,
+        "n_labeled_in_scope": 1,
+        "n_detected": 0,
+        "detection_rate": 0.0
+      },
+      "segment_3_validation": {
+        "alert_rows": 0,
+        "avg_alerts_per_month": 0.0,
+        "n_customers_alerted": 0,
+        "n_productive_customers": 0,
+        "productive_rate": null,
+        "n_labeled_in_scope": 3,
+        "n_detected": 0,
+        "detection_rate": 0.0
+      }
+    },
+    {
+      "params": {
+        "pass_through_ratio": 0.8,
+        "min_hub_in_degree": 5,
+        "min_component_size": 4,
+        "pass_through_window_hours": 120
+      },
+      "pooled_tuning": {
+        "alert_rows": 9,
+        "avg_alerts_per_month": 1.12,
+        "n_customers_alerted": 9,
+        "n_productive_customers": 0,
+        "productive_rate": 0.0,
+        "n_labeled_in_scope": 17,
+        "n_detected": 0,
+        "detection_rate": 0.0
+      },
+      "pooled_validation": {
+        "alert_rows": 6,
+        "avg_alerts_per_month": 3.0,
+        "n_customers_alerted": 6,
+        "n_productive_customers": 4,
+        "productive_rate": 0.6667,
+        "n_labeled_in_scope": 17,
+        "n_detected": 4,
+        "detection_rate": 0.2353
+      },
+      "segment_0_tuning": {
+        "alert_rows": 7,
+        "avg_alerts_per_month": 0.88,
+        "n_customers_alerted": 7,
+        "n_productive_customers": 0,
+        "productive_rate": 0.0,
+        "n_labeled_in_scope": 14,
+        "n_detected": 0,
+        "detection_rate": 0.0
+      },
+      "segment_0_validation": {
+        "alert_rows": 3,
+        "avg_alerts_per_month": 1.5,
+        "n_customers_alerted": 3,
+        "n_productive_customers": 1,
+        "productive_rate": 0.3333,
+        "n_labeled_in_scope": 9,
+        "n_detected": 1,
+        "detection_rate": 0.1111
+      },
+      "segment_1_tuning": {
+        "alert_rows": 0,
+        "avg_alerts_per_month": 0.0,
+        "n_customers_alerted": 0,
+        "n_productive_customers": 0,
+        "productive_rate": null,
+        "n_labeled_in_scope": 1,
+        "n_detected": 0,
+        "detection_rate": 0.0
+      },
+      "segment_1_validation": {
+        "alert_rows": 0,
+        "avg_alerts_per_month": 0.0,
+        "n_customers_alerted": 0,
+        "n_productive_customers": 0,
+        "productive_rate": null,
+        "n_labeled_in_scope": 0,
+        "n_detected": 0,
+        "detection_rate": null
+      },
+      "segment_2_tuning": {
+        "alert_rows": 2,
+        "avg_alerts_per_month": 0.25,
+        "n_customers_alerted": 2,
+        "n_productive_customers": 0,
+        "productive_rate": 0.0,
+        "n_labeled_in_scope": 1,
+        "n_detected": 0,
+        "detection_rate": 0.0
+      },
+      "segment_2_validation": {
+        "alert_rows": 3,
+        "avg_alerts_per_month": 1.5,
+        "n_customers_alerted": 3,
+        "n_productive_customers": 3,
+        "productive_rate": 1.0,
+        "n_labeled_in_scope": 5,
+        "n_detected": 3,
+        "detection_rate": 0.6
+      },
+      "segment_3_tuning": {
+        "alert_rows": 0,
+        "avg_alerts_per_month": 0.0,
+        "n_customers_alerted": 0,
+        "n_productive_customers": 0,
+        "productive_rate": null,
+        "n_labeled_in_scope": 1,
+        "n_detected": 0,
+        "detection_rate": 0.0
+      },
+      "segment_3_validation": {
+        "alert_rows": 0,
+        "avg_alerts_per_month": 0.0,
+        "n_customers_alerted": 0,
+        "n_productive_customers": 0,
+        "productive_rate": null,
+        "n_labeled_in_scope": 3,
+        "n_detected": 0,
+        "detection_rate": 0.0
+      }
+    },
+    {
+      "params": {
+        "pass_through_ratio": 0.8,
+        "min_hub_in_degree": 5,
+        "min_component_size": 4,
+        "pass_through_window_hours": 240
+      },
+      "pooled_tuning": {
+        "alert_rows": 16,
+        "avg_alerts_per_month": 2.0,
+        "n_customers_alerted": 16,
+        "n_productive_customers": 0,
+        "productive_rate": 0.0,
+        "n_labeled_in_scope": 17,
+        "n_detected": 0,
+        "detection_rate": 0.0
+      },
+      "pooled_validation": {
+        "alert_rows": 11,
+        "avg_alerts_per_month": 5.5,
+        "n_customers_alerted": 11,
+        "n_productive_customers": 7,
+        "productive_rate": 0.6364,
+        "n_labeled_in_scope": 17,
+        "n_detected": 7,
+        "detection_rate": 0.4118
+      },
+      "segment_0_tuning": {
+        "alert_rows": 10,
+        "avg_alerts_per_month": 1.25,
+        "n_customers_alerted": 10,
+        "n_productive_customers": 0,
+        "productive_rate": 0.0,
+        "n_labeled_in_scope": 14,
+        "n_detected": 0,
+        "detection_rate": 0.0
+      },
+      "segment_0_validation": {
+        "alert_rows": 7,
+        "avg_alerts_per_month": 3.5,
+        "n_customers_alerted": 7,
+        "n_productive_customers": 3,
+        "productive_rate": 0.4286,
+        "n_labeled_in_scope": 9,
+        "n_detected": 3,
+        "detection_rate": 0.3333
+      },
+      "segment_1_tuning": {
+        "alert_rows": 0,
+        "avg_alerts_per_month": 0.0,
+        "n_customers_alerted": 0,
+        "n_productive_customers": 0,
+        "productive_rate": null,
+        "n_labeled_in_scope": 1,
+        "n_detected": 0,
+        "detection_rate": 0.0
+      },
+      "segment_1_validation": {
+        "alert_rows": 0,
+        "avg_alerts_per_month": 0.0,
+        "n_customers_alerted": 0,
+        "n_productive_customers": 0,
+        "productive_rate": null,
+        "n_labeled_in_scope": 0,
+        "n_detected": 0,
+        "detection_rate": null
+      },
+      "segment_2_tuning": {
+        "alert_rows": 4,
+        "avg_alerts_per_month": 0.5,
+        "n_customers_alerted": 4,
+        "n_productive_customers": 0,
+        "productive_rate": 0.0,
+        "n_labeled_in_scope": 1,
+        "n_detected": 0,
+        "detection_rate": 0.0
+      },
+      "segment_2_validation": {
+        "alert_rows": 3,
+        "avg_alerts_per_month": 1.5,
+        "n_customers_alerted": 3,
+        "n_productive_customers": 3,
+        "productive_rate": 1.0,
+        "n_labeled_in_scope": 5,
+        "n_detected": 3,
+        "detection_rate": 0.6
+      },
+      "segment_3_tuning": {
+        "alert_rows": 2,
+        "avg_alerts_per_month": 0.25,
+        "n_customers_alerted": 2,
+        "n_productive_customers": 0,
+        "productive_rate": 0.0,
+        "n_labeled_in_scope": 1,
+        "n_detected": 0,
+        "detection_rate": 0.0
+      },
+      "segment_3_validation": {
+        "alert_rows": 1,
+        "avg_alerts_per_month": 0.5,
+        "n_customers_alerted": 1,
+        "n_productive_customers": 1,
+        "productive_rate": 1.0,
+        "n_labeled_in_scope": 3,
+        "n_detected": 1,
+        "detection_rate": 0.3333
+      }
+    }
+  ],
+  "ring_report": {
+    "rings": [
+      {
+        "start_date": "2024-01-20",
+        "end_date": "2024-02-07",
+        "period": "tuning",
+        "hub": "CUST006745",
+        "hub_caught": false,
+        "n_members": 10,
+        "n_members_caught": 0
+      },
+      {
+        "start_date": "2024-06-20",
+        "end_date": "2024-06-29",
+        "period": "tuning",
+        "hub": "CUST003655",
+        "hub_caught": false,
+        "n_members": 7,
+        "n_members_caught": 0
+      },
+      {
+        "start_date": "2024-09-11",
+        "end_date": "2024-09-24",
+        "period": "validation",
+        "hub": "CUST001324",
+        "hub_caught": false,
+        "n_members": 9,
+        "n_members_caught": 0
+      },
+      {
+        "start_date": "2024-10-03",
+        "end_date": "2024-10-10",
+        "period": "validation",
+        "hub": "CUST003021",
+        "hub_caught": true,
+        "n_members": 8,
+        "n_members_caught": 7
+      },
+      {
+        "start_date": "2024-12-02",
+        "end_date": "2024-12-15",
+        "period": "test",
+        "hub": "CUST000623",
+        "hub_caught": true,
+        "n_members": 11,
+        "n_members_caught": 9
+      }
+    ],
+    "by_period": {
+      "tuning": {
+        "n_rings": 2,
+        "n_rings_recovered": 0,
+        "n_members_total": 17,
+        "n_members_caught": 0
+      },
+      "validation": {
+        "n_rings": 2,
+        "n_rings_recovered": 1,
+        "n_members_total": 17,
+        "n_members_caught": 7
+      },
+      "test": {
+        "n_rings": 1,
+        "n_rings_recovered": 1,
+        "n_members_total": 11,
+        "n_members_caught": 9
+      }
+    }
+  },
+  "limitations": [
+    "Month-boundary effects: a typology instance whose burst straddles a month-end can be partially invisible to BOTH adjacent months' trailing-window evaluation (documented case: a rapid_movement instance spanning Aug31-Sep1 in the default dataset; confirmed to also affect FAN-02 - a January ring with 6 senders Jan23-29 and hub forward-outs Feb1-7 is invisible in BOTH January (outflows fall after month-end, excluded) and February (inflows fall before the 30-day lookback start, excluded)). This is a structural cost of point-in-time, no-future-leakage evaluation, not a bug - see scenarios.py.",
+    "FAN-01/FAN-02's tuning-period detection (0 of 17) looks alarming next to validation (2/17, 7/17) and test (2/11, 9/11), but is fully explained, not a bug: the 2 tuning-period rings are the dataset's worst-case instances - one is the month-boundary case above, the other has only 4 senders. The capacity constraint rules out any threshold loose enough to catch a 4-sender ring (min_hub_in_degree 3-4 produces 355-1046 alerts/month against a 200 cap, driven by the new legitimate pass-through look-alikes), leaving only min_hub_in_degree>=5 as capacity-feasible - which the 4-sender ring can never clear regardless of timing. Validation/test's 3 rings (6-7 senders each) aren't affected by either limitation. Verified directly against every grid point, not just the chosen one - see tuning_FAN-02.json's grid_results.",
+    "FAN-02's detection-rate numbers rest on only 5 labeled ring instances in the whole dataset. Any recovery ratio (e.g. 'X of 5 rings') should be read as a small, directional count, not a precise rate - with n=5, one more or fewer ring recovered swings the rate by 20 points. See ring_report for the per-ring, per-period breakdown (rings recovered vs. member recall) rather than reading detection_rate alone.",
+    "STR-01's test-period dip (4/8 vs. validation's 4/4) is a genuine threshold-generalization gap, not drift: the 4 missed test-period instances all have deposits spread across 7-10 days, which the chosen window_days=7 structurally cannot fully capture in any single 7-day slide. window_days=10 and 14 tie window_days=7 on validation (4/4 each, since validation's 4 cases all happened to be tightly spread) and score higher on tuning (23/28 vs 22/28); the tie-break toward minimum alert volume - defensible on its own, but under-informed with only 4 validation cases to discriminate on - picked the narrowest window, which doesn't generalize to wider-spread test-period bursts. A larger validation set would likely have broken the tie differently."
+  ]
+}

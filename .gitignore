@@ -7,19 +7,29 @@ __pycache__/
 *.egg-info/
 .venv/
 venv/
+.env
 
-# Generated artifacts (reproducible from `make all`, not checked in)
-artifacts/data/
-artifacts/features/
-artifacts/segments/
-artifacts/figures/
-artifacts/scenarios/
-artifacts/metrics/
-artifacts/models/
-artifacts/papers/
-artifacts/**/*.parquet
-artifacts/**/*.csv
+# Generated artifacts: large/raw data and model binaries are always
+# regenerable via `make all` and never committed. Everything else under
+# these directories is ignored by default, except the specific result
+# files un-ignored below - those are small, human-readable, and are the
+# point of a portfolio repo: they need to be visible on GitHub without
+# cloning and running the pipeline.
 *.parquet
+artifacts/data/*
+artifacts/features/*
+artifacts/segments/*
+artifacts/scenarios/*
+artifacts/metrics/*
+artifacts/models/*
+artifacts/papers/*
+artifacts/figures/*
 
-# Keep generated docs that are meant to be committed (data_card, RESULTS.md)
+# Committed results.
 !artifacts/data_card.md
+!artifacts/metrics/*.json
+!artifacts/metrics/alert_queue_test.csv
+!artifacts/papers/*.md
+!artifacts/figures/*.png
+!RESULTS.md
+!docs/images/*.png

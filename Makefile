@@ -28,7 +28,7 @@ test:
 	pytest
 
 lint:
-	ruff check src/ tests/
+	ruff check src/ tests/ app/
 
 all: papers test
 
