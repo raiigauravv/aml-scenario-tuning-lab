@@ -16,6 +16,7 @@ artifacts/figures/
 artifacts/scenarios/
 artifacts/metrics/
 artifacts/models/
+artifacts/papers/
 artifacts/**/*.parquet
 artifacts/**/*.csv
 *.parquet
