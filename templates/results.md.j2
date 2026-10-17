@@ -14,6 +14,10 @@ Segment numbering: 0 = retail, 1 = mixed, 2 = small_business, 3 = HNW.
 | {{ s.scenario_id }} | {{ s.validation_detection }} | {{ s.validation_productive }} | {{ s.test_detection }} | {{ s.test_productive }} | {{ s.test_alerts_per_month }} |
 {% endfor %}
 
+{% if alert_count_note %}
+{{ alert_count_note }}
+{% endif %}
+
 ## ATL/BTL: stepping the chosen threshold down (tuning period)
 
 | Scenario | Parameter | Chosen value | Stepped to | Extra alerts | Extra productive |
@@ -42,7 +46,7 @@ A ring counts as recovered if its hub is among the alerted customers for that ri
 | Logistic regression | {{ pr_auc.logistic_regression.mean }} | [{{ pr_auc.logistic_regression.ci_lower }}, {{ pr_auc.logistic_regression.ci_upper }}] |
 | Scenario prior | {{ pr_auc.scenario_prior.mean }} | [{{ pr_auc.scenario_prior.ci_lower }}, {{ pr_auc.scenario_prior.ci_upper }}] |
 
-XGBoost beats the logistic regression baseline: **{{ pr_auc.xgboost_beats_baseline }}**.
+**{{ baseline_note }}**
 
 ### Review-budget capture, all baselines
 

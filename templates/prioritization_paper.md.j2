@@ -31,6 +31,10 @@ This model reorders the combined alert queue from all five scenarios; it is eval
 
 Features: the Phase 2 SQL feature table (18 columns) joined to each alert's `(customer_id, month)`, plus 3 generic evidence columns (`evidence_count`, `evidence_amount`, `evidence_ratio` - a scenario-specific mapping of each rule's triggering evidence onto a shared numeric shape) and a one-hot scenario ID.
 
+{% if alert_count_note %}
+{{ alert_count_note }}
+{% endif %}
+
 ## 3. Model
 
 | | XGBoost | Logistic regression (baseline) | Scenario prior (baseline) |
@@ -56,7 +60,7 @@ Features: the Phase 2 SQL feature table (18 columns) joined to each alert's `(cu
 | Logistic regression | {{ pr_auc.logistic_regression.mean }} | [{{ pr_auc.logistic_regression.ci_lower }}, {{ pr_auc.logistic_regression.ci_upper }}] |
 | Scenario prior | {{ pr_auc.scenario_prior.mean }} | [{{ pr_auc.scenario_prior.ci_lower }}, {{ pr_auc.scenario_prior.ci_upper }}] |
 
-**XGBoost beats the logistic regression baseline on PR-AUC: {{ pr_auc.xgboost_beats_baseline }}.** {{ baseline_note }}
+**{{ baseline_note }}**
 
 The more informative comparison is against the scenario-prior baseline (no per-alert learning): {{ pr_auc.xgboost.mean }} vs {{ pr_auc.scenario_prior.mean }}, with non-overlapping confidence intervals - evidence that alert-level features add real ranking power beyond "trust each scenario's own historical hit rate."
 

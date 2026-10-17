@@ -155,7 +155,7 @@ def test_non_ring_scenario_paper_omits_ring_section(gen_config, scenarios_config
 def test_prioritization_paper_covers_all_required_elements(gen_config):
     with open(METRICS_DIR / "prioritization.json") as f:
         result = json.load(f)
-    context = build_prioritization_context(result, METRICS_DIR / "alert_queue_test.csv", gen_config)
+    context = build_prioritization_context(result, METRICS_DIR / "alert_queue_test.csv", gen_config, METRICS_DIR)
     rendered = jinja_env().get_template("prioritization_paper.md.j2").render(**context)
 
     # All three baselines, PR-AUC with CIs.

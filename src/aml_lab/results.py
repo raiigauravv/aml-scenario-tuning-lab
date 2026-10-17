@@ -13,7 +13,12 @@ import json
 from pathlib import Path
 
 from aml_lab.generate import DEFAULT_CONFIG_PATH, load_config
-from aml_lab.papers import jinja_env, rate_with_counts
+from aml_lab.papers import (
+    alert_count_units_note,
+    baseline_comparison_note,
+    jinja_env,
+    rate_with_counts,
+)
 from aml_lab.scenarios import DEFAULT_SCENARIOS_CONFIG_PATH, REPO_ROOT, load_scenarios_config
 
 SCENARIO_ORDER = ["STR-01", "RMV-01", "FAN-01", "FAN-02", "WLT-01"]
@@ -93,6 +98,8 @@ def build_context(metrics_dir: Path, scenarios_config: dict, gen_config: dict) -
         "atl_btl_rows": atl_btl_rows,
         "fan02_ring_rows": fan02_ring_rows,
         "pr_auc": pr["pr_auc"],
+        "baseline_note": baseline_comparison_note(pr["pr_auc"], budgets, pr["test"]["n_positives"]),
+        "alert_count_note": alert_count_units_note(metrics_dir),
         "budgets": budgets,
         "missed_alerts": pr["productive_alerts_outside_top_60pct"],
         "missed_count": len(pr["productive_alerts_outside_top_60pct"]),

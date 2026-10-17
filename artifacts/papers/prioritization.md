@@ -31,6 +31,8 @@ Test-period data (months 11-12) was used only for the numbers above, never for f
 
 Features: the Phase 2 SQL feature table (18 columns) joined to each alert's `(customer_id, month)`, plus 3 generic evidence columns (`evidence_count`, `evidence_amount`, `evidence_ratio` - a scenario-specific mapping of each rule's triggering evidence onto a shared numeric shape) and a one-hot scenario ID.
 
+Note: the per-scenario test table counts 201 distinct customers alerted in the test period (summed across scenarios), while the prioritization results count 207 alert rows (one per customer-month-scenario triggering event) from the same deployed thresholds - a customer alerted in two different test-period months counts once in the first table and twice in the second. The 6-alert gap comes entirely from: FAN-01 (+6).
+
 ## 3. Model
 
 | | XGBoost | Logistic regression (baseline) | Scenario prior (baseline) |
@@ -58,7 +60,7 @@ Features: the Phase 2 SQL feature table (18 columns) joined to each alert's `(cu
 | Logistic regression | 0.8447 | [0.7151, 0.9413] |
 | Scenario prior | 0.528 | [0.3544, 0.6868] |
 
-**XGBoost beats the logistic regression baseline on PR-AUC: True.** The gap is modest and the confidence intervals overlap substantially.
+**XGBoost's point estimate is higher than logistic regression's, but the 95% CIs overlap and both capture 26 of 27 productive alerts at every budget.**
 
 The more informative comparison is against the scenario-prior baseline (no per-alert learning): 0.8603 vs 0.528, with non-overlapping confidence intervals - evidence that alert-level features add real ranking power beyond "trust each scenario's own historical hit rate."
 

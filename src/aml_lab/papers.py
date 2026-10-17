@@ -68,6 +68,83 @@ def fmt_params(params: dict) -> str:
     return ", ".join(f"{k}={v}" for k, v in params.items())
 
 
+SCENARIO_ORDER = ["STR-01", "RMV-01", "FAN-01", "FAN-02", "WLT-01"]
+
+
+def alert_count_units_note(metrics_dir: Path) -> str:
+    """Explains a real, legitimate discrepancy: the per-scenario test
+    table (built from each tuning_<scenario>.json's pooled test metrics)
+    counts DISTINCT CUSTOMERS alerted, while the prioritization results
+    (built from the deployed alert table in prioritization.json) count
+    ALERT ROWS - one per (customer, month, scenario) triggering event.
+    A customer alerted in two different test-period months counts once
+    in the first, twice in the second. Verified: alert ROW counts agree
+    exactly between the pooled-only and segment-mixed-deployed
+    computations (both give the same total), so this is a units
+    difference between the two tables, not a threshold inconsistency.
+    Returns "" if the two totals already agree (nothing to explain).
+    """
+    total_customers = 0
+    repeats_by_scenario = {}
+    for sid in SCENARIO_ORDER:
+        path = metrics_dir / f"tuning_{sid}.json"
+        if not path.exists():
+            continue
+        with open(path) as f:
+            tr = json.load(f)
+        t = tr["test_results"]["pooled"]
+        total_customers += t["n_customers_alerted"]
+        repeat = t["alert_rows"] - t["n_customers_alerted"]
+        if repeat > 0:
+            repeats_by_scenario[sid] = repeat
+
+    prioritization_path = metrics_dir / "prioritization.json"
+    if not prioritization_path.exists():
+        return ""
+    with open(prioritization_path) as f:
+        pr = json.load(f)
+    total_rows = pr["test"]["n_alerts"]
+
+    if total_rows == total_customers or not repeats_by_scenario:
+        return ""
+
+    detail = ", ".join(f"{sid} (+{n})" for sid, n in repeats_by_scenario.items())
+    gap = total_rows - total_customers
+    return (
+        f"Note: the per-scenario test table counts {total_customers} distinct customers alerted in the test "
+        f"period (summed across scenarios), while the prioritization results count {total_rows} alert rows "
+        "(one per customer-month-scenario triggering event) from the same deployed thresholds - a customer "
+        "alerted in two different test-period months counts once in the first table and twice in the second. "
+        f"The {gap}-alert gap comes entirely from: {detail}."
+    )
+
+
+def baseline_comparison_note(pr_auc: dict, budgets: list[dict], test_n_positives: int) -> str:
+    """A PR-AUC "beats the baseline" headline can overstate a result whose
+    confidence intervals overlap and whose practical alert-capture is
+    identical - this renders the more honest claim the data actually
+    supports, computed each time so it can't silently drift into
+    overclaiming if the numbers change.
+    """
+    xgb = pr_auc["xgboost"]
+    lr = pr_auc["logistic_regression"]
+    ci_overlap = not (xgb["ci_lower"] > lr["ci_upper"] or lr["ci_lower"] > xgb["ci_upper"])
+    captured_values = {b["captured"]["xgboost"] for b in budgets}
+    ties_every_budget = all(b["captured"]["xgboost"] == b["captured"]["logistic_regression"] for b in budgets)
+
+    if not pr_auc["xgboost_beats_baseline"]:
+        return "XGBoost did NOT beat the logistic regression baseline on PR-AUC - reported plainly, not tuned away."
+    if ci_overlap and ties_every_budget and len(captured_values) == 1:
+        captured = next(iter(captured_values))
+        return (
+            "XGBoost's point estimate is higher than logistic regression's, but the 95% CIs overlap and both "
+            f"capture {captured} of {test_n_positives} productive alerts at every budget."
+        )
+    if ci_overlap:
+        return "XGBoost's point estimate is higher than logistic regression's, but the 95% confidence intervals overlap."
+    return "XGBoost beats the logistic regression baseline with non-overlapping 95% confidence intervals."
+
+
 def segment_label(row: pd.Series) -> str:
     pct = {
         "retail": row["pct_retail"],
@@ -186,7 +263,9 @@ def build_scenario_context(
 # Prioritization white paper
 # ---------------------------------------------------------------------------
 
-def build_prioritization_context(prioritization_result: dict, alert_queue_csv_path: Path, gen_config: dict) -> dict:
+def build_prioritization_context(
+    prioritization_result: dict, alert_queue_csv_path: Path, gen_config: dict, metrics_dir: Path
+) -> dict:
     r = prioritization_result
 
     budgets = []
@@ -225,11 +304,8 @@ def build_prioritization_context(prioritization_result: dict, alert_queue_csv_pa
         counts = Counter(queue["driver_1_feature"])
         top_driver_counts = [{"feature": f, "count": int(c)} for f, c in counts.most_common(8)]
 
-    baseline_note = (
-        "Reported plainly, not tuned away by touching test data."
-        if not r["pr_auc"]["xgboost_beats_baseline"]
-        else "The gap is modest and the confidence intervals overlap substantially."
-    )
+    baseline_note = baseline_comparison_note(r["pr_auc"], budgets, r["test"]["n_positives"])
+    alert_count_note = alert_count_units_note(metrics_dir)
 
     return {
         "generated_date": dt.date.today().isoformat(),
@@ -254,6 +330,7 @@ def build_prioritization_context(prioritization_result: dict, alert_queue_csv_pa
         "missed_count": len(r["productive_alerts_outside_top_60pct"]),
         "top_driver_counts": top_driver_counts,
         "rules": r["rules"],
+        "alert_count_note": alert_count_note,
     }
 
 
@@ -285,7 +362,7 @@ def generate_prioritization_paper(metrics_dir: Path, gen_config: dict, out_dir: 
     template = env.get_template("prioritization_paper.md.j2")
     with open(metrics_dir / "prioritization.json") as f:
         result = json.load(f)
-    context = build_prioritization_context(result, metrics_dir / "alert_queue_test.csv", gen_config)
+    context = build_prioritization_context(result, metrics_dir / "alert_queue_test.csv", gen_config, metrics_dir)
     out_dir.mkdir(parents=True, exist_ok=True)
     out_path = out_dir / "prioritization.md"
     out_path.write_text(template.render(**context))

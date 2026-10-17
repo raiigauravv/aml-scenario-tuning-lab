@@ -16,6 +16,8 @@ Segment numbering: 0 = retail, 1 = mixed, 2 = small_business, 3 = HNW.
 | FAN-02 | 0.41 (7/17) | 0.64 (7/11) | 0.82 (9/11) | 0.26 (9/35) | 17.5 |
 | WLT-01 | 1.00 (4/4) | 1.00 (4/4) | 1.00 (5/5) | 1.00 (5/5) | 2.5 |
 
+Note: the per-scenario test table counts 201 distinct customers alerted in the test period (summed across scenarios), while the prioritization results count 207 alert rows (one per customer-month-scenario triggering event) from the same deployed thresholds - a customer alerted in two different test-period months counts once in the first table and twice in the second. The 6-alert gap comes entirely from: FAN-01 (+6).
+
 ## ATL/BTL: stepping the chosen threshold down (tuning period)
 
 | Scenario | Parameter | Chosen value | Stepped to | Extra alerts | Extra productive |
@@ -50,7 +52,7 @@ A ring counts as recovered if its hub is among the alerted customers for that ri
 | Logistic regression | 0.8447 | [0.7151, 0.9413] |
 | Scenario prior | 0.528 | [0.3544, 0.6868] |
 
-XGBoost beats the logistic regression baseline: **True**.
+**XGBoost's point estimate is higher than logistic regression's, but the 95% CIs overlap and both capture 26 of 27 productive alerts at every budget.**
 
 ### Review-budget capture, all baselines
 
