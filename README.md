@@ -50,6 +50,7 @@ See [RESULTS.md](RESULTS.md) for the full ATL/BTL table, the FAN-02 ring-level r
 
 ## Dashboard
 
+![Overview tab](docs/images/overview_tab.png)
 ![Threshold what-if tab](docs/images/whatif_tab.png)
 ![Alert queue tab](docs/images/alert_queue_tab.png)
 

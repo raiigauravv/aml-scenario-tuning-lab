@@ -454,19 +454,17 @@ with tab_queue:
             fmt_rate(int(filtered["is_productive"].sum()), len(filtered)) if len(filtered) else "n/a (0/0)",
         )
 
+        productive_scale = alt.Scale(domain=["Not productive", "Productive"], range=["#94a3b8", "#0f766e"])
         chart_col, breakdown_col = st.columns(2)
         with chart_col:
             hist = (
                 alt.Chart(filtered)
+                .transform_calculate(productive_label="datum.is_productive ? 'Productive' : 'Not productive'")
                 .mark_bar()
                 .encode(
                     x=alt.X("xgb_score", bin=alt.Bin(maxbins=30), title="XGBoost score"),
                     y=alt.Y("count()", title="Alerts"),
-                    color=alt.Color(
-                        "is_productive:N",
-                        title="Productive",
-                        scale=alt.Scale(domain=[False, True], range=["#94a3b8", "#0f766e"]),
-                    ),
+                    color=alt.Color("productive_label:N", title=None, scale=productive_scale),
                 )
                 .properties(title="Score distribution", height=280)
             )
@@ -474,15 +472,12 @@ with tab_queue:
         with breakdown_col:
             breakdown = (
                 alt.Chart(filtered)
+                .transform_calculate(productive_label="datum.is_productive ? 'Productive' : 'Not productive'")
                 .mark_bar()
                 .encode(
                     x=alt.X("scenario_id", title=None, sort=SCENARIO_IDS),
                     y=alt.Y("count()", title="Alerts"),
-                    color=alt.Color(
-                        "is_productive:N",
-                        title="Productive",
-                        scale=alt.Scale(domain=[False, True], range=["#94a3b8", "#0f766e"]),
-                    ),
+                    color=alt.Color("productive_label:N", title=None, scale=productive_scale),
                 )
                 .properties(title="Alerts by scenario", height=280)
             )
